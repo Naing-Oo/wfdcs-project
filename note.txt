@@ -49,8 +49,13 @@ View -> request -> Controller(action) -> Model(pull) -> response -> View
     view/layouts/navbar.blade.php -> route('products.index')
 
 4 -> Model 
-    app/Models
     terminal -> php artisan make:model Product
+    app/Models/Product.php
+
+5 -> ProductContrller@index
+    use App\Models\Product;
+    $products = Product::get();
+
 
 
 

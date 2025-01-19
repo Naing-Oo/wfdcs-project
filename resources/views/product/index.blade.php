@@ -5,37 +5,21 @@
     <table class="table">
         <thead>
             <tr>
+                <th>Code</th>
                 <th>Name</th>
                 <th>Price</th>
-                <th>Qty</th>
-                <th></th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Apple</td>
-                <td>40</td>
-                <td>100</td>
-                <td>
-                    <a href="{{ url('/product/1') }}" class="btn btn-primary">View</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Orange</td>
-                <td>30</td>
-                <td>200</td>
-                <td>
-                    <a href="{{ url('/product/2') }}" class="btn btn-primary">View</a>
-                </td>
-            </tr>
-            <tr>
-                <td>Banana</td>
-                <td>10</td>
-                <td>50</td>
-                <td>
-                    <a href="{{ url('/product/3') }}" class="btn btn-primary">View</a>
-                </td>
-            </tr>
+            @foreach ($products as $product)
+                <tr>
+                    <td>{{ $product->code }}</td>
+                    <td>{{ $product->name }}</td>
+                    <td>{{ $product->price }}</td>
+                    <td>#</td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
     
