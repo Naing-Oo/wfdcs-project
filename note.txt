@@ -1,0 +1,56 @@
+1. Install Laragon
+2. Install MySQL Workbench
+3. Install php8.10
+4. Install Laravel 10
+DB password  = P@$$w0rd
+
+Frontend
+1. HTML
+2. CSS
+3. JavaScript
+4. Bootstrap
+5. jQuery
+
+Backend
+1. PHP // C:\laragon\bin\php\php-8.1.10-Win32-vs16-x64
+2. Laravel 10
+3. MySQL // MySQL Server 8.0, Workbench (DBMS)
+
+
+
+** Route **
+route ဆိုသည်မှာ လိုအပ်သော action/link တွေကိုသတ်မှတ်ထားသည်
+
+** View **
+View/Frontend/User Interface user မြင်ရတဲ့အပိုင်
+
+** public **
+public/www/global asset
+
+
+Laravel is PHP MVC Framework
+M = Model -> Database -> User.php
+V = View -> Frontend -> blade.php
+C = Controller -> Backend -> functions/Actions
+
+View -> request -> Controller(action) -> Model(pull) -> response -> View
+
+** Product **
+
+1 -> Controller -> create ProductContrller
+    terminal -> php artisan make:controller ProductContrller -r
+    app/Http/Controllers/ProductContrller.php 
+
+2 -> Route -> create products route
+    routes/web.php -> Route::resource('products', ProductContrller::class);
+    How to view resource? -> terminal -> php artisan r:l --name=products
+
+3 -> View -> create products link on navbar
+    view/layouts/navbar.blade.php -> route('products.index')
+
+4 -> Model 
+    app/Models
+    terminal -> php artisan make:model Product
+
+
+
