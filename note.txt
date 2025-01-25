@@ -52,6 +52,28 @@ View -> request -> Controller(action) -> Model(pull) -> response -> View
     terminal -> php artisan make:model Product
     app/Models/Product.php
 
+4.1 -> Eloquent ORM
+
+4.2 -> Database -> Migration
+    app/Models/Product.php
+    
+    ** create products table migration **
+    terminal -> php artisan make:migration create_products_table
+    columns = [
+        id,
+        code,
+        name,
+        price,
+        qty,
+        created_at
+        updated_at
+    ]
+
+    ** migrate table and data
+    terminal -> php artisan migrate:fresh
+
+
+
 5 -> ProductContrller@index
     use App\Models\Product;
     $products = Product::get();
