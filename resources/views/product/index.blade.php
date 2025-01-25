@@ -9,8 +9,10 @@
         <thead>
             <tr>
                 <th>Code</th>
+                <th>Category</th>
                 <th>Name</th>
                 <th>Price</th>
+                <th>Qty</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -18,8 +20,10 @@
             @foreach ($products as $product)
                 <tr>
                     <td>{{ $product->code }}</td>
+                    <td>{{ $product->category->name }}</td>
                     <td>{{ $product->name }}</td>
                     <td>{{ $product->price }}</td>
+                    <td>{{ $product->qty }}</td>
                     <td>#</td>
                 </tr>
             @endforeach
