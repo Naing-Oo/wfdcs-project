@@ -55,12 +55,14 @@ View -> request -> Controller(action) -> Model(pull) -> response -> View
 4.1 -> Eloquent ORM
 
 4.2 -> Database -> Migration
-    app/Models/Product.php
     
+    app/Models/Product.php
     ** create products table migration **
-    terminal -> php artisan make:migration create_products_table
+    1. terminal -> php artisan make:migration create_products_table
+    2. migrations/create_products_table -> add columns
     columns = [
         id,
+        category_id,
         code,
         name,
         price,
@@ -70,9 +72,20 @@ View -> request -> Controller(action) -> Model(pull) -> response -> View
     ]
 
     ** migrate table and data
-    terminal -> php artisan migrate:fresh
+    3. terminal -> php artisan migrate:fresh
 
-
+    app/Models/Category.php
+    1. terminal -> php artisan make:model Category
+    2. terminal -> php artisan make:migration create_categories_table
+    3. migrations/create_categories_table -> add columns
+    columns = [
+        id,
+        code,
+        name,        
+        created_at
+        updated_at
+    ]
+    4. terminal -> php artisan migrate:fresh
 
 5 -> ProductContrller@index
     use App\Models\Product;

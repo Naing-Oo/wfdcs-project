@@ -2,6 +2,9 @@
 
 @section('content')
     <h1>Product</h1>
+
+    <a href="{{ route('products.create') }}" class="btn btn-primary">New</a>
+
     <table class="table">
         <thead>
             <tr>
