@@ -18,9 +18,14 @@
         </thead>
         <tbody>
             @foreach ($products as $product)
+                
+                @php
+                    $category = App\Models\Category::where('id', $product->category_id)->first();
+                @endphp
+
                 <tr>
                     <td>{{ $product->code }}</td>
-                    <td>{{ $product->category->name }}</td>
+                    <td>{{ $category->name }}</td>
                     <td>{{ $product->name }}</td>
                     <td>{{ $product->price }}</td>
                     <td>{{ $product->qty }}</td>

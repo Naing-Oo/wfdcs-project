@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PHPLessioncontroller;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
@@ -42,3 +43,9 @@ Route::put('user/update/{id}', [UserController::class, 'update']);
 Route::delete('user/destroy/{id}', [UserController::class, 'destroy']);
 
 Route::resource('products', ProductController::class);
+
+
+/**
+ * PHP LESSION
+ */
+Route::get('/variables', [PHPLessioncontroller::class, 'variables']);

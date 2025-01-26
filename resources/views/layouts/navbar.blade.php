@@ -18,6 +18,17 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('user/index') }}">User</a>
                 </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button"
+                        data-bs-toggle="dropdown">PHP</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ url('/variables') }}">Variables</a></li>
+                        <li><a class="dropdown-item" href="#">Another link</a></li>
+                        <li><a class="dropdown-item" href="#">A third link</a></li>
+                    </ul>
+                </li>
+
             </ul>
         </div>
     </div>
