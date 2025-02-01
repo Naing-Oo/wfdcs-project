@@ -49,3 +49,4 @@ Route::resource('products', ProductController::class);
  * PHP LESSION
  */
 Route::get('/variables', [PHPLessioncontroller::class, 'variables']);
+Route::get('/strings', [PHPLessioncontroller::class, 'strings']);
