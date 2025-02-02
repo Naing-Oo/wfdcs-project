@@ -50,3 +50,4 @@ Route::resource('products', ProductController::class);
  */
 Route::get('/variables', [PHPLessioncontroller::class, 'variables']);
 Route::get('/strings', [PHPLessioncontroller::class, 'strings']);
+Route::get('/operator', [PHPLessioncontroller::class, 'operator']);

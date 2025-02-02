@@ -105,15 +105,20 @@ class PHPLessioncontroller extends Controller
         echo $br;
         echo strpos($x, 'Naing');
 
-        echo $br; echo strtoupper($x);
-        echo $br; echo strtolower($x);
-        echo $br; echo str_replace('Naing', 'Ko', $x);
-        echo $br; echo strrev($x);
+        echo $br;
+        echo strtoupper($x);
+        echo $br;
+        echo strtolower($x);
+        echo $br;
+        echo str_replace('Naing', 'Ko', $x);
+        echo $br;
+        echo strrev($x);
 
         $x = "Bangkok      ";
         $y = "Singapore";
-        echo $br; echo trim($x). $y;
-        
+        echo $br;
+        echo trim($x) . $y;
+
         $y = "Apple,Banana,Coconut";
 
         $z = explode(',', $y);
@@ -128,22 +133,102 @@ class PHPLessioncontroller extends Controller
         echo $br;
         $date = "01/02/2025";
         $dateArr = explode('/', $date);
-        echo $br; echo "Day $dateArr[0]";
-        echo $br; echo "Month $dateArr[1]";
-        echo $br; echo "Year $dateArr[2]";
+        echo $br;
+        echo "Day $dateArr[0]";
+        echo $br;
+        echo "Month $dateArr[1]";
+        echo $br;
+        echo "Year $dateArr[2]";
 
-        $full_name = "SAW GAY WAH";
-        $full_name = "SAW AUNG NAING OO";
-        
+        $full_name = "MG GAYWAH";
+        $full_name = "SAW AUNG NAINGOO"; // 14 - 2 = 12
+
+        $first_name = explode(' ', $full_name)[0];
+        // $last_name = substr($full_name, strlen($first_name), strlen($full_name) - strlen($first_name));
+        // $last_name = substr($full_name, strlen($first_name));
+
+        $last_name = substr($full_name, -7, 5);
+        // $last_name = substr($full_name, strlen($full_name) - 2, 2);
+
+        echo "$br First Name = $first_name $br Last Name = $last_name";
+
         $first_name = substr($full_name, 0, 3);
         $last_name = substr($full_name, 4, strlen($full_name));
 
-        echo "$br First Name = $first_name $br Last Name = $last_name";
-        
-        
+        // echo "$br First Name = $first_name $br Last Name = $last_name";
+
+        $message = 'I don\'t know';
+        $message = "We are the so-called \"Vikings\" from the north.";
+        echo "$br $message";
     }
 
+    public function operator()
+    {
+        $br = '<br>';
+        $x = array('red', 'yellow', 'blue');
+        $y = array('green', 'gray', 'white');
 
+        $z = array_merge($x, $y);
 
+        print_r($z);
 
+        // Conditional Assignment Operators
+        $num1 = 10;
+        $num2 = 20;
+        $maxNum = 0;
+
+        if ($num1 > $num2 && $num1 > 0 || $num1 < 30) {
+            $maxNum = $num1;
+        } else if ($num1 < $num2) {
+            // 
+        } else {
+            $maxNum = $num2;
+        }
+
+        $maxNum = $num1 > $num2 ? $num1 : $num2;
+
+        echo "$br $maxNum";
+
+        $address = null;
+
+        echo $br;
+        echo $address ?? "Not found";
+
+        $currency = 'THB';
+
+        // switch ($currency) {
+        //     case 'THB':
+        //     case 'บาท':
+        //         return "Thai Bath";
+        //         break;
+        //     case 'USD':
+        //         # code...
+        //         break;
+        //     case 'JPY':
+        //         # code...
+        //         break;
+        //     case 'CHY':
+        //         # code...
+        //         break;
+        //     case 'SGD':
+        //         # code...
+        //         break;
+        //     case 'MMK':
+        //         # code...
+        //         break;
+        //     case 'MLR':
+        //         # code...
+        //         break;
+        //     default:
+        //         # code...
+        //         break;
+        // }
+
+        echo $br;
+
+        for ($i=0; $i < 10; $i++) { 
+            print_r($i);
+        }
+
+    }
 }
