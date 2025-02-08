@@ -3,9 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
+
+// dependency injection
 
 class PHPLessioncontroller extends Controller
 {
+    /**
+     * variable
+     */
     public function variables()
     {
         $breakLine = "<br>------------------------------<br>";
@@ -80,6 +86,10 @@ class PHPLessioncontroller extends Controller
         var_dump($x, $y, $z);
     }
 
+
+    /**
+     * string
+     */
     public function strings()
     {
         $br = '<br>';
@@ -162,6 +172,10 @@ class PHPLessioncontroller extends Controller
         echo "$br $message";
     }
 
+
+    /**
+     * operator
+     */
     public function operator()
     {
         $br = '<br>';
@@ -224,11 +238,133 @@ class PHPLessioncontroller extends Controller
         //         break;
         // }
 
-        echo $br;
+    }
 
-        for ($i=0; $i < 10; $i++) { 
+
+    /**
+     * loop
+     * for, foreach, while, do while
+     */
+    public function loops()
+    {
+        $br = '<br>';
+
+        for ($i = 0; $i < 10; $i++) {
             print_r($i);
         }
+
+        echo $br;
+
+        // $colors = array("red", "green", "blue", "yellow");
+        $colors = ["red", "green", "blue", "yellow"];
+
+        foreach ($colors as $key => $value) {
+            echo "$key - $value  ";
+        }
+
+        $students = [
+            'name' => 'Naing Oo',
+            'phone' => '0986948341',
+            'email' => 'naingoo123448@gmail.com',
+            'address' => 'Bangkok',
+        ];
+
+        echo $br;
+
+        foreach ($students as $index => $student) {
+            echo "$index - $student  ";
+        }
+
+        $product = new Product(); // clone
+
+        $product->id = 1;
+        $product->code = '0001';
+        $product->name = 'apple';
+
+        echo $br;
+        echo $br;
+
+        echo $product; // object
+
+        $proArr = $product->toArray(); // convert to array
+        echo $br;
+        echo $br;
+        print_r($proArr); // print array
+
+        echo $br;
+        echo $br;
+        foreach ($proArr as $x => $y) { // print loop result
+            echo "$x: $y<br>";
+        }
+
+        $product->id = 2;
+        $product->code = '0002';
+        $product->name = 'orange';
+
+        echo $br;
+        echo $br;
+        foreach ($product->toArray() as $x => $y) { // print loop result
+            echo "$x: $y<br>";
+        }
+
+        /**
+         * break & continue
+         */
+        echo $br;
+        echo $br;
+        foreach ($colors as $key => $value) {
+            if ($value === 'blue') {
+                break;
+            }
+
+            echo "$value <br>";
+        }
+
+        echo $br;
+        echo $br;
+        foreach ($colors as $key => $value) {
+            echo "$value <br>";
+            if ($value === 'blue') break;
+        }
+
+        echo $br;
+        echo $br;
+        foreach ($colors as $key => $value) {
+            if ($value === 'blue') continue;
+            echo "$value <br>";
+        }
+
+        echo $br;
+        echo $br;
+        foreach ($colors as $key => $value) {
+            if ($value == 'blue') {
+                $value = 'pink';
+            }
+        }
+        print_r($colors);
+
+        echo $br;
+        echo $br;
+        foreach ($colors as $key => &$value) {
+            if ($value == 'blue') {
+                $value = 'pink';
+            }
+        }
+        print_r($colors);
+
+
+
+
+
+
+
+
+
+
+
+        echo $br;
+        echo $br;
+
 
     }
 }
