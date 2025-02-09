@@ -352,14 +352,68 @@ class PHPLessioncontroller extends Controller
         }
         print_r($colors);
 
+        echo "$br$br";
+        $a = 1;
+        while ($a <= 10) {
+            echo "$a <br>";
+            $a++;
+        }
+        
+        echo "$br$br";
+        $a = 0;
+        while ($a < 10) {
+            $a++;
+            if ($a === 5) break;
+            echo "$a <br>";
+        }
+
+        $a = 0;
+        echo "$br$br";
+        while ($a < 10) {
+            $a++;
+            if ($a == 5) continue;
+            echo "$a <br>";
+        }
+
+        $a = 0;
+        echo "$br$br";
+        while ($a < 100) {
+            $a+= 10;
+            echo "$a <br>";
+        }
+
+        echo "$br$br";
+        $a = 1;
+        do {
+            echo "$a <br>";
+            $a++;
+        } while ($a <= 10);
+
+        echo "$br$br";
+
+        $fruits = ['apple','orange','banana','coconut','paniapple'];
+        $i = 0;
+        do {
+            echo "$fruits[$i] <br>";
+            $i++;
+        } while ($fruits[$i] !== 'coconut');
 
 
+        echo "$br$br";
 
+        $x = '10'; // string
+        $y = 10; // integer
 
-
-
-
-
+        if ($x == $y) {
+            echo "true";
+        } else {
+            echo "false";
+        }
+        if ($x === $y) {
+            echo "true";
+        } else {
+            echo "false";
+        }
 
 
         echo $br;
@@ -367,4 +421,43 @@ class PHPLessioncontroller extends Controller
 
 
     }
+
+    /**
+     * functions
+     */
+    public function functions() 
+    {   
+        $lastName = 'AUNG NAING OO';
+        $fullName = $this->fullName($lastName);
+
+        echo "$lastName <br>";
+        echo "$fullName <br>";
+
+        $num = 2;
+        $this->addFive($num);
+        echo "$num <br>";
+
+        $this->addFirstName($lastName);
+        echo "$lastName <br>";
+    }
+
+    private function fullName(&$lastName, $firstName = 'MG')
+    {
+        $lastName = "GAY WAH";
+        return "$firstName $lastName";
+    }
+
+    private function addFive(&$value)
+    {
+        $value += 5;
+    }
+
+    private function addFirstName(&$value)
+    {
+        // $value = "SAW " . $value;
+        $value = "SAW $value";
+    }
+
+    
+    
 }

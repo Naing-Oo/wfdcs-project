@@ -27,6 +27,7 @@
                         <li><a class="dropdown-item" href="{{ url('/strings') }}">Strings</a></li>
                         <li><a class="dropdown-item" href="{{ url('/operator') }}">Operator</a></li>
                         <li><a class="dropdown-item" href="{{ url('/loops') }}">Loops</a></li>
+                        <li><a class="dropdown-item" href="{{ url('/functions') }}">Functions</a></li>
                     </ul>
                 </li>
 
