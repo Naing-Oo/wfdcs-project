@@ -53,3 +53,4 @@ Route::get('/strings', [PHPLessioncontroller::class, 'strings']);
 Route::get('/operator', [PHPLessioncontroller::class, 'operator']);
 Route::get('/loops', [PHPLessioncontroller::class, 'loops']);
 Route::get('/functions', [PHPLessioncontroller::class, 'functions']);
+Route::get('/arrays', [PHPLessioncontroller::class, 'arrays']);

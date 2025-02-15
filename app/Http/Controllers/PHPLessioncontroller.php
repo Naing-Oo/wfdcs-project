@@ -358,7 +358,7 @@ class PHPLessioncontroller extends Controller
             echo "$a <br>";
             $a++;
         }
-        
+
         echo "$br$br";
         $a = 0;
         while ($a < 10) {
@@ -378,7 +378,7 @@ class PHPLessioncontroller extends Controller
         $a = 0;
         echo "$br$br";
         while ($a < 100) {
-            $a+= 10;
+            $a += 10;
             echo "$a <br>";
         }
 
@@ -391,7 +391,7 @@ class PHPLessioncontroller extends Controller
 
         echo "$br$br";
 
-        $fruits = ['apple','orange','banana','coconut','paniapple'];
+        $fruits = ['apple', 'orange', 'banana', 'coconut', 'paniapple'];
         $i = 0;
         do {
             echo "$fruits[$i] <br>";
@@ -418,15 +418,13 @@ class PHPLessioncontroller extends Controller
 
         echo $br;
         echo $br;
-
-
     }
 
     /**
      * functions
      */
-    public function functions() 
-    {   
+    public function functions()
+    {
         $lastName = 'AUNG NAING OO';
         $fullName = $this->fullName($lastName);
 
@@ -439,6 +437,81 @@ class PHPLessioncontroller extends Controller
 
         $this->addFirstName($lastName);
         echo "$lastName <br>";
+
+        // ===== 15/2/2025
+
+        $arr = array(1, 2, 3, 4, 5, 6, 7);
+        $result1 = $this->sumMyNumbersByArray($arr);
+        $result2 = $this->sumMyNumbers(1, 2, 3, 4, 5, 6, 7);
+        $result3 = $this->myFamily("SAW", "AUNG", "GAY", "WAH");
+
+        echo "$result1 $result2 <br> $result3";
+
+        $num1 = 10; // int
+        $num2 = '10'; // string
+        $total = $num1 + $num2;
+
+        echo "<br>  $total";
+
+        $total = $this->addNumber(5, 5);
+        echo "<br>  $total";
+    }
+
+    /**
+     * array
+     */
+    public function arrays()
+    {
+        // PHP array types
+        // Indexed arrays - Arrays with a numeric index
+        $fruit = ['apple', 'banana', 'orange', 'coconut'];
+        $colors = array('red', 'green', 'white', 'black');
+
+        echo "$fruit[0] <br>";
+        echo "$fruit[1] <br>";
+        echo "$fruit[2] <br>";
+        echo "$fruit[3] <br>";
+
+        echo "<br><br>";
+
+        for ($i=0; $i < count($colors); $i++) { 
+            echo "$colors[$i] <br>";
+        }
+
+
+        echo "<br><br>";
+
+        // Associative arrays - Arrays with named keys
+        $students = [
+            'code' => '001',
+            'name' => 'saw',
+            'phone' => '09864221212',
+            'email' => 'saw@gmail.com',
+        ];
+
+        echo $students['code'].'<br>';
+        echo $students['name'].'<br>';
+        echo $students['phone'].'<br>';
+        echo $students['email'].'<br>';
+
+        echo "<br><br>";
+
+        foreach ($students as $key => $value) {
+            // echo "$key - $value <br>";
+            echo "$students[$key] <br>";
+        }
+
+
+
+
+
+        // Multidimensional arrays - Arrays containing one or more arrays
+        $cars = [
+            ['brand' => 'toyota', 'color' => 'red', 'price' => ''],
+            ['brand' => 'isuzu', 'color' => 'gray', 'price' => ''],
+            ['brand' => 'honda', 'color' => 'black', 'price' => ''],
+            ['brand' => 'nissan', 'color' => 'white', 'price' => ''],
+        ];
     }
 
     private function fullName(&$lastName, $firstName = 'MG')
@@ -458,6 +531,60 @@ class PHPLessioncontroller extends Controller
         $value = "SAW $value";
     }
 
-    
-    
+    private function sumMyNumbersByArray($x)
+    {
+        $n = 0;
+
+        // var_dump($x);
+
+        $len = count($x); // x ရဲ့အရေအတွက်/အရှည်
+
+        for ($i = 0; $i < $len; $i++) {
+            $n += $x[$i];
+        }
+
+        return $n;
+    }
+
+    private function sumMyNumbers(...$x)
+    {
+        $n = 0;
+
+        // var_dump($x);
+
+        $len = count($x); // x ရဲ့အရေအတွက်/အရှည်
+
+        for ($i = 0; $i < $len; $i++) {
+            $n += $x[$i];
+        }
+
+        return $n;
+    }
+
+    private function myFamily($lastName, ...$firstName)
+    {
+        $txt = "";
+        $len = count($firstName);
+
+        for ($i = 0; $i < $len; $i++) {
+            $txt .= "$lastName $firstName[$i]<br>";
+        }
+
+        return $txt;
+    }
+
+    private function addNumber(int $a, int $b): array
+    {
+        return $a + $b;
+        /**
+         * function type (return, non-return)
+         * int
+         * string
+         * double
+         * boolean
+         * array
+         * null
+         * collection
+         */
+    }
 }
