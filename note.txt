@@ -92,5 +92,16 @@ View -> request -> Controller(action) -> Model(pull) -> response -> View
     $products = Product::get();
 
 
+=============== Homework 16/2/2025 Total 9 lessions ===============
+array_diff()
+array_pop()
+array_shift()
 
+PHP - Sort Functions For Arrays (Order)
+sort()
+rsort()
+asort()
+ksort()
+arsort()
+krsort()
 

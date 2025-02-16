@@ -474,7 +474,7 @@ class PHPLessioncontroller extends Controller
 
         echo "<br><br>";
 
-        for ($i=0; $i < count($colors); $i++) { 
+        for ($i = 0; $i < count($colors); $i++) {
             echo "$colors[$i] <br>";
         }
 
@@ -489,10 +489,10 @@ class PHPLessioncontroller extends Controller
             'email' => 'saw@gmail.com',
         ];
 
-        echo $students['code'].'<br>';
-        echo $students['name'].'<br>';
-        echo $students['phone'].'<br>';
-        echo $students['email'].'<br>';
+        echo $students['code'] . '<br>';
+        echo $students['name'] . '<br>';
+        echo $students['phone'] . '<br>';
+        echo $students['email'] . '<br>';
 
         echo "<br><br>";
 
@@ -501,17 +501,133 @@ class PHPLessioncontroller extends Controller
             echo "$students[$key] <br>";
         }
 
-
-
-
-
         // Multidimensional arrays - Arrays containing one or more arrays
         $cars = [
-            ['brand' => 'toyota', 'color' => 'red', 'price' => ''],
-            ['brand' => 'isuzu', 'color' => 'gray', 'price' => ''],
-            ['brand' => 'honda', 'color' => 'black', 'price' => ''],
-            ['brand' => 'nissan', 'color' => 'white', 'price' => ''],
+            ['brand' => 'toyota', 'color' => 'red', 'price' => 400000],
+            ['brand' => 'isuzu', 'color' => 'gray', 'price' => 500000],
+            ['brand' => 'honda', 'color' => 'black', 'price' => 600000],
+            ['brand' => 'nissan', 'color' => 'white', 'price' => 350000],
         ];
+
+        echo "<br><br>";
+
+        print_r($cars[0]);
+        echo "<br>";
+        print_r($cars[1]);
+        echo "<br>";
+        print_r($cars[2]);
+        echo "<br>";
+        print_r($cars[3]);
+
+        echo "<br><br>";
+
+        echo $cars[0]['brand'] . "<br>";
+        echo $cars[0]['color'] . "<br>";
+        echo $cars[0]['price'] . "<br>";
+
+        echo "<br><br>";
+
+        echo $cars[1]['brand'] . "<br>";
+        echo $cars[1]['color'] . "<br>";
+        echo $cars[1]['price'] . "<br>";
+
+        echo "<br><br>";
+
+        echo $cars[2]['brand'] . "<br>";
+        echo $cars[2]['color'] . "<br>";
+        echo $cars[2]['price'] . "<br>";
+
+        echo "<br><br>";
+
+        echo $cars[3]['brand'] . "<br>";
+        echo $cars[3]['color'] . "<br>";
+        echo $cars[3]['price'] . "<br>";
+
+        echo "<br><br>";
+
+        for ($i = 0; $i < count($cars); $i++) {
+            //$i = 0,1,2,3
+            print_r($cars[$i]);
+            echo '<br>';
+
+            // foreach ($cars[$i] as $key => $value) {
+            //     echo "$key = $value <br>";
+            // }
+
+            $this->showCarNames($cars[$i]);
+        }
+
+        $this->addArrays();
+        echo "<br><br>";
+        $this->removeArrays();
+    }
+
+    private function showCarNames(array $cars)
+    {
+        foreach ($cars as $key => $value) {
+            if ($key === 'price') {
+                $value = 100000;
+            }
+            echo $cars[$key] . '<br>';
+            // echo "$key = $value <br>";
+        }
+    }
+
+    private function addArrays(): void
+    {
+        // add index array
+        $fruits = array("Apple", "Banana", "Cherry");
+
+        echo "<br><br>";
+
+        print_r($fruits); // 3 index
+
+        echo "<br><br>";
+
+        $fruits[] = 'Orange'; // add singal value
+
+        // add Multiple values
+        array_push($fruits, "Pineapple", "Watermelon", "Coconut");
+
+        print_r($fruits); // 7 index
+
+        echo "<br><br>";
+
+        // add Associative array
+        $cars = array("brand" => "Ford", "model" => "Mustang");
+
+        print_r($cars);
+
+        echo "<br><br>";
+
+        $cars['color'] = "Red"; // add singal value
+        // add Multiple values
+        $cars += ['price' => 400000, 'year' => 1964];
+
+        print_r($cars);
+    }
+
+    private function removeArrays(): void
+    {
+        $cars = array("Volvo", "BMW", "Toyota");
+        
+        // array_splice($cars, 1, 1); // reindex
+        // array_splice($cars, 1, 2); // reindex
+        // unset($cars[1]); // not reindex
+        unset($cars[0], $cars[2]); // not reindex
+
+        print_r($cars); // unset index array
+
+        $cars = array("brand" => "Ford", "model" => "Mustang", "year" => 1964);
+        unset($cars['model']); // unset Associative array
+
+        echo "<br><br>";
+
+        print_r($cars);
+
+        echo "<br><br>";
+
+
     }
 
     private function fullName(&$lastName, $firstName = 'MG')
