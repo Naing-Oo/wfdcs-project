@@ -2,10 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-class Category extends Model
+class Category extends BaseModal
 {
-    use HasFactory;
+    public $menuName; // properties
+
+    // public function __construct($menu) {
+    //     $this->menuName = $menu;
+    // }
+
+    protected function getCategoryListAttribute()
+    {
+        return [
+            'Fruit',
+            'Electric',
+            'Food',
+            'Helth',
+            'Babies',
+        ];
+    }
+
 }

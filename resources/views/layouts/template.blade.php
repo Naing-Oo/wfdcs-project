@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Index</title>
     <link rel="stylesheet" href="{{ asset('assets/bootstrap/bootstrap.min.css') }}">
-
+    
 </head>
 
 <body>

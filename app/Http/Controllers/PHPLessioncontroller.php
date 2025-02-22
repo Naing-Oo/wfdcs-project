@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Support\Facades\Session;
 
 // dependency injection
 
@@ -560,6 +561,7 @@ class PHPLessioncontroller extends Controller
         $this->addArrays();
         echo "<br><br>";
         $this->removeArrays();
+
     }
 
     private function showCarNames(array $cars)
@@ -702,5 +704,20 @@ class PHPLessioncontroller extends Controller
          * null
          * collection
          */
+    }
+
+
+    public function phpOOP()
+    {
+        $product1 = new Product(); // class
+        // obj
+        $product1->name = '';
+        $product1->price = 100;
+
+
+        $product2 = new Product();
+        $product2->name = '';
+        $product2->price = 100;
+
     }
 }

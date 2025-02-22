@@ -53,7 +53,13 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $product = new Product();
+        $category = new Category();
+
+        // dd($product->full_name , $category->full_name, $product->phone, $category->category_list);
+
+        $category->menuName = 'Category';
+        dd($category->menuName);
     }
 
     /**
