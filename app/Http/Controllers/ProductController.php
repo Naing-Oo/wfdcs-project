@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
+use Illuminate\Support\Facades\Session;
 
 class ProductController extends Controller
 {
@@ -54,12 +55,22 @@ class ProductController extends Controller
     public function show(string $id)
     {
         $product = new Product();
-        $category = new Category();
+        $category = new Category(); // __construct
+        // $category->brand = 'MaMa';
+        $category->name = 'Food';
+
+        dd($category->qtyOfCategory());
+
+        // dd($category->checkValidCategory(), $category->name, $category->brandName()); 
+
+        // __destruct
+        
+        // $message = Session::get('message');
+        // dd($message);
 
         // dd($product->full_name , $category->full_name, $product->phone, $category->category_list);
-
-        $category->menuName = 'Category';
-        dd($category->menuName);
+        // $category->menuName = 'Category';
+        // dd($category->menuName);
     }
 
     /**

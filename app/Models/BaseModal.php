@@ -9,6 +9,10 @@ class BaseModal extends Model
 {
     use HasFactory;
 
+    public function __construct() {
+        parent::__construct();
+    }
+
     protected function getFullNameAttribute() // attribute, method
     {
         return "AUNG NAING OO";
