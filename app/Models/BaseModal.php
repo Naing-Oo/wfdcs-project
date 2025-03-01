@@ -9,7 +9,8 @@ class BaseModal extends Model
 {
     use HasFactory;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
@@ -23,5 +24,16 @@ class BaseModal extends Model
         return '0986948341';
     }
 
-    
+    protected function returnMessage($category, $qty): string
+    {
+        // return "The qty of {$category} is {$qty}";
+        return self::MESSAGE;
+    }
+
+    public function intro($name, $qty)
+    {
+        return "The name is {$name} and the qty is {$qty}.";
+    }
+
+    const MESSAGE = "Thank you for visiting W3Schools.com!";
 }

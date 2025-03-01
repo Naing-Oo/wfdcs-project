@@ -15,6 +15,7 @@
                     Email: {{ $user->email }}
                 </li>
             </ul>
+            <a href="{{ url('/user/index') }}" class="btn btn-secondary">Cancel</a>
         </div>
     </div>
 

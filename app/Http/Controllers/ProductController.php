@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Auth\User;
 use Illuminate\Support\Facades\Session;
 
 class ProductController extends Controller
@@ -57,9 +58,18 @@ class ProductController extends Controller
         $product = new Product();
         $category = new Category(); // __construct
         // $category->brand = 'MaMa';
-        $category->name = 'Food';
+        // $category->name = 'Food';
 
-        dd($category->qtyOfCategory());
+        // dd($category->qtyOfCategory());
+        // dd($product->qtyOfProduct('002'));
+        
+        // dd($product->intro('product', 200), $category->intro('category', 100));
+
+        // dd(Product::MESSAGE);
+        // dd(Category::MESSAGE);
+
+        // dd($product->introduce(), $category->introduce());
+        dd($product->getFullName('SAW', 'AUNG'));
 
         // dd($category->checkValidCategory(), $category->name, $category->brandName()); 
 

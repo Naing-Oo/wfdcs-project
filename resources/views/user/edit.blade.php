@@ -26,6 +26,7 @@
                 <input type="password" class="form-control" id="password" name="password" value="{{ $user->password }}">
             </div>
 
+            <a href="{{ url('/user/index') }}" class="btn btn-secondary">Cancel</a>
             <button type="submit" class="btn btn-primary">Submit</button>
 
         </form>

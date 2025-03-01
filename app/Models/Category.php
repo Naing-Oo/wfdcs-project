@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\Utilities;
 use Illuminate\Support\Facades\Session;
 
 class Category extends BaseModal
 {
+    use Utilities;
+
     public $name; // properties
     protected $brand;
 
@@ -59,11 +62,6 @@ class Category extends BaseModal
         return $this->returnMessage($this->name, $qty);
     }
 
-    private function returnMessage($category, $qty)
-    {
-        return "The qty of {$category} is {$qty}";
-    }
-
     private function categories(): array
     {
         return [
@@ -74,8 +72,6 @@ class Category extends BaseModal
             'Babies' => 500,
         ];
     }
-
-
 
     private function checkValidString($string = null): string
     {
