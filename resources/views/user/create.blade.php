@@ -6,23 +6,23 @@
             <h4 class="card-title">Create User</h4>
         </div>
         <div class="card-body">
-            <form action="{{ url('user/store') }}" method="post">
+            <form action="{{ route('user.store') }}" method="post" autocomplete="on">
 
                 @csrf
 
                 <div class="mb-3 mt-3">
                     <label for="name" class="form-label">Name:</label>
-                    <input type="text" class="form-control" id="name" name="name">
+                    <input type="text" class="form-control" id="name" name="name" required maxlength="20">
                 </div>
 
                 <div class="mb-3">
                     <label for="email" class="form-label">Email:</label>
-                    <input type="email" class="form-control" id="email" name="email">
+                    <input type="email" class="form-control" id="email" name="email" required>
                 </div>
 
                 <div class="mb-3">
                     <label for="password" class="form-label">Password:</label>
-                    <input type="password" class="form-control" id="password" name="password">
+                    <input type="password" class="form-control" id="password" name="password" required minlength="8">
                 </div>
 
                 <a href="{{ url('/user/index') }}" class="btn btn-secondary">Cancel</a>

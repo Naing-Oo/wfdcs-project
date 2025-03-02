@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Auth\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -51,7 +52,15 @@ class UserController extends Controller
 
         $user->save();
 
-        $url = url('user/index');
+        // $url = url('user/index');
+        // $url = url('user/show/'. $user->id);
+        // $url = url("user/{$user->id}/edit");
+        $url = route('user.edit', $user->id);
+
+        // route('user.index');
+        // url("user/{$user->id}/edit");
+        // route('user.edit', $user->id);
+
         return redirect($url);
     }
 
@@ -93,6 +102,23 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:10',
+            'email' => 'required',
+            'password' => 'required|min:8',
+        ]);
+
+        // dd($validator);
+
+        if ($validator->fails()) {
+
+            dd('error');
+
+            // return response()->json(['errors' => $validator->errors()], 409);
+        }
+
+        dd('success');
+
         $user = User::where('id', $id)->first();
         $user->name = $request->name;
         $user->email = $request->email;

@@ -22,10 +22,10 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>
-                        <a href="{{ url('user/details/' . $user->id) }}" class="btn btn-info">
+                        <a href="{{ url('user/show/' . $user->id) }}" class="btn btn-info">
                             View
                         </a>
-                        <a href="{{ url('user/edit/' . $user->id) }}" class="btn btn-secondary">
+                        <a href="{{ url('user/' . $user->id . '/edit') }}" class="btn btn-secondary">
                             Edit
                         </a>
                         <button class="btn btn-danger js-delete" data-id="{{ $user->id }}">

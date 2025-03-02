@@ -6,7 +6,7 @@
         <h4 class="card-title">Edit User</h4>
     </div>
     <div class="card-body">
-        <form action="{{ url('user/update/'.$user->id) }}" method="post">
+        <form action="{{ route('user.update',$user->id) }}" method="post">
 
             @csrf
             @method('put')

@@ -34,13 +34,12 @@ Route::get('/product/{id}', function(){
 });
 
 Route::get('user/index', [UserController::class, 'index']);
-Route::get('user/details/{id}', [UserController::class, 'show']);
 Route::get('user/create', [UserController::class, 'create']);
-Route::post('user/store', [UserController::class, 'store']);
-Route::get('user/edit/{id}', [UserController::class, 'edit']);
-Route::put('user/update/{id}', [UserController::class, 'update']);
-// Route::post('user/destroy/{id}', [UserController::class, 'destroy']);
-Route::delete('user/destroy/{id}', [UserController::class, 'destroy']);
+Route::post('user/store', [UserController::class, 'store'])->name('user.store');
+Route::get('user/show/{id}', [UserController::class, 'show']);
+Route::get('user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
+Route::put('user/update/{id}', [UserController::class, 'update'])->name('user.update');
+Route::delete('user/destroy/{id}', [UserController::class, 'destroy'])->name('user.delete');
 
 Route::resource('products', ProductController::class);
 
