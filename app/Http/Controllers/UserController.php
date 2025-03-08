@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Auth\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -45,19 +45,35 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+            'gender' => 'required',
+            'birth_date' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            'password' => 'required',
+            'password_confirmation' => 'required',
+        ]);
+
+        dd($request->all());
+
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = $request->password;
+
+        $user->phone = $request->phone;
+        $user->birth_date = $request->birth_date;
+        $user->gender = $request->gender;
 
         $user->save();
 
         // $url = url('user/index');
         // $url = url('user/show/'. $user->id);
         // $url = url("user/{$user->id}/edit");
-        $url = route('user.edit', $user->id);
+        // $url = route('user.edit', $user->id);
 
-        // route('user.index');
+        $url = route('user.index');
         // url("user/{$user->id}/edit");
         // route('user.edit', $user->id);
 

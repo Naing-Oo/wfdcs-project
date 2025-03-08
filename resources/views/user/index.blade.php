@@ -12,6 +12,9 @@
                 <th>#</th>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Phone</th>
+                <th>Gender</th>
+                <th>Birth Date</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -21,6 +24,9 @@
                     <td>{{ $i + 1 }}</td>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
+                    <td>{{ $user->phone }}</td>
+                    <td>{{ $user->gender }}</td>
+                    <td>{{ $user->birth_date }}</td>
                     <td>
                         <a href="{{ url('user/show/' . $user->id) }}" class="btn btn-info">
                             View
