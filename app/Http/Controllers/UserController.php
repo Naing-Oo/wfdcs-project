@@ -45,17 +45,42 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'gender' => 'required',
-            'birth_date' => 'required',
-            'email' => 'required',
-            'phone' => 'required',
-            'password' => 'required',
-            'password_confirmation' => 'required',
-        ]);
+        // dd($request->all());
 
-        dd($request->all());
+        $request->validate(
+            [
+                'name' => 'required|string|max:100',
+                'gender' => 'required|max:1',
+                'birth_date' => 'required|max:20',
+                'email' => 'required|email|unique:users|max:50',
+                'phone' => 'required|max:20',
+                'password' => 'required|confirmed|min:8',
+                'other' => 'required_if:gender,o|string|nullable',
+            ],
+            [
+                'name.required' => 'အမည်ထည့်ပါ',
+                'name.max' => 'စာလုံး အလုံး ၁၀၀ သာလက်ခံသည်',
+                
+                'gender.required' => 'ကျားမသတ်မှတ်ပါ',
+                'gender.max' => 'စာလုံး အလုံး ၁ သာလက်ခံသည်',
+                'other.required_if' => 'LGBTQ သတ်မှတ်ပါ',
+
+                'birth_date.required' => 'မွေးနေ့ထည့်ပါ',
+                'birth_date.max' => 'စာလုံး အလုံး ၂၀ သာလက်ခံသည်',
+                
+                'email.required' => 'အီးမေးလ်ထည့်ပါ',
+                'email.email' => 'အီးမေးလ်ပုံစံမမှန်ပါ',
+                'email.unique' => 'ဒီအီးမေးလ် သုံးပြီးသားဖြစ်သည် တခြားအီးမေးလ်ထည့်ပါ',
+                'email.max' => 'စာလုံး အလုံး ၅၀ သာလက်ခံသည်',
+
+                'phone.required' => 'ဖုန်းနံပါတ်ထည့်ပါ',
+                'phone.max' => 'စာလုံး အလုံး ၂၀ သာလက်ခံသည်',
+
+                'password.required' => 'နာမည်ထည့်ပါ',
+                'password.min' => 'အနည်းဆုံး ၈ လုံးဖြစ်ရမည်',
+                'password.confirmed' => 'လျှို့ဝှက်နံပါတ်မမှန်ပါ',
+            ]
+        );
 
         $user = new User();
         $user->name = $request->name;
@@ -65,6 +90,7 @@ class UserController extends Controller
         $user->phone = $request->phone;
         $user->birth_date = $request->birth_date;
         $user->gender = $request->gender;
+        $user->other = $request->other;
 
         $user->save();
 
@@ -142,7 +168,7 @@ class UserController extends Controller
         $user->updated_at = now();
 
         $user->save();
-        
+
         $url = url('user/index');
         return redirect($url);
     }
@@ -162,7 +188,7 @@ class UserController extends Controller
         if ($user) {
             $user->delete();
         }
-        
+
         return response('delete successfully.');
 
         // return redirect($url);

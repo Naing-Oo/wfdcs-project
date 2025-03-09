@@ -25,8 +25,24 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->phone }}</td>
-                    <td>{{ $user->gender }}</td>
-                    <td>{{ $user->birth_date }}</td>
+
+                    <td>
+                        @switch($user->gender)
+                            @case('m')
+                                Male
+                            @break
+                            @case('f')
+                                Female
+                            @break
+                            @default
+                            {{ $user->other ?? 'other' }}
+                        @endswitch
+                    </td>
+
+                    <td>
+                        {{-- {{ Carbon\Carbon::parse($user->birth_date)->format('d/m/Y  H:i:s') }} --}}
+                        {{ Carbon\Carbon::parse($user->birth_date)->format('d/m/Y') }}
+                    </td>
                     <td>
                         <a href="{{ url('user/show/' . $user->id) }}" class="btn btn-info">
                             View

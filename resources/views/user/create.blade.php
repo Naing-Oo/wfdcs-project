@@ -30,13 +30,33 @@
                                 $old = old('gender');
                             @endphp
 
-                            <select name="gender" id="gender" class="form-select">
+                            {{-- <select name="gender" id="gender" class="form-select">
                                 <option value="">Select...</option>
                                 <option value="m" @if($old == 'm') selected @endif>Male</option>
                                 <option value="f" @if($old == 'f') selected @endif>Female</option>
                                 <option value="o" @if($old == 'o') selected @endif>Other</option>
-                            </select>
+                            </select> --}}
+
+                            <div class="d-flex align-items-center">
+                                <div class="form-check me-3">
+                                    <input type="radio" class="form-check-input" id="male" name="gender" value="m" @if($old == 'm') checked @endif>
+                                    <label class="form-check-label" for="male">Male</label>
+                                </div>
+                                <div class="form-check me-3">
+                                    <input type="radio" class="form-check-input" id="female" name="gender" value="f" @if($old == 'f') checked @endif>
+                                    <label class="form-check-label" for="female">Female</label>
+                                </div>
+                                <div class="form-check me-3">
+                                    <input type="radio" class="form-check-input" id="other" name="gender" value="o" @if($old == 'o') checked @endif>
+                                    <label class="form-check-label" for="other">Other</label>
+                                </div>
+                                <input type="text" class="form-control @if($old !== 'o') d-none @endif" name="other" value="{{ old('other') }}">
+                            </div>
+
                             @error('gender')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                            @error('other')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
@@ -55,7 +75,7 @@
                     <div class="col-12 col-md-6">
                         <div class="mb-3">
                             <label for="email" class="form-label">Email <span class="text-danger">*</span>:</label>
-                            <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}">
+                            <input type="text" class="form-control" id="email" name="email" value="{{ old('email') }}">
                             @error('email')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -137,6 +157,17 @@
                 $('#password').attr('type', 'password');
                 $('#password_confirmation').attr('type', 'password');
             }
+        });
+        $(document).on('change', 'input[name="gender"]', function(){
+            const value = $(this).val();
+
+            if (value === 'o') {
+                $('input[name="other"]').removeClass('d-none');
+            } else {
+                $('input[name="other"]').addClass('d-none');
+            }
+
+            
         });
     </script>
 @endsection
