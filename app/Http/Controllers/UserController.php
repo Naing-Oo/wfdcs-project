@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -45,8 +46,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-
         $request->validate(
             [
                 'name' => 'required|string|max:100',
@@ -93,6 +92,8 @@ class UserController extends Controller
         $user->other = $request->other;
 
         $user->save();
+
+        Session::flash('success', 'Created user successfully.');
 
         // $url = url('user/index');
         // $url = url('user/show/'. $user->id);
@@ -144,30 +145,59 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|max:10',
-            'email' => 'required',
-            'password' => 'required|min:8',
-        ]);
+        $request->validate(
+            [
+                'email' => [
+                    'required',
+                    'email',
+                    Rule::unique('users', 'email')->ignore($id)
+                ],
+                'name' => 'required|string|max:100',
+                'gender' => 'required|max:1',
+                'birth_date' => 'required|max:20',
+                'phone' => 'required|max:20',
+                'password' => 'required|confirmed|min:8',
+                'other' => 'required_if:gender,o|string|nullable',
+            ],
+            [
+                'name.required' => 'အမည်ထည့်ပါ',
+                'name.max' => 'စာလုံး အလုံး ၁၀၀ သာလက်ခံသည်',
+                
+                'gender.required' => 'ကျားမသတ်မှတ်ပါ',
+                'gender.max' => 'စာလုံး အလုံး ၁ သာလက်ခံသည်',
+                'other.required_if' => 'LGBTQ သတ်မှတ်ပါ',
 
-        // dd($validator);
+                'birth_date.required' => 'မွေးနေ့ထည့်ပါ',
+                'birth_date.max' => 'စာလုံး အလုံး ၂၀ သာလက်ခံသည်',
+                
+                'email.required' => 'အီးမေးလ်ထည့်ပါ',
+                'email.email' => 'အီးမေးလ်ပုံစံမမှန်ပါ',
+                'email.unique' => 'ဒီအီးမေးလ် သုံးပြီးသားဖြစ်သည် တခြားအီးမေးလ်ထည့်ပါ',
+                'email.max' => 'စာလုံး အလုံး ၅၀ သာလက်ခံသည်',
 
-        if ($validator->fails()) {
+                'phone.required' => 'ဖုန်းနံပါတ်ထည့်ပါ',
+                'phone.max' => 'စာလုံး အလုံး ၂၀ သာလက်ခံသည်',
 
-            dd('error');
-
-            // return response()->json(['errors' => $validator->errors()], 409);
-        }
-
-        dd('success');
+                'password.required' => 'နာမည်ထည့်ပါ',
+                'password.min' => 'အနည်းဆုံး ၈ လုံးဖြစ်ရမည်',
+                'password.confirmed' => 'လျှို့ဝှက်နံပါတ်မမှန်ပါ',
+            ]
+        );
 
         $user = User::where('id', $id)->first();
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = $request->password;
-        $user->updated_at = now();
 
+        $user->phone = $request->phone;
+        $user->birth_date = $request->birth_date;
+        $user->gender = $request->gender;
+        $user->other = $request->other;
+
+        $user->updated_at = now();
         $user->save();
+
+        Session::flash('success', 'Updated user successfully.');
 
         $url = url('user/index');
         return redirect($url);
@@ -188,6 +218,8 @@ class UserController extends Controller
         if ($user) {
             $user->delete();
         }
+
+        Session::flash('delete', 'Deleted user successfully.');
 
         return response('delete successfully.');
 

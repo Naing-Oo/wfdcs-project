@@ -1,6 +1,22 @@
 @extends('layouts.template')
 
 @section('content')
+
+    {{-- alert --}}
+    @if (session()->has('success'))
+        <div class="alert alert-success alert-dismissible fade show">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>Success!</strong> {{ session()->get('success') }}
+        </div>
+    @endif
+    @if (session()->has('delete'))
+        <div class="alert alert-danger alert-dismissible fade show">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>Success!</strong> {{ session()->get('delete') }}
+        </div>
+    @endif
+    {{-- alert --}}
+
     <div class="d-flex justify-content-between">
         <h3>User</h3>
         <a href="{{ url('user/create') }}" class="btn btn-primary">New User</a>
@@ -31,11 +47,13 @@
                             @case('m')
                                 Male
                             @break
+
                             @case('f')
                                 Female
                             @break
+
                             @default
-                            {{ $user->other ?? 'other' }}
+                                {{ $user->other ?? 'other' }}
                         @endswitch
                     </td>
 
