@@ -22,6 +22,41 @@
         <a href="{{ url('user/create') }}" class="btn btn-primary">New User</a>
     </div>
 
+    <form action="{{ route('user.index') }}">
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <div class="form-group">
+                    <label for="">Name</label>
+                    <input type="text" class="form-control" name="name" value="{{ $name }}">
+                </div>
+            </div>
+            <div class="col-12 col-md-2">
+                <div class="form-group">
+                    <label for="">Gender</label>
+                    <select name="gender" id="gender" class="form-select">
+                        <option value="">Select...</option>
+                        <option value="m" @if($gender == 'm') selected @endif>Male</option>
+                        <option value="f" @if($gender == 'f') selected @endif>Female</option>
+                        <option value="o" @if($gender == 'o') selected @endif>Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-12 col-md-2">
+                <div class="form-group">
+                    <label for=""></label> <br>
+                    <button type="submit" class="btn btn-secondary">
+                        Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div>
+        {{ url()->current() }}
+        <br>
+        {{ url()->full() }}
+    </div>
+
     <table class="table">
         <thead>
             <tr>

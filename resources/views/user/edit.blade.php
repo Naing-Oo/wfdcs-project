@@ -3,7 +3,7 @@
 @section('content')
     <div class="card border-0 shadow">
         <div class="card-header">
-            <h4 class="card-title">Edit User</h4>
+            <h4 class="card-title">Edit User  {{ url()->current() }}</h4>
         </div>
         <div class="card-body">
             <form action="{{ route('user.update', $user->id) }}" method="post" autocomplete="on">
@@ -105,7 +105,7 @@
                     </div>
                     <div class="col-12 col-md-6">
                         <div class="mb-3">
-                            <label for="password_confirmation" class="form-label">Password <span
+                            <label for="password_confirmation" class="form-label">Confirm Password <span
                                     class="text-danger">*</span>:</label>
                             <input type="password" class="form-control" id="password_confirmation"
                                 name="password_confirmation" value="{{  old('password_confirmation') ?? $user->password }}">

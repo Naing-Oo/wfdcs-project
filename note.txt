@@ -225,4 +225,7 @@ Session::flash('delete', 'Deleted user successfully.');
 
 
 
+----------------- URL Generation ------------------
+url('/user/index') -> http://127.0.0.1:8000/user/index
+
 

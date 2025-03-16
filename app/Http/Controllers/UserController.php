@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 
@@ -17,10 +18,24 @@ class UserController extends Controller
      * url('/user/index')
      * @method get
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::orderBy('updated_at', 'desc')->get(); // model
-        return view('user.index', compact('users'));
+        $name = $request->name;
+        $gender = $request->gender;
+
+        $users = User::where('name', 'like', "%{$name}%")
+            ->where('gender', 'like', "%{$gender}%")
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        // if ($request->name) {
+        //     $users = $users->where('name', $name);
+        // }
+        // if ($request->gender) {
+        //     $users = $users->where('gender', $gender);
+        // }
+
+        return view('user.index', compact('users', 'name', 'gender'));
     }
 
     /**
@@ -59,14 +74,14 @@ class UserController extends Controller
             [
                 'name.required' => 'အမည်ထည့်ပါ',
                 'name.max' => 'စာလုံး အလုံး ၁၀၀ သာလက်ခံသည်',
-                
+
                 'gender.required' => 'ကျားမသတ်မှတ်ပါ',
                 'gender.max' => 'စာလုံး အလုံး ၁ သာလက်ခံသည်',
                 'other.required_if' => 'LGBTQ သတ်မှတ်ပါ',
 
                 'birth_date.required' => 'မွေးနေ့ထည့်ပါ',
                 'birth_date.max' => 'စာလုံး အလုံး ၂၀ သာလက်ခံသည်',
-                
+
                 'email.required' => 'အီးမေးလ်ထည့်ပါ',
                 'email.email' => 'အီးမေးလ်ပုံစံမမှန်ပါ',
                 'email.unique' => 'ဒီအီးမေးလ် သုံးပြီးသားဖြစ်သည် တခြားအီးမေးလ်ထည့်ပါ',
@@ -84,7 +99,8 @@ class UserController extends Controller
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = $request->password;
+
+        $user->password = bcrypt($request->password); // Hash::make($request->password);
 
         $user->phone = $request->phone;
         $user->birth_date = $request->birth_date;
@@ -162,14 +178,14 @@ class UserController extends Controller
             [
                 'name.required' => 'အမည်ထည့်ပါ',
                 'name.max' => 'စာလုံး အလုံး ၁၀၀ သာလက်ခံသည်',
-                
+
                 'gender.required' => 'ကျားမသတ်မှတ်ပါ',
                 'gender.max' => 'စာလုံး အလုံး ၁ သာလက်ခံသည်',
                 'other.required_if' => 'LGBTQ သတ်မှတ်ပါ',
 
                 'birth_date.required' => 'မွေးနေ့ထည့်ပါ',
                 'birth_date.max' => 'စာလုံး အလုံး ၂၀ သာလက်ခံသည်',
-                
+
                 'email.required' => 'အီးမေးလ်ထည့်ပါ',
                 'email.email' => 'အီးမေးလ်ပုံစံမမှန်ပါ',
                 'email.unique' => 'ဒီအီးမေးလ် သုံးပြီးသားဖြစ်သည် တခြားအီးမေးလ်ထည့်ပါ',
@@ -187,6 +203,7 @@ class UserController extends Controller
         $user = User::where('id', $id)->first();
         $user->name = $request->name;
         $user->email = $request->email;
+
         $user->password = $request->password;
 
         $user->phone = $request->phone;
