@@ -20,8 +20,7 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button"
-                        data-bs-toggle="dropdown">PHP</a>
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">PHP</a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{{ url('/variables') }}">Variables</a></li>
                         <li><a class="dropdown-item" href="{{ url('/strings') }}">Strings</a></li>
@@ -31,8 +30,20 @@
                         <li><a class="dropdown-item" href="{{ url('/arrays') }}">Arrays</a></li>
                     </ul>
                 </li>
-
             </ul>
+
+            @if (!Auth::check())
+                <a href="{{ route('login') }}" class="btn btn-secondary mx-3">Login</a>
+            @else
+                <h5 class="mx-2 text-white">{{ Auth::user()->name }}</h5>
+                <form action="{{ route('logout') }}" method="POST">
+
+                    @csrf
+
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
+            @endif
+
         </div>
     </div>
 </nav>

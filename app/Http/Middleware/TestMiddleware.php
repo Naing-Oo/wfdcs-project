@@ -15,11 +15,11 @@ class TestMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $url = $request->fullUrl();
+        // $url = $request->fullUrl();
         
-        if (str_contains($url,'user/index')) {
-            return redirect('/login');
-        }
+        // if (str_contains($url,'user/index')) {
+        //     return redirect('/login');
+        // }
 
         return $next($request); // allow to entery
     }

@@ -167,8 +167,6 @@
             } else {
                 $('input[name="other"]').addClass('d-none');
             }
-
-            
         });
     </script>
 @endsection

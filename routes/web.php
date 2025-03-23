@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PHPLessioncontroller;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,12 +39,15 @@ Route::get('/login', function(){
     return view('auth.login');
 })->name('login');
 
+Route::post('/login/store', [LoginController::class, 'login'])->name('login.store');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
 
 // Route::middleware('test-middle')->group(function() {
 //     Route::get('user/index', [UserController::class, 'index'])->name('user.index');
 // });
 
-Route::middleware('auth')->group(function(){
+// Route::middleware('auth')->group(function(){
     Route::get('user/index', [UserController::class, 'index'])->name('user.index');
     Route::get('user/create', [UserController::class, 'create']);
     Route::post('user/store', [UserController::class, 'store'])->name('user.store');
@@ -52,7 +57,7 @@ Route::middleware('auth')->group(function(){
     Route::delete('user/destroy/{id}', [UserController::class, 'destroy'])->name('user.delete');
 
     Route::resource('products', ProductController::class);
-});
+// });
 
 
 /**
@@ -64,3 +69,20 @@ Route::get('/operator', [PHPLessioncontroller::class, 'operator']);
 Route::get('/loops', [PHPLessioncontroller::class, 'loops']);
 Route::get('/functions', [PHPLessioncontroller::class, 'functions']);
 Route::get('/arrays', [PHPLessioncontroller::class, 'arrays']);
+
+Route::get('/clc', function () {
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    Artisan::call('config:cache');
+    Artisan::call('view:clear');
+    Artisan::call('route:clear');
+    Artisan::call('optimize');
+    Artisan::call('clear-compiled');
+    Artisan::call('view:clear');
+    Artisan::call('optimize:clear');
+    Artisan::call('optimize:clear');
+    // Artisan::call('storage:link');
+    session()->forget('key');
+    return "Cleared!";
+});
+
