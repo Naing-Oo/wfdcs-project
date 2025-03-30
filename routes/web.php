@@ -22,6 +22,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('web.home.index');
 });
+Route::get('/shop', function () {
+    return view('web.shop.index');
+});
+Route::get('/blog', function () {
+    return view('web.blog.index');
+});
+Route::get('/contact', function () {
+    return view('web.contact.index');
+});
+
+
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
