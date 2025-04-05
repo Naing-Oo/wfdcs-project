@@ -47,7 +47,11 @@
                     <ul>
                         <li class="active"><a href="{{ url('/') }}">Home</a></li>
                         <li><a href="{{ url('/shop') }}">Shop</a></li>
-                        <li><a href="#">Pages</a>
+                        <li><a href="{{ url('/blog') }}">Blog</a></li>
+                        <li><a href="{{ url('/contact') }}">Contact</a></li>
+
+
+                        <li><a href="#">Account</a>
                             <ul class="header__menu__dropdown">
                                 <li><a href="./shop-details.html">Shop Details</a></li>
                                 <li><a href="./shoping-cart.html">Shoping Cart</a></li>
@@ -55,8 +59,7 @@
                                 <li><a href="./blog-details.html">Blog Details</a></li>
                             </ul>
                         </li>
-                        <li><a href="{{ url('/blog') }}">Blog</a></li>
-                        <li><a href="{{ url('/contact') }}">Contact</a></li>
+                        
                     </ul>
                 </nav>
             </div>

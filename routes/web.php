@@ -22,12 +22,172 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('web.home.index');
 });
+
 Route::get('/shop', function () {
-    return view('web.shop.index');
+
+    $products = [
+        [
+            'name' => 'Crab Pool Security',
+            'price' => 30,
+            'image' => 'web/img/product/product-1.jpg',
+        ],
+        [
+            'name' => 'Crab Pool Security',
+            'price' => 40,
+            'image' => 'web/img/product/product-2.jpg',
+        ],
+        [
+            'name' => 'Crab Pool Security',
+            'price' => 50,
+            'image' => 'web/img/product/product-3.jpg',
+        ],
+        [
+            'name' => 'Crab Pool Security',
+            'price' => 60,
+            'image' => 'web/img/product/product-4.jpg',
+        ],
+        [
+            'name' => 'Crab Pool Security',
+            'price' => 70,
+            'image' => 'web/img/product/product-5.jpg',
+        ],
+        [
+            'name' => 'Crab Pool Security',
+            'price' => 80,
+            'image' => 'web/img/product/product-6.jpg',
+        ],
+        [
+            'name' => 'Crab Pool Security',
+            'price' => 90,
+            'image' => 'web/img/product/product-7.jpg',
+        ],
+        [
+            'name' => 'Crab Pool Security',
+            'price' => 100,
+            'image' => 'web/img/product/product-8.jpg',
+        ],
+        [
+            'name' => 'Crab Pool Security',
+            'price' => 110,
+            'image' => 'web/img/product/product-9.jpg',
+        ],
+        [
+            'name' => 'Crab Pool Security',
+            'price' => 120,
+            'image' => 'web/img/product/product-10.jpg',
+        ],
+    ];
+
+    $promotions = [
+        [
+            'category' => 'Dried Fruit',
+            'name' => 'Raisin’n’nuts',
+            'price' => 36,
+            'discount' => 20,
+            'image' => 'web/img/product/discount/pd-1.jpg',
+        ],
+        [
+            'category' => 'Vegetables',
+            'name' => 'Vegetables’package',
+            'price' => 36,
+            'discount' => 20,
+            'image' => 'web/img/product/discount/pd-2.jpg',
+        ],
+        [
+            'category' => 'Dried Fruit',
+            'name' => 'Mixed Fruitss',
+            'price' => 36,
+            'discount' => 20,
+            'image' => 'web/img/product/discount/pd-3.jpg',
+        ],
+        [
+            'category' => 'Dried Fruit',
+            'name' => 'Raisin’n’nuts',
+            'price' => 36,
+            'discount' => 20,
+            'image' => 'web/img/product/discount/pd-4.jpg',
+        ],
+        [
+            'category' => 'Dried Fruit',
+            'name' => 'Raisin’n’nuts',
+            'price' => 36,
+            'discount' => 20,
+            'image' => 'web/img/product/discount/pd-5.jpg',
+        ],
+        [
+            'category' => 'Dried Fruit',
+            'name' => 'Raisin’n’nuts',
+            'price' => 36,
+            'discount' => 20,
+            'image' => 'web/img/product/discount/pd-6.jpg',
+        ],
+    ];
+
+    return view('web.shop.index', [
+        'products' => $products,
+        'promotions' => $promotions
+    ]);
 });
+
+
 Route::get('/blog', function () {
-    return view('web.blog.index');
+
+    $blogs = [
+        [
+            'image' => 'web/img/blog/blog-1.jpg',
+            'date' => now(),
+            'comments' => 10,
+            'title' => '6 ways to prepare breakfast for 30',
+            'description' => 'Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam
+                            quaerat',
+        ],
+        [
+            'image' => 'web/img/blog/blog-2.jpg',
+            'date' => now(),
+            'comments' => 10,
+            'title' => 'Visit the clean farm in the US',
+            'description' => 'Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam
+                            quaerat',
+        ],
+        [
+            'image' => 'web/img/blog/blog-3.jpg',
+            'date' => now(),
+            'comments' => 10,
+            'title' => 'Cooking tips make cooking simple',
+            'description' => 'Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam
+                            quaerat',
+        ],
+        [
+            'image' => 'web/img/blog/blog-4.jpg',
+            'date' => now(),
+            'comments' => 10,
+            'title' => 'Cooking tips make cooking simple',
+            'description' => 'Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam
+                            quaerat',
+        ],
+        [
+            'image' => 'web/img/blog/blog-5.jpg',
+            'date' => now(),
+            'comments' => 10,
+            'title' => 'The Moment You Need To Remove Garlic From The Menu',
+            'description' => 'Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam
+                            quaerat',
+        ],
+        [
+            'image' => 'web/img/blog/blog-6.jpg',
+            'date' => now(),
+            'comments' => 10,
+            'title' => 'Cooking tips make cooking simple',
+            'description' => 'Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam
+                            quaerat',
+        ],
+    ];
+
+    return view('web.blog.index', [
+        'blogs' => $blogs
+    ]);
 });
+
 Route::get('/contact', function () {
     return view('web.contact.index');
 });
