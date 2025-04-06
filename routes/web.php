@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/**
+ * web / buyer
+ */
 Route::get('/', function () {
     return view('web.home.index');
 });
@@ -191,6 +194,29 @@ Route::get('/blog', function () {
 Route::get('/contact', function () {
     return view('web.contact.index');
 });
+
+
+/**
+ * seller / admin
+ */
+Route::group(['prefix' => 'admin'], function(){
+
+    Route::get('/login', function () {
+        return view('admin.login');
+    });
+
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    });
+
+    Route::get('/company', function () {
+        return view('admin.company.index');
+    });
+
+    // additional menus
+
+});
+
 
 
 
