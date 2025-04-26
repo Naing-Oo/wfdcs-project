@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PHPLessioncontroller;
 use App\Http\Controllers\ProductController;
@@ -212,6 +213,8 @@ Route::group(['prefix' => 'admin'], function(){
     Route::get('/company', function () {
         return view('admin.company.index');
     });
+
+    Route::resource('categories', CategoryController::class);
 
     // additional menus
 
