@@ -17,7 +17,8 @@
                 </h6>
 
                 <!-- Button to Open the Modal -->
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
+                <button type="button" class="btn btn-success" 
+                    data-toggle="modal" data-target="#myModal">
                     New Category
                 </button>
 
@@ -37,38 +38,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>
-                                <img src="{{ asset('web/img/categories/cat-1.jpg') }}" alt="" class="img-fluid"
-                                    width="100">
-                            </td>
-                            <td>Fresh Fruit</td>
-                            <td>
-                                <button class="btn btn-primary">
-                                    Edit
-                                </button>
-                                <button class="btn btn-danger">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>
-                                <img src="{{ asset('web/img/categories/cat-2.jpg') }}" alt="" class="img-fluid"
-                                    width="100">
-                            </td>
-                            <td>Dried Fruit</td>
-                            <td>
-                                <button class="btn btn-primary">
-                                    Edit
-                                </button>
-                                <button class="btn btn-danger">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
+                        @foreach ($categories as $key => $category)
+                            <tr>
+                                <td>{{ $key + 1 }}</td>
+                                <td>
+                                    <img src="{{ asset($category->image_url) }}" 
+                                        alt="{{ $category->name }}" class="img-fluid"
+                                        width="100">
+                                </td>
+                                <td>{{ $category->name }}</td>
+                                <td>
+                                    <button class="btn btn-primary">
+                                        Edit
+                                    </button>
+                                    <button class="btn btn-danger">
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

@@ -76,6 +76,8 @@
 
    @include('admin.layout.script')
 
+   @yield('script')
+
 </body>
 
 </html>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Category;
+use Illuminate\Support\Facades\Session;
 
 class CategoryController extends Controller
 {
@@ -12,7 +14,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('admin.category.index');
+        $categories = Category::get();
+
+        // Session::flash('success', 'Category created successfully.');
+
+        return view('admin.category.index', compact('categories'));
     }
 
     /**
@@ -28,7 +34,32 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        // dd($request->all());
+
+        $category = new Category();
+        $category->name = $request->name;
+
+        if ($request->has('image')) {
+            $category->image_url = $this->saveImage($request->file('image'));
+        }
+
+        $category->save();
+
+        Session::flash('success', 'Category created successfully.');
+        
+        return redirect()->route('categories.index');
+    }
+
+    private function saveImage($file)
+    {
+        $path = $file->store('category', 'public');
+
+        return 'storage/'.$path;
     }
 
     /**

@@ -279,7 +279,6 @@ Route::get('/clc', function () {
     Artisan::call('route:clear');
     Artisan::call('optimize');
     Artisan::call('clear-compiled');
-    Artisan::call('view:clear');
     Artisan::call('optimize:clear');
     Artisan::call('optimize:clear');
     // Artisan::call('storage:link');
