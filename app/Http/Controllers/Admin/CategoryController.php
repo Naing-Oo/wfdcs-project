@@ -67,7 +67,7 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        //
+        dd('show');
     }
 
     /**
@@ -75,7 +75,13 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        // dd('edit', $id);
+        $category = Category::find($id)->toArray();
+
+        // dd($category);
+        // $catJson = json_encode($category);
+
+        return response()->json($category);
     }
 
     /**
@@ -91,6 +97,15 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // dd($id);
+
+        $category = Category::find($id);
+
+        // if ($category)
+        //     $category->delete();
+
+        // dd($category);
+
+        return response('Delete successfully');
     }
 }

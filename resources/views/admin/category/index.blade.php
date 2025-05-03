@@ -17,8 +17,7 @@
                 </h6>
 
                 <!-- Button to Open the Modal -->
-                <button type="button" class="btn btn-success" 
-                    data-toggle="modal" data-target="#myModal">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
                     New Category
                 </button>
 
@@ -42,18 +41,24 @@
                             <tr>
                                 <td>{{ $key + 1 }}</td>
                                 <td>
-                                    <img src="{{ asset($category->image_url) }}" 
-                                        alt="{{ $category->name }}" class="img-fluid"
-                                        width="100">
+                                    <img src="{{ asset($category->image_url) }}" alt="{{ $category->name }}"
+                                        class="img-fluid" width="100">
                                 </td>
                                 <td>{{ $category->name }}</td>
                                 <td>
-                                    <button class="btn btn-primary">
+                                    <button class="btn btn-primary" 
+                                        onclick="edit('{{ route('categories.edit', $category->id) }}')">
                                         Edit
                                     </button>
-                                    <button class="btn btn-danger">
+
+                                    <button class="btn btn-danger"
+                                        onclick="confirmDelete('{{ route('categories.destroy', $category->id) }}')">
                                         Delete
                                     </button>
+                                    {{-- <form id="frmDelete" action="{{ route('categories.destroy', $category->id) }}" method="post">
+                                        @csrf
+                                        @method('delete')
+                                    </form> --}}
                                 </td>
                             </tr>
                         @endforeach
@@ -65,4 +70,65 @@
 
     @include('admin.category.modal')
 
+@endsection
+
+@section('script')
+    <script>
+        function confirmDelete(url) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteRecord(url);
+                }
+            });
+        }
+
+        function deleteRecord(url) {
+            $.ajax({
+                type: 'delete',
+                url: url,
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'name': 'saw aung naing oo'
+                },
+                success: function(msg) {
+                    alertDeleted(msg);
+
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                }
+            });
+        }
+
+        function alertDeleted(msg) {
+            Swal.fire({
+                title: "Deleted!",
+                text: msg,
+                icon: "success"
+            });
+        }
+
+        function edit(url) {
+            $.ajax({
+                type:'get',
+                url:url,
+                success: function(data) {
+                    console.log(data.name);
+                    console.log(data.image_url);
+
+                    $modal = $('#myModal');
+                    $modal.find('#name').val(data.name);
+                    $modal.modal('show');
+                }
+            });
+        }
+    </script>
 @endsection
