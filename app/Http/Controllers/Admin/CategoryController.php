@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -34,14 +35,39 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        // dd($request->all());
+
+        // $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        // ]);
+
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+
+        if ($validator->fails()) {
+            // dd($validator->errors());
+
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
 
         // dd($request->all());
 
-        $category = new Category();
+        if ($request->id) {
+            $category = Category::find($request->id);
+
+            if ($request->has('image')) {
+                unlink($category->image_url);
+            }
+        } else {
+            $category = new Category();
+        }
+
         $category->name = $request->name;
 
         if ($request->has('image')) {
@@ -50,7 +76,9 @@ class CategoryController extends Controller
 
         $category->save();
 
-        Session::flash('success', 'Category created successfully.');
+        $action = $request->id ? 'updated' : 'created';
+
+        Session::flash('success', "Category {$action} successfully.");
         
         return redirect()->route('categories.index');
     }
@@ -101,8 +129,11 @@ class CategoryController extends Controller
 
         $category = Category::find($id);
 
-        // if ($category)
-        //     $category->delete();
+        if ($category) {
+
+            unlink($category->image_url);
+            $category->delete();
+        }
 
         // dd($category);
 

@@ -74,6 +74,8 @@
 
 @section('script')
     <script>
+
+        // delete
         function confirmDelete(url) {
             Swal.fire({
                 title: "Are you sure?",
@@ -116,16 +118,18 @@
             });
         }
 
+        // edit
         function edit(url) {
             $.ajax({
                 type:'get',
                 url:url,
                 success: function(data) {
-                    console.log(data.name);
-                    console.log(data.image_url);
+                    // console.log(data.name);
+                    // console.log(data.image_url);
 
                     $modal = $('#myModal');
                     $modal.find('#name').val(data.name);
+                    $modal.find('#id').val(data.id);
                     $modal.modal('show');
                 }
             });

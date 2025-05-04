@@ -3,8 +3,9 @@
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PHPLessioncontroller;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\UserController;
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -24,7 +25,12 @@ use Illuminate\Support\Facades\Route;
  * web / buyer
  */
 Route::get('/', function () {
-    return view('web.home.index');
+
+    $categories = Category::all();
+
+    // dd($categories);
+
+    return view('web.home.index', compact('categories'));
 });
 
 Route::get('/shop', function () {
@@ -215,6 +221,7 @@ Route::group(['prefix' => 'admin'], function(){
     });
 
     Route::resource('categories', CategoryController::class);
+    Route::resource('products', ProductController::class);
 
     // additional menus
 
@@ -257,7 +264,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::put('user/update/{id}', [UserController::class, 'update'])->name('user.update');
     Route::delete('user/destroy/{id}', [UserController::class, 'destroy'])->name('user.delete');
 
-    Route::resource('products', ProductController::class);
+    // Route::resource('products', ProductController::class);
 // });
 
 
