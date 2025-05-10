@@ -15,10 +15,7 @@
                     Home/Product
                 </h6>
 
-                <!-- Button to Open the Modal -->
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
-                    New Product
-                </button>
+                <a href="{{ route('products.create') }}" class="btn btn-success">New Product</a>
 
             </div>
 
@@ -30,18 +27,23 @@
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th>Code</th>
                             <th>Image</th>
                             <th>Category</th>
                             <th>Name</th>
                             <th>Description</th>
                             <th class="text-right">Price</th>
+                            <th class="text-right">Discount</th>
+                            <th class="text-right">Qty</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-
                         <tr>
                             <td>1</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -51,6 +53,9 @@
                         </tr>
                         <tr>
                             <td>2</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
