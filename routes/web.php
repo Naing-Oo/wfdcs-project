@@ -6,6 +6,7 @@ use App\Http\Controllers\PHPLessioncontroller;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\UserController;
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -35,58 +36,66 @@ Route::get('/', function () {
 
 Route::get('/shop', function () {
 
-    $products = [
-        [
-            'name' => 'Crab Pool Security',
-            'price' => 30,
+    $products = Product::get()->map(function($p){
+        return [
+            'name' => $p->name,
+            'price' => $p->price,
             'image' => 'web/img/product/product-1.jpg',
-        ],
-        [
-            'name' => 'Crab Pool Security',
-            'price' => 40,
-            'image' => 'web/img/product/product-2.jpg',
-        ],
-        [
-            'name' => 'Crab Pool Security',
-            'price' => 50,
-            'image' => 'web/img/product/product-3.jpg',
-        ],
-        [
-            'name' => 'Crab Pool Security',
-            'price' => 60,
-            'image' => 'web/img/product/product-4.jpg',
-        ],
-        [
-            'name' => 'Crab Pool Security',
-            'price' => 70,
-            'image' => 'web/img/product/product-5.jpg',
-        ],
-        [
-            'name' => 'Crab Pool Security',
-            'price' => 80,
-            'image' => 'web/img/product/product-6.jpg',
-        ],
-        [
-            'name' => 'Crab Pool Security',
-            'price' => 90,
-            'image' => 'web/img/product/product-7.jpg',
-        ],
-        [
-            'name' => 'Crab Pool Security',
-            'price' => 100,
-            'image' => 'web/img/product/product-8.jpg',
-        ],
-        [
-            'name' => 'Crab Pool Security',
-            'price' => 110,
-            'image' => 'web/img/product/product-9.jpg',
-        ],
-        [
-            'name' => 'Crab Pool Security',
-            'price' => 120,
-            'image' => 'web/img/product/product-10.jpg',
-        ],
-    ];
+        ];
+    });
+
+    // $products = [
+    //     [
+    //         'name' => 'Crab Pool Security',
+    //         'price' => 30,
+    //         'image' => 'web/img/product/product-1.jpg',
+    //     ],
+    //     [
+    //         'name' => 'Crab Pool Security',
+    //         'price' => 40,
+    //         'image' => 'web/img/product/product-2.jpg',
+    //     ],
+    //     [
+    //         'name' => 'Crab Pool Security',
+    //         'price' => 50,
+    //         'image' => 'web/img/product/product-3.jpg',
+    //     ],
+    //     [
+    //         'name' => 'Crab Pool Security',
+    //         'price' => 60,
+    //         'image' => 'web/img/product/product-4.jpg',
+    //     ],
+    //     [
+    //         'name' => 'Crab Pool Security',
+    //         'price' => 70,
+    //         'image' => 'web/img/product/product-5.jpg',
+    //     ],
+    //     [
+    //         'name' => 'Crab Pool Security',
+    //         'price' => 80,
+    //         'image' => 'web/img/product/product-6.jpg',
+    //     ],
+    //     [
+    //         'name' => 'Crab Pool Security',
+    //         'price' => 90,
+    //         'image' => 'web/img/product/product-7.jpg',
+    //     ],
+    //     [
+    //         'name' => 'Crab Pool Security',
+    //         'price' => 100,
+    //         'image' => 'web/img/product/product-8.jpg',
+    //     ],
+    //     [
+    //         'name' => 'Crab Pool Security',
+    //         'price' => 110,
+    //         'image' => 'web/img/product/product-9.jpg',
+    //     ],
+    //     [
+    //         'name' => 'Crab Pool Security',
+    //         'price' => 120,
+    //         'image' => 'web/img/product/product-10.jpg',
+    //     ],
+    // ];
 
     $promotions = [
         [

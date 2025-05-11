@@ -39,31 +39,30 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        
+                        @foreach ($products as $i => $pro)
+                            <tr>
+                                <td>{{ $i + 1 }}</td>
+                                <td>{{ $pro->code }}</td>
+                                <td>
+                                    <img src="{{ asset('admin/img/No_Image_Available.jpg') }}" alt="" width="100">
+                                </td>
+                                <td>{{ $pro->category_id }}</td>
+                                <td>{{ $pro->name }}</td>
+                                <td>{{ $pro->description }}</td>
+                                <td>{{ $pro->price }}</td>
+                                <td>{{ $pro->discount }}</td>
+                                <td>{{ $pro->qty }}</td>
+                                <td>
+                                    <a href="{{ route('products.edit', $pro->id) }}" 
+                                        class="btn btn-primary">Edit
+                                    </a>
+                                    <button class="btn btn-danger"
+                                        onclick="confirmDelete('{{ route('products.destroy', $pro->id) }}')">
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

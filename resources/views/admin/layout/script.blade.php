@@ -25,22 +25,72 @@
  {{-- <script src="{{ asset('admin/js/demo/chart-area-demo.js') }}"></script>
  <script src="{{ asset('admin/js/demo/chart-pie-demo.js') }}"></script> --}}
 
-<script>
-    const success = "{{ session()->get('success') }}";
+ <script>
+     const success = "{{ session()->get('success') }}";
+     const error = "{{ session()->get('error') }}";
 
-    // alert(success);
+     $(document).ready(() => {
 
-    $(document).ready(()=>{
+         if (success) {
+             Swal.fire({
+                 position: "top-end",
+                 icon: "success",
+                 title: success,
+                 showConfirmButton: false,
+                 timer: 1500
+             });
+         }
 
-        if (success) {
-            Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: success,
-                showConfirmButton: false,
-                timer: 1500
-            });
-        }
-    });
+         if (error) {
+             Swal.fire({
+                 position: "top-end",
+                 icon: "warning",
+                 title: error,
+                 showConfirmButton: false,
+                 timer: 1500
+             });
+         }
+     });
 
-</script>
+     // delete
+     function confirmDelete(url) {
+         Swal.fire({
+             title: "Are you sure?",
+             text: "You won't be able to revert this!",
+             icon: "warning",
+             showCancelButton: true,
+             confirmButtonColor: "#3085d6",
+             cancelButtonColor: "#d33",
+             confirmButtonText: "Yes, delete it!"
+         }).then((result) => {
+             if (result.isConfirmed) {
+                 deleteRecord(url);
+             }
+         });
+     }
+
+     function deleteRecord(url) {
+         $.ajax({
+             type: 'delete',
+             url: url,
+             data: {
+                 '_token': "{{ csrf_token() }}",
+             },
+             success: function(msg) {
+                 alertDeleted(msg);
+
+                 setTimeout(() => {
+                     window.location.reload();
+                 }, 1000);
+             }
+         });
+     }
+
+     function alertDeleted(msg) {
+         Swal.fire({
+             title: "Deleted!",
+             text: msg,
+             icon: "success"
+         });
+     }
+ </script>

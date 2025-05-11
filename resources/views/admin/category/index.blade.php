@@ -74,50 +74,6 @@
 
 @section('script')
     <script>
-
-        // delete
-        function confirmDelete(url) {
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    deleteRecord(url);
-                }
-            });
-        }
-
-        function deleteRecord(url) {
-            $.ajax({
-                type: 'delete',
-                url: url,
-                data: {
-                    '_token': "{{ csrf_token() }}",
-                    'name': 'saw aung naing oo'
-                },
-                success: function(msg) {
-                    alertDeleted(msg);
-
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 1000);
-                }
-            });
-        }
-
-        function alertDeleted(msg) {
-            Swal.fire({
-                title: "Deleted!",
-                text: msg,
-                icon: "success"
-            });
-        }
-
         // edit
         function edit(url) {
             $.ajax({
