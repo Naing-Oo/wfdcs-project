@@ -36,13 +36,20 @@ Route::get('/', function () {
 
 Route::get('/shop', function () {
 
-    $products = Product::get()->map(function($p){
+    // $products = Product::with('images')->get();
+    // dd($products);
+
+    $products = Product::with('images')
+        ->get()
+        ->map(function($p){
         return [
             'name' => $p->name,
             'price' => $p->price,
-            'image' => 'web/img/product/product-1.jpg',
+            'image' => $p->images->first()->image_url,
         ];
     });
+
+    // dd($products);
 
     // $products = [
     //     [

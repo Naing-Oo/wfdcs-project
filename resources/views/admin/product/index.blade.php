@@ -44,7 +44,7 @@
                                 <td>{{ $i + 1 }}</td>
                                 <td>{{ $pro->code }}</td>
                                 <td>
-                                    <img src="{{ asset('admin/img/No_Image_Available.jpg') }}" alt="" width="100">
+                                    <img src="{{ asset($pro->images->first()->image_url) }}" alt="" width="100">
                                 </td>
                                 <td>{{ $pro->category_id }}</td>
                                 <td>{{ $pro->name }}</td>

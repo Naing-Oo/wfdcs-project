@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -17,8 +18,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        // dd('index');
-        $products = Product::get();
+        $products = Product::with('images')->get();
+
+        // dd($products);
 
         return view('admin.product.index', compact('products'));
     }
@@ -72,9 +74,30 @@ class ProductController extends Controller
         $product->created_by = 'sys'; //Auth::user()->name;
         $product->save();
 
+        // manage image
+        $images = $request->images;
+
+        if ($images) {
+            $this->saveImages($images, $product->id);
+        }
+
         Session::flash('success', 'Created successfully.');
 
         return redirect()->route('products.index');
+    }
+
+    private function saveImages(array $images, $id)
+    {
+        foreach ($images as $key => $img) {
+            $path = $img->store('product', 'public');
+
+            $prdImg = new ProductImage();
+
+            $prdImg->id = $id;
+            $prdImg->line_item_no = $key + 1;
+            $prdImg->image_url = 'storage/'.$path;
+            $prdImg->save();
+        }
     }
 
     /**

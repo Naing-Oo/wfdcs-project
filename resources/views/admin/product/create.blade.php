@@ -93,8 +93,14 @@
                         </div>
                     </div>
 
-                </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="">Images</label>
+                            <input type="file" class="form-control" id="image" name="images[]" multiple>
+                        </div>
+                    </div>
 
+                </div>
 
                 <div class="text-center my-5">
                     <a href="{{ route('products.index') }}" 

@@ -107,7 +107,6 @@
 
                 </div>
 
-
                 <div class="text-center my-5">
                     <a href="{{ route('products.index') }}" class="btn btn-outline-secondary px-5">Back</a>
                     <button type="submit" class="btn btn-outline-primary px-5">Save</button>
