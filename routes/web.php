@@ -45,7 +45,7 @@ Route::get('/shop', function () {
         return [
             'name' => $p->name,
             'price' => $p->price,
-            'image' => $p->images->first()->image_url,
+            'image' => $p->first_image,
         ];
     });
 
@@ -237,6 +237,9 @@ Route::group(['prefix' => 'admin'], function(){
     });
 
     Route::resource('categories', CategoryController::class);
+
+    // remove old image
+    Route::delete('products/removeImage', [ProductController::class, 'removeImage'])->name('product.image.remove');
     Route::resource('products', ProductController::class);
 
     // additional menus

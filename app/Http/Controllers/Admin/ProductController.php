@@ -18,7 +18,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('images')->get();
+        $products = Product::with('images', 'category')->get();
 
         // dd($products);
 
@@ -95,17 +95,9 @@ class ProductController extends Controller
 
             $prdImg->id = $id;
             $prdImg->line_item_no = $key + 1;
-            $prdImg->image_url = 'storage/'.$path;
+            $prdImg->image_url = 'storage/' . $path;
             $prdImg->save();
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     /**
@@ -113,8 +105,10 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        $product = Product::find($id);
+        $product = Product::with('images')->find($id);
         $categories = Category::get();
+
+        // dd($product);
 
         return view('admin.product.edit', compact('product', 'categories'));
     }
@@ -156,6 +150,13 @@ class ProductController extends Controller
         $product->updated_by = 'sys'; //Auth::user()->name;
         $product->save();
 
+        // manage image
+        $images = $request->images;
+
+        if ($images) {
+            $this->saveImages($images, $product->id);
+        }
+
         Session::flash('success', 'Updated successfully.');
 
         return redirect()->route('products.index');
@@ -167,11 +168,28 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         $product = Product::find($id);
-        
+
         if ($product) {
             $product->delete();
         }
 
         return response('Delete successfully');
+    }
+
+    /**
+     * remove old image
+     */
+    public function removeImage(Request $request)
+    {
+        if ($request->image_url) {
+            unlink($request->image_url);
+        }
+
+        ProductImage::where([
+            'id' => $request->id,
+            'line_item_no' => $request->line_item_no
+        ])->delete();
+
+        return response('Remove image successfully.');
     }
 }

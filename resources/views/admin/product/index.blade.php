@@ -44,17 +44,27 @@
                                 <td>{{ $i + 1 }}</td>
                                 <td>{{ $pro->code }}</td>
                                 <td>
-                                    <img src="{{ asset($pro->images->first()->image_url) }}" alt="" width="100">
+                                    {{-- @if (count($pro->images) == 0)
+                                        <img src="{{ asset('admin/img/No_Image_Available.jpg') }}" alt=""
+                                            width="100">
+                                    @else
+                                        <img src="{{ asset($pro->images->first()->image_url) }}" alt=""
+                                            width="100">
+                                    @endif --}}
+
+                                    <img src="{{ $pro->first_image }}" alt="" width="100">
+
+                                    {{-- {!! $pro->first_image !!} --}}
+
                                 </td>
-                                <td>{{ $pro->category_id }}</td>
+                                <td>{{ $pro->category->name }}</td>
                                 <td>{{ $pro->name }}</td>
                                 <td>{{ $pro->description }}</td>
                                 <td>{{ $pro->price }}</td>
                                 <td>{{ $pro->discount }}</td>
                                 <td>{{ $pro->qty }}</td>
                                 <td>
-                                    <a href="{{ route('products.edit', $pro->id) }}" 
-                                        class="btn btn-primary">Edit
+                                    <a href="{{ route('products.edit', $pro->id) }}" class="btn btn-primary">Edit
                                     </a>
                                     <button class="btn btn-danger"
                                         onclick="confirmDelete('{{ route('products.destroy', $pro->id) }}')">

@@ -16,7 +16,7 @@ class ProductImage extends Model
  * create model -> ProductImage
  * save image at ProductController@store
  * create images relations in Model/Product
- * call images relations in tController@index
- * use images->first() at index.blade.php / routes/web.php -> /shops
+ * call images relations in ProductController@index
+ * use images->first() at index.blade.php, routes/web.php -> /shop
  * 
  */
