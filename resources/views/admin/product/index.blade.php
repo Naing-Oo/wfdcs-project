@@ -57,7 +57,10 @@
                                     {{-- {!! $pro->first_image !!} --}}
 
                                 </td>
-                                <td>{{ $pro->category->name }}</td>
+                                <td>
+                                    <img src="{{ asset($pro->category->image_url) }}" alt="" width="100">
+                                    {{ $pro->category->name }}
+                                </td>
                                 <td>{{ $pro->name }}</td>
                                 <td>{{ $pro->description }}</td>
                                 <td>{{ $pro->price }}</td>

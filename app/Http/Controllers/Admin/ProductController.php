@@ -15,6 +15,9 @@ class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * route name -> products.index
+     * method: get
+     * web -> Route::get('products', [ProductController::class, 'index']);
      */
     public function index()
     {
@@ -27,18 +30,22 @@ class ProductController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     * route name -> products.create
+     * method: get
+     * web -> Route::get('products/create', [ProductController::class, 'create']);
      */
     public function create()
     {
         $categories = Category::get();
-
-        // dd($categories);
 
         return view('admin.product.create', compact('categories'));
     }
 
     /**
      * Store a newly created resource in storage.
+     * route name -> products.store
+     * method: post
+     * web -> Route::post('products', [ProductController::class, 'store']);
      */
     public function store(Request $request)
     {
@@ -94,7 +101,7 @@ class ProductController extends Controller
             $prdImg = new ProductImage();
 
             $prdImg->id = $id;
-            $prdImg->line_item_no = $key + 1;
+            $prdImg->line_item_no = $key + 1;   
             $prdImg->image_url = 'storage/' . $path;
             $prdImg->save();
         }
@@ -102,19 +109,26 @@ class ProductController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     * route name -> (products.edit, $id)
+     * method: get
+     * web -> Route::get('products/{product}/edit', [ProductController::class, 'edit']);
      */
     public function edit(string $id)
     {
         $product = Product::with('images')->find($id);
         $categories = Category::get();
 
-        // dd($product);
+        // dd($product->images->toArray());
+        // dd($product->category->name);
 
         return view('admin.product.edit', compact('product', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
+     * route name -> (products.update, $id)
+     * meethod: put,push
+     * web -> Route::put('products/{product}', [ProductController::class, 'update']);
      */
     public function update(Request $request, string $id)
     {
@@ -164,6 +178,9 @@ class ProductController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * route name -> (products.destroy, $id)
+     * method: delete
+     * web -> Route::delete('products/{product}', [ProductController::class, 'destroy']);
      */
     public function destroy(string $id)
     {

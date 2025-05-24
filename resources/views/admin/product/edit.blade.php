@@ -117,14 +117,20 @@
                         <div class="d-flex">
                             @foreach ($product->images as $img)
                                 <div class="mx-2 text-center img-box">
-                                    <img src="{{ asset($img->image_url) }}" alt="" width="100" height="100" class="d-block mb-2">
+                                    
+                                    <img src="{{ asset($img->image_url) }}" alt="" 
+                                        width="100" 
+                                        height="100" class="d-block mb-2">
+
                                     <i class="fas fa-times-circle text-danger remove-image" 
                                         title="Remove" 
                                         style="font-size: 25px; cursor: pointer;"
                                         data-id="{{ $img->id }}"
                                         data-line_item_no="{{ $img->line_item_no }}"
                                         data-image="{{ $img->image_url }}"
-                                        ></i>
+                                        >
+                                    </i>
+
                                 </div>
                             @endforeach
                         </div>

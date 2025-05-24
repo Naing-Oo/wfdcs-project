@@ -7,17 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     // Eloquent ORM (object relation model)
-
     public function images()
     {
         // array one to many
         return $this->hasMany(ProductImage::class, 'id');
     }
 
+    // Eloquent ORM (object relation model)
     public function category()
     {
         // one to one
         return $this->belongsTo(Category::class, 'category_id');
+        // left join categories b on a.category_id=b.id;
     }
 
 

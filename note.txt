@@ -228,4 +228,16 @@ Session::flash('delete', 'Deleted user successfully.');
 ----------------- URL Generation ------------------
 url('/user/index') -> http://127.0.0.1:8000/user/index
 
+Fetch Data
+1) Database
+2) Model
+3) Controller
+4) View
+
+
+Insert Data
+1) View 
+2) Controller
+3) Model
+4) Database
 
