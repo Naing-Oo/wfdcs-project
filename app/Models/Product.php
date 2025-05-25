@@ -2,10 +2,64 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
+// Product::clss derived class of Model::class
 class Product extends Model
 {
+
+    // custom primary key
+    protected $primaryKey = 'id';
+
+
+    // custom table name
+    protected $table = 'products';
+
+    // append additional field to column attribute
+    protected $appends = [
+        'first_image',
+        'category_name'
+    ];
+
+
+    // custom columns
+    protected $fillable = [
+        'code',
+        'category_id',
+        'name',
+        'description',
+        'price',
+        'discount',
+        'qty',
+        'created_by',
+        'updated_by',
+    ];
+
+
+    /**
+     * Get the user's first name.
+     * Eloquent Accessors(get), mutators(set),
+     */
+    protected function createdBy(): Attribute
+    {
+        return Attribute::make(
+            get: fn(string $value) => ucfirst($value),
+            set: fn(string $value) => strtolower($value),
+        );
+    }
+
+    protected function name(): Attribute
+    {
+        return Attribute::make(
+            get: fn(string $value) => Str::title($value),
+            set: fn(string $value) => strtolower($value),
+        );
+    }
+
+
+
     // Eloquent ORM (object relation model)
     public function images()
     {
@@ -23,8 +77,10 @@ class Product extends Model
 
 
 
-
-    // attribute getFieldNameAttribute first_image
+    /**
+     * custom attribute
+     * attribute getFieldNameAttribute first_image
+     */
     public function getFirstImageAttribute()
     {
         $images = $this->images;
@@ -36,27 +92,14 @@ class Product extends Model
         return asset($image->image_url);
     }
 
-    // public function getFirstImageAttribute()
-    // {
-    //     $image = $this->images->first();
+    public function getCategoryNameAttribute()
+    {
+        $category = optional($this->category);
 
-    //     return asset($image->image_url ?? 'admin/img/No_Image_Available.jpg');
-    // }
+        if ($category) {
+            return $category->name;
+        }
 
-
-    // public function getFirstImageAttribute()
-    // {
-    //     $images = $this->images;
-    //     $url = asset('admin/img/No_Image_Available.jpg'); // default
-
-    //     if (count($images) > 0) {
-    //         $image = $images->first();
-    //         $url = asset($image->image_url);
-    //     }
-
-    //     return '<img src="'.$url.'" alt="" width="100">';
-    // }
-
-
-
+        return null;
+    }
 }

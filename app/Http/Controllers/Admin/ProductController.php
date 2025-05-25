@@ -25,6 +25,12 @@ class ProductController extends Controller
 
         // dd($products);
 
+        // foreach ($products as $key => $p) {
+        //     dd($p->first_image, $p->category_name);
+        // }
+
+        // return response()->json($products);
+
         return view('admin.product.index', compact('products'));
     }
 
@@ -69,17 +75,15 @@ class ProductController extends Controller
                 ->withInput();
         }
 
-        $product = new Product();
+        $data = $request->all();
+        $data['created_by'] = 'SYS';
+        $data['price'] = $data['price'] - $data['discount'];
+        $data['description'] = isset($data['description']) 
+                            ? $data['description'] 
+                            : $data['name'];
 
-        $product->code = $request->code;
-        $product->name = $request->name;
-        $product->category_id = $request->category_id;
-        $product->description = $request->description;
-        $product->price = $request->price;
-        $product->discount = $request->discount;
-        $product->qty = $request->qty;
-        $product->created_by = 'sys'; //Auth::user()->name;
-        $product->save();
+        // set data
+        $product = Product::create($data);
 
         // manage image
         $images = $request->images;
@@ -115,6 +119,7 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
+        // get data
         $product = Product::with('images')->find($id);
         $categories = Category::get();
 
@@ -152,17 +157,9 @@ class ProductController extends Controller
                 ->withInput();
         }
 
-        $product = Product::find($id);
+        $data = $request->all();
 
-        $product->code = $request->code;
-        $product->name = $request->name;
-        $product->category_id = $request->category_id;
-        $product->description = $request->description;
-        $product->price = $request->price;
-        $product->discount = $request->discount;
-        $product->qty = $request->qty;
-        $product->updated_by = 'sys'; //Auth::user()->name;
-        $product->save();
+        $product = Product::find($id)->update($data);
 
         // manage image
         $images = $request->images;

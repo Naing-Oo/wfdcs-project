@@ -59,7 +59,7 @@
                                 </td>
                                 <td>
                                     <img src="{{ asset($pro->category->image_url) }}" alt="" width="100">
-                                    {{ $pro->category->name }}
+                                    {{ $pro->category_name }}
                                 </td>
                                 <td>{{ $pro->name }}</td>
                                 <td>{{ $pro->description }}</td>
