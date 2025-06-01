@@ -93,4 +93,14 @@
              icon: "success"
          });
      }
+
+     function alertSuccess(msg) {
+         Swal.fire({
+             position: "top-end",
+             icon: "success",
+             title: msg,
+             showConfirmButton: false,
+             timer: 1500
+         });
+     }
  </script>

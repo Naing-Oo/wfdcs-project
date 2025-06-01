@@ -36,9 +36,7 @@
                             <select name="category_id" id="category_id" class="form-control">
                                 <option value="">Select...</option>
                                 @foreach ($categories as $cat)
-                                    <option 
-                                        value="{{ $cat->id }}" 
-                                        @if($cat->id == (old('category_id') ? old('category_id') : $product->category_id)) selected @endif>
+                                    <option value="{{ $cat->id }}" @if ($cat->id == (old('category_id') ? old('category_id') : $product->category_id)) selected @endif>
                                         {{ $cat->name }}
                                     </option>
                                 @endforeach
@@ -70,7 +68,6 @@
                             @enderror
                         </div>
                     </div>
-
                     <div class="col-12 col-md-3">
                         <div class="form-group">
                             <label for="price">Price</label>
@@ -104,7 +101,6 @@
                             @enderror
                         </div>
                     </div>
-
                     <div class="col-12 col-md-4">
                         <div class="form-group">
                             <label for="">Images</label>
@@ -116,21 +112,25 @@
                     <div class="col-12 col-md-8">
                         <div class="d-flex">
                             @foreach ($product->images as $img)
-                                <div class="mx-2 text-center img-box">
-                                    
-                                    <img src="{{ asset($img->image_url) }}" alt="" 
-                                        width="100" 
-                                        height="100" class="d-block mb-2">
+                                <div class="mx-2 text-center img-box{{ $img->line_item_no }}">
 
-                                    <i class="fas fa-times-circle text-danger remove-image" 
+                                    <img src="{{ asset($img->image_url) }}" alt="" width="100" height="100"
+                                        class="d-block mb-2">
+
+                                    {{-- fontawesome icon --}}
+                                    <i class="fas fa-times-circle text-danger" style="font-size: 25px;cursor:pointer;"
+                                        title="Remove Image"
+                                        onclick="removeImage({{ $img->id }}, {{ $img->line_item_no }}, '{{ $img->image_url }}')">
+                                    </i>
+
+                                    {{-- <i class="fas fa-times-circle text-danger remove-image" 
                                         title="Remove" 
                                         style="font-size: 25px; cursor: pointer;"
                                         data-id="{{ $img->id }}"
                                         data-line_item_no="{{ $img->line_item_no }}"
                                         data-image="{{ $img->image_url }}"
                                         >
-                                    </i>
-
+                                    </i> --}}
                                 </div>
                             @endforeach
                         </div>
@@ -151,9 +151,27 @@
 
 @section('script')
     <script>
+        function removeImage(id, line_item_no, imgUrl) {
+            // alertSuccess(imgUrl);
+
+            $.ajax({
+                type: 'delete',
+                url: '/admin/products/removeImage',
+                data: {
+                    'id': id,
+                    'line_item_no': line_item_no,
+                    'image_url': imgUrl,
+                    '_token': '{{ csrf_token() }}'
+                },
+                success: function(msg) {
+                    alertSuccess(msg);
+                    $(`.img-box${line_item_no}`).remove();
+                }
+            });
+        }
 
         // remove old image
-        $(document).on('click', '.remove-image', function(){
+        $(document).on('click', '.remove-image', function() {
             const $this = $(this);
             const id = $this.attr('data-id');
             const line_item_no = $this.attr('data-line_item_no');
@@ -168,7 +186,7 @@
                     image_url,
                     _token: "{{ csrf_token() }}",
                 },
-                success: function(){
+                success: function() {
                     $this.parent('.img-box').remove();
                 }
             });

@@ -41,6 +41,9 @@ class Product extends Model
     /**
      * Get the user's first name.
      * Eloquent Accessors(get), mutators(set),
+     * getter (query/select/fetch data/retrieve data), setter (insert data)
+     * 
+     * CRUD
      */
     protected function createdBy(): Attribute
     {
@@ -83,7 +86,7 @@ class Product extends Model
      */
     public function getFirstImageAttribute()
     {
-        $images = $this->images;
+        $images = $this->images; // public function images() 2 images
 
         if (count($images) === 0)
             return asset('admin/img/No_Image_Available.jpg');
@@ -92,12 +95,13 @@ class Product extends Model
         return asset($image->image_url);
     }
 
+    // CategoryName (category_name)
     public function getCategoryNameAttribute()
     {
-        $category = optional($this->category);
+        $category = optional($this->category); // public function category()
 
         if ($category) {
-            return $category->name;
+            return "Category {$category->name}";
         }
 
         return null;

@@ -228,16 +228,22 @@ Session::flash('delete', 'Deleted user successfully.');
 ----------------- URL Generation ------------------
 url('/user/index') -> http://127.0.0.1:8000/user/index
 
-Fetch Data
+Fetch Data (R)
 1) Database
 2) Model
 3) Controller
 4) View
 
 
-Insert Data
+Insert Data (C)
 1) View 
 2) Controller
 3) Model
 4) Database
 
+Client Site/Frontend =(blade.php) -> [http request](web.php/route) -> (Controller@removeImage -> Model -> Database)=Server Site/Backend
+view(client, web browser, mobile)                                      
+html,css,bootstrap,JavaScript,jQuery,php                                  php,MySQL (C#,Java,Python,JavaScript,C++)
+user interface                                                            Laravel, .Net Core, Springboot, Django, Node.js, 
+
+JavaScript,

@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -78,9 +79,9 @@ class ProductController extends Controller
         $data = $request->all();
         $data['created_by'] = 'SYS';
         $data['price'] = $data['price'] - $data['discount'];
-        $data['description'] = isset($data['description']) 
-                            ? $data['description'] 
-                            : $data['name'];
+        $data['description'] = isset($data['description'])
+            ? $data['description']
+            : $data['name'];
 
         // set data
         $product = Product::create($data);
@@ -99,13 +100,19 @@ class ProductController extends Controller
 
     private function saveImages(array $images, $id)
     {
-        foreach ($images as $key => $img) {
+        // get the maximum line_item_no belongsTo product id
+        $maxLineNo = ProductImage::where('id', $id)->max('line_item_no');
+
+        foreach ($images as $img) {
+
+            $maxLineNo++;
+
             $path = $img->store('product', 'public');
 
             $prdImg = new ProductImage();
 
             $prdImg->id = $id;
-            $prdImg->line_item_no = $key + 1;   
+            $prdImg->line_item_no = $maxLineNo;
             $prdImg->image_url = 'storage/' . $path;
             $prdImg->save();
         }
@@ -120,11 +127,12 @@ class ProductController extends Controller
     public function edit(string $id)
     {
         // get data
-        $product = Product::with('images')->find($id);
+        $product = Product::with('category', 'images')->where('id', 3)->first();
         $categories = Category::get();
 
         // dd($product->images->toArray());
-        // dd($product->category->name);
+
+        // dd(DB::table('products')->where('id', 3)->toSql());
 
         return view('admin.product.edit', compact('product', 'categories'));
     }
@@ -165,7 +173,7 @@ class ProductController extends Controller
         $images = $request->images;
 
         if ($images) {
-            $this->saveImages($images, $product->id);
+            $this->saveImages($images, $id);
         }
 
         Session::flash('success', 'Updated successfully.');
@@ -195,15 +203,17 @@ class ProductController extends Controller
      */
     public function removeImage(Request $request)
     {
-        if ($request->image_url) {
-            unlink($request->image_url);
-        }
+        // dd($request->all());
 
-        ProductImage::where([
-            'id' => $request->id,
-            'line_item_no' => $request->line_item_no
-        ])->delete();
+        // if ($request->image_url) {
+        //     unlink($request->image_url);
+        // }
 
-        return response('Remove image successfully.');
+        // ProductImage::where([
+        //     'id' => $request->id,
+        //     'line_item_no' => $request->line_item_no
+        // ])->delete();
+
+        return response("Remove image {$request->line_item_no} successfully.");
     }
 }

@@ -28,17 +28,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
 
     $categories = Category::all();
-
-    // dd($categories);
-
     return view('web.home.index', compact('categories'));
 });
 
 Route::get('/shop', function () {
-
-    // $products = Product::with('images')->get();
-    // dd($products);
-
     $products = Product::with('images')
         ->get()
         ->map(function($p){
@@ -48,61 +41,6 @@ Route::get('/shop', function () {
             'image' => $p->first_image,
         ];
     });
-
-    // dd($products);
-
-    // $products = [
-    //     [
-    //         'name' => 'Crab Pool Security',
-    //         'price' => 30,
-    //         'image' => 'web/img/product/product-1.jpg',
-    //     ],
-    //     [
-    //         'name' => 'Crab Pool Security',
-    //         'price' => 40,
-    //         'image' => 'web/img/product/product-2.jpg',
-    //     ],
-    //     [
-    //         'name' => 'Crab Pool Security',
-    //         'price' => 50,
-    //         'image' => 'web/img/product/product-3.jpg',
-    //     ],
-    //     [
-    //         'name' => 'Crab Pool Security',
-    //         'price' => 60,
-    //         'image' => 'web/img/product/product-4.jpg',
-    //     ],
-    //     [
-    //         'name' => 'Crab Pool Security',
-    //         'price' => 70,
-    //         'image' => 'web/img/product/product-5.jpg',
-    //     ],
-    //     [
-    //         'name' => 'Crab Pool Security',
-    //         'price' => 80,
-    //         'image' => 'web/img/product/product-6.jpg',
-    //     ],
-    //     [
-    //         'name' => 'Crab Pool Security',
-    //         'price' => 90,
-    //         'image' => 'web/img/product/product-7.jpg',
-    //     ],
-    //     [
-    //         'name' => 'Crab Pool Security',
-    //         'price' => 100,
-    //         'image' => 'web/img/product/product-8.jpg',
-    //     ],
-    //     [
-    //         'name' => 'Crab Pool Security',
-    //         'price' => 110,
-    //         'image' => 'web/img/product/product-9.jpg',
-    //     ],
-    //     [
-    //         'name' => 'Crab Pool Security',
-    //         'price' => 120,
-    //         'image' => 'web/img/product/product-10.jpg',
-    //     ],
-    // ];
 
     $promotions = [
         [
