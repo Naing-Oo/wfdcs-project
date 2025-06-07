@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PHPLessioncontroller;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\PromotionController;
 use App\Http\Controllers\UserController;
 use App\Models\Category;
 use App\Models\Product;
@@ -179,6 +180,8 @@ Route::group(['prefix' => 'admin'], function(){
     // remove old image
     Route::delete('products/removeImage', [ProductController::class, 'removeImage'])->name('product.image.remove');
     Route::resource('products', ProductController::class);
+
+    Route::resource('promotions', PromotionController::class);
 
     // additional menus
 

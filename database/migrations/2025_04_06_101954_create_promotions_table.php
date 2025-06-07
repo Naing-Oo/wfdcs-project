@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('promotions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('category_id');
-            $table->string('name', 255);
+            $table->unsignedBigInteger('product_id');            
             $table->text('description')->nullable();
-            $table->double('price')->default(0);
             $table->double('discount')->default(0);
+            $table->double('price')->default(0);
+            $table->timestamp('effective_date')->nullable();
+            $table->timestamp('expired_date')->nullable();
+            $table->string('image_url', 255)->nullable();
             $table->string('created_by', 100)->nullable();
             $table->string('updated_by', 100)->nullable();
             $table->timestamps();

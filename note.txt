@@ -247,3 +247,12 @@ html,css,bootstrap,JavaScript,jQuery,php                                  php,My
 user interface                                                            Laravel, .Net Core, Springboot, Django, Node.js, 
 
 JavaScript,
+
+
+M -> model(Models/Promotion), migration(database/migrations/2025_04_06_101954_create_promotions_table.php), MySql -> table(promotions)
+V -> promotion/index.blade.php, promotion/create.blade.php, promotion/edit.blade.php
+C -> Admin/PromotionController@index(), create(), store(Request $request), show($id), edit($id), update(Request $request, $id), destroy($id)
+    terminal -> php artisan make:controller PromotionController -r
+
+Route -> routes/web.php -> Route::resource('promotions', PromotionController::class);
+   terminal -> php artisan r:l --name=promotions

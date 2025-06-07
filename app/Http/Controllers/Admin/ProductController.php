@@ -127,7 +127,7 @@ class ProductController extends Controller
     public function edit(string $id)
     {
         // get data
-        $product = Product::with('category', 'images')->where('id', 3)->first();
+        $product = Product::with('category', 'images')->where('id', $id)->first();
         $categories = Category::get();
 
         // dd($product->images->toArray());
@@ -205,14 +205,14 @@ class ProductController extends Controller
     {
         // dd($request->all());
 
-        // if ($request->image_url) {
-        //     unlink($request->image_url);
-        // }
+        if ($request->image_url) {
+            unlink($request->image_url);
+        }
 
-        // ProductImage::where([
-        //     'id' => $request->id,
-        //     'line_item_no' => $request->line_item_no
-        // ])->delete();
+        ProductImage::where([
+            'id' => $request->id,
+            'line_item_no' => $request->line_item_no
+        ])->delete();
 
         return response("Remove image {$request->line_item_no} successfully.");
     }
