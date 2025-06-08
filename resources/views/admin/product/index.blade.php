@@ -55,7 +55,6 @@
                                     <img src="{{ $pro->first_image }}" alt="" width="100">
 
                                     {{-- {!! $pro->first_image !!} --}}
-
                                 </td>
                                 <td>
                                     <img src="{{ asset($pro->category->image_url) }}" alt="" width="100">

@@ -56,15 +56,27 @@ class PromotionController extends Controller
         }
 
         $data = $request->all();
+        // $data['image_url'] = null;
+
+        // save image
+        if ($request->has('image')) {
+            $data['image_url'] = $this->saveImage($request->file('image'));
+        }
 
         // dd($data);
-        // $p = new Promotion(); // oop
 
         Promotion::create($data);
 
         Session::flash('success', 'Created successfully.');
 
         return redirect()->route('promotions.index');
+    }
+
+    private function saveImage($file)
+    {
+        $path = $file->store('promotion', 'public');
+
+        return 'storage/'.$path;
     }
 
     /**
@@ -80,7 +92,10 @@ class PromotionController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $promotion = Promotion::where('id', $id)->first();
+        $products = Product::get();
+
+        return view('admin.promotion.edit', compact('promotion','products'));
     }
 
     /**

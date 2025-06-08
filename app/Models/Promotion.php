@@ -25,4 +25,13 @@ class Promotion extends Model
     {
         return $this->belongsTo(Product::class, 'product_id');
     }
+
+    // image_full_url
+    public function getImageFullUrlAttribute()
+    {
+        if ($this->image_url) // true,false
+            return asset($this->image_url);
+        
+        return asset('admin/img/No_Image_Available.jpg');
+    }
 }

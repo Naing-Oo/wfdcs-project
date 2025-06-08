@@ -248,7 +248,7 @@ user interface                                                            Larave
 
 JavaScript,
 
-
+Laravel Framework MVC
 M -> model(Models/Promotion), migration(database/migrations/2025_04_06_101954_create_promotions_table.php), MySql -> table(promotions)
 V -> promotion/index.blade.php, promotion/create.blade.php, promotion/edit.blade.php
 C -> Admin/PromotionController@index(), create(), store(Request $request), show($id), edit($id), update(Request $request, $id), destroy($id)
@@ -256,3 +256,13 @@ C -> Admin/PromotionController@index(), create(), store(Request $request), show(
 
 Route -> routes/web.php -> Route::resource('promotions', PromotionController::class);
    terminal -> php artisan r:l --name=promotions
+
+
+Laravel Documation must learn
+Rounting
+Controllers 
+Blade Templates -> View
+Validation
+Database 
+Eloquent ORM -> Model
+

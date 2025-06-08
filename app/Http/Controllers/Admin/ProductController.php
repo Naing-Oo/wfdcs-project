@@ -92,10 +92,6 @@ class ProductController extends Controller
         if ($images) {
             $this->saveImages($images, $product->id);
         }
-
-        Session::flash('success', 'Created successfully.');
-
-        return redirect()->route('products.index');
     }
 
     private function saveImages(array $images, $id)
@@ -167,7 +163,7 @@ class ProductController extends Controller
 
         $data = $request->all();
 
-        $product = Product::find($id)->update($data);
+        Product::find($id)->update($data);
 
         // manage image
         $images = $request->images;

@@ -87,7 +87,7 @@
 
                     <div class="col-12 col-md-4">
                         <div class="form-group">
-                            <label for="">Image</label>
+                            <label for="image">Image</label>
                             <input type="file" class="form-control" id="image" name="image">
                         </div>
                     </div>

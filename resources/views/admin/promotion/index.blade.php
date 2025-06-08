@@ -42,7 +42,7 @@
                             <tr>
                                 <td>{{ $i + 1 }}</td>
                                 <td>
-                                    <img src="{{ $pro->image_url }}" alt="" width="100">
+                                    <img src="{{ $pro->image_full_url }}" alt="img" width="100">
                                 </td>
                                 <td>
                                     {{ $pro->product->name }}

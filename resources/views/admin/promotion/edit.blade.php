@@ -1,43 +1,31 @@
 @extends('admin.layout.template')
 
-@section('title', 'Product')
+@section('title', 'Promotion')
 
 @section('content')
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Product</h1>
+    <h1 class="h3 mb-2 text-gray-800">Promotion</h1>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            Edit Product
+            Edit Promotion
         </div>
 
         <div class="card-body">
 
-            <form action="{{ route('products.update', $product->id) }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('promotions.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
-                @method('put')
 
                 <div class="row">
                     <div class="col-12 col-md-4">
                         <div class="form-group">
-                            <label for="code">Code</label>
-                            <input type="text" id="code" name="code" class="form-control"
-                                value="{{ old('code') ? old('code') : $product->code }}">
-
-                            @error('code')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <div class="form-group">
-                            <label for="category_id">Category</label>
-                            <select name="category_id" id="category_id" class="form-control">
+                            <label for="product_id">Product</label>
+                            <select name="product_id" id="product_id" class="form-control">
                                 <option value="">Select...</option>
-                                @foreach ($categories as $cat)
-                                    <option value="{{ $cat->id }}" @if ($cat->id == (old('category_id') ? old('category_id') : $product->category_id)) selected @endif>
-                                        {{ $cat->name }}
+                                @foreach ($products as $prod)
+                                    <option value="{{ $prod->id }}" @if (old('product_id') == $prod->id) selected @endif>
+                                        {{ $prod->name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -46,24 +34,22 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-8">
                         <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" id="name" name="name" class="form-control"
-                                value="{{ old('name') ? old('name') : $product->name }}">
-
-                            @error('name')
+                            <label for="description">Description</label>
+                            <input type="text" id="description" name="description" class="form-control"
+                                value="{{ old('description') }}">
+                            @error('description')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-3">
                         <div class="form-group">
-                            <label for="description">Description</label>
-                            <input type="text" id="description" name="description" class="form-control"
-                                value="{{ old('description') ? old('description') : $product->description }}">
-
-                            @error('description')
+                            <label for="discount">Discount(%)</label>
+                            <input type="number" id="discount" name="discount" class="form-control"
+                                value="{{ old('discount') }}">
+                            @error('discount')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
@@ -72,8 +58,7 @@
                         <div class="form-group">
                             <label for="price">Price</label>
                             <input type="number" id="price" name="price" class="form-control"
-                                value="{{ old('price') ? old('price') : $product->price }}">
-
+                                value="{{ old('price') }}">
                             @error('price')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -81,65 +66,36 @@
                     </div>
                     <div class="col-12 col-md-3">
                         <div class="form-group">
-                            <label for="discount">Discount</label>
-                            <input type="number" id="discount" name="discount" class="form-control"
-                                value="{{ old('discount') ? old('discount') : $product->discount }}">
-
-                            @error('discount')
+                            <label for="effective_date">Effective Date</label>
+                            <input type="date" id="effective_date" name="effective_date" class="form-control"
+                                value="{{ old('effective_date') }}">
+                            @error('effective_date')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
-                    <div class="col-12 col-md-2">
+                    <div class="col-12 col-md-3">
                         <div class="form-group">
-                            <label for="qty">Quantity</label>
-                            <input type="number" id="qty" name="qty" class="form-control"
-                                value="{{ old('qty') ? old('qty') : $product->qty }}">
-
-                            @error('qty')
+                            <label for="expired_date">Expired Date</label>
+                            <input type="date" id="expired_date" name="expired_date" class="form-control"
+                                value="{{ old('expired_date') }}">
+                            @error('expired_date')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
+
                     <div class="col-12 col-md-4">
                         <div class="form-group">
-                            <label for="">Images</label>
-                            <input type="file" class="form-control" id="image" name="images[]" multiple>
-                        </div>
-                    </div>
-
-                    {{-- old images --}}
-                    <div class="col-12 col-md-8">
-                        <div class="d-flex">
-                            @foreach ($product->images as $img)
-                                <div class="mx-2 text-center img-box{{ $img->line_item_no }}">
-
-                                    <img src="{{ asset($img->image_url) }}" alt="" width="100" height="100"
-                                        class="d-block mb-2">
-
-                                    {{-- fontawesome icon --}}
-                                    <i class="fas fa-times-circle text-danger" style="font-size: 25px;cursor:pointer;"
-                                        title="Remove Image"
-                                        onclick="removeImage({{ $img->id }}, {{ $img->line_item_no }}, '{{ $img->image_url }}')">
-                                    </i>
-
-                                    {{-- <i class="fas fa-times-circle text-danger remove-image" 
-                                        title="Remove" 
-                                        style="font-size: 25px; cursor: pointer;"
-                                        data-id="{{ $img->id }}"
-                                        data-line_item_no="{{ $img->line_item_no }}"
-                                        data-image="{{ $img->image_url }}"
-                                        >
-                                    </i> --}}
-                                </div>
-                            @endforeach
+                            <label for="image">Image</label>
+                            <input type="file" class="form-control" id="image" name="image">
                         </div>
                     </div>
 
                 </div>
 
                 <div class="text-center my-5">
-                    <a href="{{ route('products.index') }}" class="btn btn-outline-secondary px-5">Back</a>
+                    <a href="{{ route('promotions.index') }}" class="btn btn-outline-secondary px-5">Back</a>
                     <button type="submit" class="btn btn-outline-primary px-5">Save</button>
                 </div>
 
@@ -147,54 +103,4 @@
 
         </div>
     </div>
-@endsection
-
-@section('script')
-    <script>
-
-        // remove old image
-        // example 1
-        function removeImage(id, line_item_no, imgUrl) {
-            // alertSuccess(imgUrl);
-
-            $.ajax({
-                type: 'delete',
-                url: '/admin/products/removeImage',
-                data: {
-                    'id': id,
-                    'line_item_no': line_item_no,
-                    'image_url': imgUrl,
-                    '_token': '{{ csrf_token() }}'
-                },
-                success: function(msg) {
-                    alertSuccess(msg);
-                    $(`.img-box${line_item_no}`).remove();
-                }
-            });
-        }
-
-        // remove old image
-        // example 1
-        $(document).on('click', '.remove-image', function() {
-            const $this = $(this);
-            const id = $this.attr('data-id');
-            const line_item_no = $this.attr('data-line_item_no');
-            const image_url = $this.attr('data-image');
-
-            $.ajax({
-                type: 'DELETE',
-                url: "{{ route('product.image.remove') }}",
-                data: {
-                    id,
-                    line_item_no,
-                    image_url,
-                    _token: "{{ csrf_token() }}",
-                },
-                success: function() {
-                    $this.parent('.img-box').remove();
-                }
-            });
-
-        });
-    </script>
 @endsection
