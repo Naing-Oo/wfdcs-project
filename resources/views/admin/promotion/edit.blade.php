@@ -14,8 +14,13 @@
 
         <div class="card-body">
 
-            <form action="{{ route('promotions.store') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('promotions.update', $promotion->id) }}" method="post" enctype="multipart/form-data">
                 @csrf
+                @method('put')
+
+                @php
+                    $productId = old('product_id') ?? $promotion->product_id
+                @endphp
 
                 <div class="row">
                     <div class="col-12 col-md-4">
@@ -24,12 +29,12 @@
                             <select name="product_id" id="product_id" class="form-control">
                                 <option value="">Select...</option>
                                 @foreach ($products as $prod)
-                                    <option value="{{ $prod->id }}" @if (old('product_id') == $prod->id) selected @endif>
+                                    <option value="{{ $prod->id }}" @if ($prod->id == $productId) selected @endif>
                                         {{ $prod->name }}
                                     </option>
                                 @endforeach
                             </select>
-                            @error('category_id')
+                            @error('product_id')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
@@ -38,7 +43,7 @@
                         <div class="form-group">
                             <label for="description">Description</label>
                             <input type="text" id="description" name="description" class="form-control"
-                                value="{{ old('description') }}">
+                                value="{{ old('description') ?? $promotion->description }}">
                             @error('description')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -48,7 +53,7 @@
                         <div class="form-group">
                             <label for="discount">Discount(%)</label>
                             <input type="number" id="discount" name="discount" class="form-control"
-                                value="{{ old('discount') }}">
+                                value="{{ old('discount') ?? $promotion->discount }}">
                             @error('discount')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -58,7 +63,7 @@
                         <div class="form-group">
                             <label for="price">Price</label>
                             <input type="number" id="price" name="price" class="form-control"
-                                value="{{ old('price') }}">
+                                value="{{ old('price') ?? $promotion->price }}">
                             @error('price')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -68,7 +73,7 @@
                         <div class="form-group">
                             <label for="effective_date">Effective Date</label>
                             <input type="date" id="effective_date" name="effective_date" class="form-control"
-                                value="{{ old('effective_date') }}">
+                                value="{{ old('effective_date') ?? $promotion->formated_effective_date }}">
                             @error('effective_date')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -78,7 +83,7 @@
                         <div class="form-group">
                             <label for="expired_date">Expired Date</label>
                             <input type="date" id="expired_date" name="expired_date" class="form-control"
-                                value="{{ old('expired_date') }}">
+                                value="{{ old('expired_date') ?? $promotion->formated_expired_date }}">
                             @error('expired_date')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -91,6 +96,20 @@
                             <input type="file" class="form-control" id="image" name="image">
                         </div>
                     </div>
+
+                    <div class="col-12 col-md-8">
+
+                        @if ($promotion->image_url)
+                            <img src="{{ asset($promotion->image_url) }}" alt="" width="100" height="100" class="img-thumbnail">
+
+                            {{-- fontawesome icon --}}
+                            <i class="fas fa-times-circle text-danger" style="font-size: 25px;cursor:pointer;"
+                                title="Remove Image" onclick="removeImage('{{ $promotion->image_url }}')">
+                            </i>
+                        @endif
+                        
+                    </div>
+
 
                 </div>
 

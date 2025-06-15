@@ -11,6 +11,7 @@ class LoginController extends Controller
     {
         // dd($request->all());
 
+        // true, false
         $isCheck = Auth::attempt(['email' => $request->email, 'password' => $request->password]);
 
         // dd($isCheck);

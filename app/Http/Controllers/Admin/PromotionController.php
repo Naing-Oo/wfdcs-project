@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PromotionRequest;
 use App\Models\Product;
 use App\Models\Promotion;
 use Illuminate\Http\Request;
@@ -95,15 +96,41 @@ class PromotionController extends Controller
         $promotion = Promotion::where('id', $id)->first();
         $products = Product::get();
 
+        // dd($promotion);
+
         return view('admin.promotion.edit', compact('promotion','products'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PromotionRequest $request, string $id)
     {
-        //
+        // dd($request->all());
+        $data = $request->except('_token', '_method', 'image');
+
+        // dd($data, $id);
+        $promotion = Promotion::where('id', $id)->first();
+
+        if (!$promotion) {
+            Session::flash('error', 'Promotion not found');
+            return redirect()->back();
+        }
+
+        if ($request->has('image')) {
+
+            if($promotion->image_url) {
+                unlink($promotion->image_url);
+            }
+
+            $data['image_url'] = $this->saveImage($request->file('image'));
+        }
+
+        $promotion->update($data);
+
+        Session::flash('success', 'Updated successfully.');
+
+        return redirect()->route('promotions.index');
     }
 
     /**

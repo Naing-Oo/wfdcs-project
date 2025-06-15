@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Promotion extends Model
@@ -31,7 +32,17 @@ class Promotion extends Model
     {
         if ($this->image_url) // true,false
             return asset($this->image_url);
-        
+
         return asset('admin/img/No_Image_Available.jpg');
+    }
+
+    public function getFormatedEffectiveDateAttribute()
+    {
+        return Carbon::parse($this->effective_date)->format('Y-m-d');
+    }
+
+    public function getFormatedExpiredDateAttribute()
+    {
+        return Carbon::parse($this->expired_date)->format('Y-m-d');
     }
 }

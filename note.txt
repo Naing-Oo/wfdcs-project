@@ -266,3 +266,7 @@ Validation
 Database 
 Eloquent ORM -> Model
 
+
+Create Validation Request
+terminal -> php artisan make:request PromotionRequest
+

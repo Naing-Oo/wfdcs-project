@@ -50,8 +50,8 @@
                                 <td>{{ $pro->description }}</td>
                                 <td>{{ $pro->discount }}</td>
                                 <td>{{ $pro->price }}</td>
-                                <td>{{ $pro->effective_date }}</td>
-                                <td>{{ $pro->expired_date }}</td>
+                                <td>{{ Carbon\Carbon::parse($pro->effective_date)->format('d/m/Y') }}</td>
+                                <td>{{ Carbon\Carbon::parse($pro->expired_date)->format('d/m/Y') }}</td>
                                 <td>
                                     <a href="{{ route('promotions.edit', $pro->id) }}" class="btn btn-primary">Edit
                                     </a>

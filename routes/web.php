@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PHPLessioncontroller;
@@ -8,6 +9,7 @@ use App\Http\Controllers\Admin\PromotionController;
 use App\Http\Controllers\UserController;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Promotion;
 use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -43,57 +45,21 @@ Route::get('/shop', function () {
         ];
     });
 
-    $promotions = [
-        [
-            'category' => 'Dried Fruit',
-            'name' => 'Raisin’n’nuts',
-            'price' => 36,
-            'discount' => 20,
-            'image' => 'web/img/product/discount/pd-1.jpg',
-        ],
-        [
-            'category' => 'Vegetables',
-            'name' => 'Vegetables’package',
-            'price' => 36,
-            'discount' => 20,
-            'image' => 'web/img/product/discount/pd-2.jpg',
-        ],
-        [
-            'category' => 'Dried Fruit',
-            'name' => 'Mixed Fruitss',
-            'price' => 36,
-            'discount' => 20,
-            'image' => 'web/img/product/discount/pd-3.jpg',
-        ],
-        [
-            'category' => 'Dried Fruit',
-            'name' => 'Raisin’n’nuts',
-            'price' => 36,
-            'discount' => 20,
-            'image' => 'web/img/product/discount/pd-4.jpg',
-        ],
-        [
-            'category' => 'Dried Fruit',
-            'name' => 'Raisin’n’nuts',
-            'price' => 36,
-            'discount' => 20,
-            'image' => 'web/img/product/discount/pd-5.jpg',
-        ],
-        [
-            'category' => 'Dried Fruit',
-            'name' => 'Raisin’n’nuts',
-            'price' => 36,
-            'discount' => 20,
-            'image' => 'web/img/product/discount/pd-6.jpg',
-        ],
-    ];
+    $promotions = Promotion::with('product')
+        ->get()
+        ->map(fn($p) => [
+            'category' => $p->product->category->name,
+            'name' => $p->description,
+            'price' => $p->price,
+            'discount' => $p->discount,
+            'image' => asset($p->image_url),
+        ]);
 
     return view('web.shop.index', [
         'products' => $products,
         'promotions' => $promotions
     ]);
 });
-
 
 Route::get('/blog', function () {
 
@@ -164,8 +130,10 @@ Route::get('/contact', function () {
 Route::group(['prefix' => 'admin'], function(){
 
     Route::get('/login', function () {
-        return view('admin.login');
+        return view('admin.auth.login');
     });
+    Route::post('/login', [AuthController::class, 'login'])->name('admin.login');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
