@@ -9,18 +9,8 @@ class LoginController extends Controller
 {
     public function login(Request $request)
     {
-        // dd($request->all());
-
-        // true, false
         $isCheck = Auth::attempt(['email' => $request->email, 'password' => $request->password]);
-
-        // dd($isCheck);
-
-        Auth::check();
-
         if ($isCheck) return redirect('/');
-
-        // return view('auth.login');
     }
 
     public function logout()

@@ -25,11 +25,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
 /**
  * web / buyer
  */
 Route::get('/', function () {
-
     $categories = Category::all();
     return view('web.home.index', compact('categories'));
 });
@@ -37,13 +38,13 @@ Route::get('/', function () {
 Route::get('/shop', function () {
     $products = Product::with('images')
         ->get()
-        ->map(function($p){
-        return [
-            'name' => $p->name,
-            'price' => $p->price,
-            'image' => $p->first_image,
-        ];
-    });
+        ->map(function ($p) {
+            return [
+                'name' => $p->name,
+                'price' => $p->price,
+                'image' => $p->first_image,
+            ];
+        });
 
     $promotions = Promotion::with('product')
         ->get()
@@ -124,59 +125,60 @@ Route::get('/contact', function () {
 });
 
 
+
+
 /**
  * seller / admin
  */
-Route::group(['prefix' => 'admin'], function(){
-
-    Route::get('/login', function () {
-        return view('admin.auth.login');
-    });
+Route::prefix('admin-panel')->group(function () {
+    
+    Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('admin.login');
     Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
+    Route::middleware('auth')->group(function () {
+
+        Route::get('/dashboard', function () {
+            return view('admin.dashboard');
+        });
+
+        Route::get('/company', function () {
+            return view('admin.company.index');
+        });
+
+        Route::resource('categories', CategoryController::class);
+
+        // remove old image
+        Route::delete('products/removeImage', [ProductController::class, 'removeImage'])->name('product.image.remove');
+        Route::resource('products', ProductController::class);
+
+        Route::delete('promotions/{id}/removeImage', [PromotionController::class, 'removeImage']);
+        Route::resource('promotions', PromotionController::class);
     });
-
-    Route::get('/company', function () {
-        return view('admin.company.index');
-    });
-
-    Route::resource('categories', CategoryController::class);
-
-    // remove old image
-    Route::delete('products/removeImage', [ProductController::class, 'removeImage'])->name('product.image.remove');
-    Route::resource('products', ProductController::class);
-
-    Route::resource('promotions', PromotionController::class);
-
-    // additional menus
-
 });
 
 
 
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-});
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// });
 
-Route::get('/product', function(){
-    return view('product.index');
-});
+// Route::get('/product', function(){
+//     return view('product.index');
+// });
 
-Route::get('/product/{id}', function(){
-    return view('product.details');
-});
+// Route::get('/product/{id}', function(){
+//     return view('product.details');
+// });
 
-Route::get('/login', function(){
-    return view('auth.login');
-})->name('login');
+// Route::get('/login', function(){
+//     return view('auth.login');
+// })->name('login');
 
-Route::post('/login/store', [LoginController::class, 'login'])->name('login.store');
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+// Route::post('/login/store', [LoginController::class, 'login'])->name('login.store');
+// Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
 // Route::middleware('test-middle')->group(function() {
@@ -184,27 +186,28 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 // });
 
 // Route::middleware('auth')->group(function(){
-    Route::get('user/index', [UserController::class, 'index'])->name('user.index');
-    Route::get('user/create', [UserController::class, 'create']);
-    Route::post('user/store', [UserController::class, 'store'])->name('user.store');
-    Route::get('user/show/{id}', [UserController::class, 'show']);
-    Route::get('user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
-    Route::put('user/update/{id}', [UserController::class, 'update'])->name('user.update');
-    Route::delete('user/destroy/{id}', [UserController::class, 'destroy'])->name('user.delete');
+//     Route::get('user/index', [UserController::class, 'index'])->name('user.index');
+//     Route::get('user/create', [UserController::class, 'create']);
+//     Route::post('user/store', [UserController::class, 'store'])->name('user.store');
+//     Route::get('user/show/{id}', [UserController::class, 'show']);
+//     Route::get('user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
+//     Route::put('user/update/{id}', [UserController::class, 'update'])->name('user.update');
+//     Route::delete('user/destroy/{id}', [UserController::class, 'destroy'])->name('user.delete');
 
-    // Route::resource('products', ProductController::class);
+//     Route::resource('products', ProductController::class);
 // });
 
 
 /**
  * PHP LESSION
  */
-Route::get('/variables', [PHPLessioncontroller::class, 'variables']);
-Route::get('/strings', [PHPLessioncontroller::class, 'strings']);
-Route::get('/operator', [PHPLessioncontroller::class, 'operator']);
-Route::get('/loops', [PHPLessioncontroller::class, 'loops']);
-Route::get('/functions', [PHPLessioncontroller::class, 'functions']);
-Route::get('/arrays', [PHPLessioncontroller::class, 'arrays']);
+// Route::get('/variables', [PHPLessioncontroller::class, 'variables']);
+// Route::get('/strings', [PHPLessioncontroller::class, 'strings']);
+// Route::get('/operator', [PHPLessioncontroller::class, 'operator']);
+// Route::get('/loops', [PHPLessioncontroller::class, 'loops']);
+// Route::get('/functions', [PHPLessioncontroller::class, 'functions']);
+// Route::get('/arrays', [PHPLessioncontroller::class, 'arrays']);
+
 
 Route::get('/clc', function () {
     Artisan::call('cache:clear');
@@ -220,4 +223,3 @@ Route::get('/clc', function () {
     session()->forget('key');
     return "Cleared!";
 });
-

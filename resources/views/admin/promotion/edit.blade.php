@@ -19,7 +19,7 @@
                 @method('put')
 
                 @php
-                    $productId = old('product_id') ?? $promotion->product_id
+                    $productId = old('product_id') ?? $promotion->product_id;
                 @endphp
 
                 <div class="row">
@@ -97,19 +97,19 @@
                         </div>
                     </div>
 
+                    {{-- image --}}
                     <div class="col-12 col-md-8">
-
                         @if ($promotion->image_url)
-                            <img src="{{ asset($promotion->image_url) }}" alt="" width="100" height="100" class="img-thumbnail">
-
-                            {{-- fontawesome icon --}}
-                            <i class="fas fa-times-circle text-danger" style="font-size: 25px;cursor:pointer;"
-                                title="Remove Image" onclick="removeImage('{{ $promotion->image_url }}')">
-                            </i>
+                            <div id="displayImage">
+                                <img src="{{ asset($promotion->image_url) }}" alt="" width="100" height="100"
+                                    class="img-thumbnail">
+    
+                                <i class="fas fa-times-circle text-danger" style="font-size: 25px;cursor:pointer;"
+                                    title="Remove Image" onclick="removeImage({{ $promotion->id }})">
+                                </i>
+                            </div>
                         @endif
-                        
                     </div>
-
 
                 </div>
 
@@ -119,7 +119,23 @@
                 </div>
 
             </form>
-
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script>
+        function removeImage(id) {
+            $.ajax({
+                type: 'delete',
+                url: `/admin/promotions/${id}/removeImage`, 
+                data: {
+                    '_token': '{{ csrf_token() }}'
+                },
+                success: function(res) {
+                    $('#displayImage').empty();
+                }
+            })
+        }
+    </script>
 @endsection

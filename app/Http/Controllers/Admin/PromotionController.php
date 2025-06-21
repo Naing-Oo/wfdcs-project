@@ -7,6 +7,7 @@ use App\Http\Requests\PromotionRequest;
 use App\Models\Product;
 use App\Models\Promotion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,8 +19,6 @@ class PromotionController extends Controller
     public function index()
     {
         $promotions = Promotion::with('product')->get();
-
-        // dd($promotions);
 
         return view('admin.promotion.index', compact('promotions'));
     }
@@ -77,15 +76,7 @@ class PromotionController extends Controller
     {
         $path = $file->store('promotion', 'public');
 
-        return 'storage/'.$path;
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        return 'storage/' . $path;
     }
 
     /**
@@ -96,9 +87,7 @@ class PromotionController extends Controller
         $promotion = Promotion::where('id', $id)->first();
         $products = Product::get();
 
-        // dd($promotion);
-
-        return view('admin.promotion.edit', compact('promotion','products'));
+        return view('admin.promotion.edit', compact('promotion', 'products'));
     }
 
     /**
@@ -106,10 +95,8 @@ class PromotionController extends Controller
      */
     public function update(PromotionRequest $request, string $id)
     {
-        // dd($request->all());
         $data = $request->except('_token', '_method', 'image');
 
-        // dd($data, $id);
         $promotion = Promotion::where('id', $id)->first();
 
         if (!$promotion) {
@@ -119,8 +106,11 @@ class PromotionController extends Controller
 
         if ($request->has('image')) {
 
-            if($promotion->image_url) {
-                unlink($promotion->image_url);
+            if ($promotion->image_url) {
+
+                if (File::exists($promotion->image_url)) {
+                    unlink($promotion->image_url);
+                } // true/false
             }
 
             $data['image_url'] = $this->saveImage($request->file('image'));
@@ -139,5 +129,18 @@ class PromotionController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function removeImage($id)
+    {
+        $pro = Promotion::find($id);
+
+        if ($pro) {
+            unlink($pro->image_url);
+            $pro->image_url = null;
+            $pro->save();
+        }
+
+        return response('success');
     }
 }
