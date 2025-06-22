@@ -18,7 +18,6 @@
         <div class="container">
             <div class="row">
                 <div class="categories__slider owl-carousel">
-
                     @foreach ($categories as $category)
                         <div class="col-lg-3">
                             <div class="categories__item set-bg" 

@@ -1,6 +1,6 @@
 <div class="product__discount">
     <div class="section-title product__discount__title">
-        <h2>Sale Off</h2>
+        <h2>Promotions</h2>
     </div>
     <div class="row">
         <div class="product__discount__slider owl-carousel">
@@ -22,7 +22,9 @@
                             <span>{{ $promotion['category'] }}</span>
                             <h5><a href="#">{{ $promotion['name'] }}</a></h5>
                             <div class="product__item__price">
-                                {{ $promotion['price'] }}<span>{{ $promotion['price'] }}</span> THB
+                                {{ $promotion['discount_amt'] }}
+                                <span>{{ $promotion['price'] }}</span> 
+                                THB
                             </div>
                         </div>
                     </div>

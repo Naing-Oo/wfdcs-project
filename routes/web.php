@@ -40,6 +40,7 @@ Route::get('/shop', function () {
         ->get()
         ->map(function ($p) {
             return [
+                'id' => $p->id,
                 'name' => $p->name,
                 'price' => $p->price,
                 'image' => $p->first_image,
@@ -49,9 +50,11 @@ Route::get('/shop', function () {
     $promotions = Promotion::with('product')
         ->get()
         ->map(fn($p) => [
+            'id' => $p->id,
             'category' => $p->product->category->name,
             'name' => $p->description,
-            'price' => $p->price,
+            'price' => number_format($p->price, 2),
+            'discount_amt' => number_format($p->price - (($p->price * $p->discount) / 100), 2),
             'discount' => $p->discount,
             'image' => asset($p->image_url),
         ]);
@@ -61,6 +64,16 @@ Route::get('/shop', function () {
         'promotions' => $promotions
     ]);
 });
+
+Route::get('/shop/{id}/details', function ($id) {
+
+    $product = Product::find($id);
+
+    if (!$product)
+        return "Not found";
+
+    return view('web.shop.details', compact('product'));
+})->name('product.details');
 
 Route::get('/blog', function () {
 
@@ -126,32 +139,37 @@ Route::get('/contact', function () {
 
 
 
-
 /**
  * seller / admin
  */
 Route::prefix('admin-panel')->group(function () {
-    
+
     Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('admin.login');
     Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
+    // widdleware
     Route::middleware('auth')->group(function () {
 
         Route::get('/dashboard', function () {
             return view('admin.dashboard');
-        });
+        })->name('admin.dashboard');
 
         Route::get('/company', function () {
             return view('admin.company.index');
         });
 
+
+
+        // category
         Route::resource('categories', CategoryController::class);
 
+        // product
         // remove old image
         Route::delete('products/removeImage', [ProductController::class, 'removeImage'])->name('product.image.remove');
         Route::resource('products', ProductController::class);
 
+        // promotion
         Route::delete('promotions/{id}/removeImage', [PromotionController::class, 'removeImage']);
         Route::resource('promotions', PromotionController::class);
     });
