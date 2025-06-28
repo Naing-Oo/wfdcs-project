@@ -10,9 +10,16 @@ use App\Http\Controllers\UserController;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Promotion;
-use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\Web\{
+    HomeController,
+    ShopController,
+    BlogController,
+    ContactController,
+};
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,154 +33,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-
 /**
  * web / buyer
  */
-Route::get('/', function () {
-    $categories = Category::all();
-    return view('web.home.index', compact('categories'));
-});
+Route::get('/', [HomeController::class, 'index']);
+Route::get('/shop', [ShopController::class, 'index']);
+Route::get('/shop/{id}/show', [ShopController::class, 'show'])->name('shop.show');
+Route::get('/blog', [BlogController::class, 'index']);
+Route::get('/contact', [ContactController::class, 'index']);
 
-Route::get('/shop', function () {
-    $products = Product::with('images')
-        ->get()
-        ->map(function ($p) {
-            return [
-                'id' => $p->id,
-                'name' => $p->name,
-                'price' => $p->price,
-                'image' => $p->first_image,
-            ];
-        });
-
-    $promotions = Promotion::with('product')
-        ->get()
-        ->map(fn($p) => [
-            'id' => $p->id,
-            'category' => $p->product->category->name,
-            'name' => $p->description,
-            'price' => number_format($p->price, 2),
-            'discount_amt' => number_format($p->price - (($p->price * $p->discount) / 100), 2),
-            'discount' => $p->discount,
-            'image' => asset($p->image_url),
-        ]);
-
-    return view('web.shop.index', [
-        'products' => $products,
-        'promotions' => $promotions
-    ]);
-});
-
-Route::get('/shop/{id}/details', function ($id) {
-
-    $product = Product::find($id);
-
-    if (!$product)
-        return "Not found";
-
-    return view('web.shop.details', compact('product'));
-})->name('product.details');
-
-Route::get('/blog', function () {
-
-    $blogs = [
-        [
-            'image' => 'web/img/blog/blog-1.jpg',
-            'date' => now(),
-            'comments' => 10,
-            'title' => '6 ways to prepare breakfast for 30',
-            'description' => 'Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam
-                            quaerat',
-        ],
-        [
-            'image' => 'web/img/blog/blog-2.jpg',
-            'date' => now(),
-            'comments' => 10,
-            'title' => 'Visit the clean farm in the US',
-            'description' => 'Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam
-                            quaerat',
-        ],
-        [
-            'image' => 'web/img/blog/blog-3.jpg',
-            'date' => now(),
-            'comments' => 10,
-            'title' => 'Cooking tips make cooking simple',
-            'description' => 'Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam
-                            quaerat',
-        ],
-        [
-            'image' => 'web/img/blog/blog-4.jpg',
-            'date' => now(),
-            'comments' => 10,
-            'title' => 'Cooking tips make cooking simple',
-            'description' => 'Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam
-                            quaerat',
-        ],
-        [
-            'image' => 'web/img/blog/blog-5.jpg',
-            'date' => now(),
-            'comments' => 10,
-            'title' => 'The Moment You Need To Remove Garlic From The Menu',
-            'description' => 'Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam
-                            quaerat',
-        ],
-        [
-            'image' => 'web/img/blog/blog-6.jpg',
-            'date' => now(),
-            'comments' => 10,
-            'title' => 'Cooking tips make cooking simple',
-            'description' => 'Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam
-                            quaerat',
-        ],
-    ];
-
-    return view('web.blog.index', [
-        'blogs' => $blogs
-    ]);
-});
-
-Route::get('/contact', function () {
-    return view('web.contact.index');
-});
-
-
-
-/**
- * seller / admin
- */
-Route::prefix('admin-panel')->group(function () {
-
-    Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [AuthController::class, 'login'])->name('admin.login');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
-
-    // widdleware
-    Route::middleware('auth')->group(function () {
-
-        Route::get('/dashboard', function () {
-            return view('admin.dashboard');
-        })->name('admin.dashboard');
-
-        Route::get('/company', function () {
-            return view('admin.company.index');
-        });
-
-
-
-        // category
-        Route::resource('categories', CategoryController::class);
-
-        // product
-        // remove old image
-        Route::delete('products/removeImage', [ProductController::class, 'removeImage'])->name('product.image.remove');
-        Route::resource('products', ProductController::class);
-
-        // promotion
-        Route::delete('promotions/{id}/removeImage', [PromotionController::class, 'removeImage']);
-        Route::resource('promotions', PromotionController::class);
-    });
-});
 
 
 
