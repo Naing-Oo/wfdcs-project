@@ -54,4 +54,10 @@ class ShopController extends Controller
 
         return view('web.shop.details', compact('product'));
     }
+
+    // add to card
+    public function update(Request $request, $id)
+    {
+        dd($id, $request->qty);
+    }
 }

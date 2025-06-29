@@ -26,6 +26,15 @@
         .hero__item {
             display: none;
         }
+        .disabled {
+            pointer-events: none;
+            cursor: no-drop;
+            opacity: 0.6;
+        }
+        .btn-success {
+            background-color: #7fad39 !important;
+            border: none;
+        }
     </style>
 
     @yield('style')

@@ -44,15 +44,38 @@
                         </div>
                         <div class="product__details__price">{{ number_format($product->price, 2) }} THB</div>
                         <p>{{ $product->description }}</p>
-                        <div class="product__details__quantity">
-                            <div class="quantity">
-                                <div class="pro-qty">
-                                    <input type="text" value="1">
+
+                        <div class="d-flex flex-wrap justify-content-start align-items-center">
+                            <div>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <button id="btnDecrease" class="btn-outline-secondary border-0 py-2 px-2" disabled>
+                                            <i class="fa fa-minus-circle" aria-hidden="true" style="font-size: 28px;"></i>
+                                        </button>
+                                    </div>
+                                    <input type="text" id="qty" class="border-0 text-center" value="1"
+                                        style="font-size: 18px;width:60px;">
+                                    <div class="input-group-prepend">
+                                        <button id="btnIncrease"
+                                            class="btn-outline-secondary border-0 py-2 px-2" @if ($product->qty <= 0) disabled @endif>
+                                            <i class="fa fa-plus-circle" aria-hidden="true" style="font-size: 28px;"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
+
+                            <div>
+                                <a href="{{ route('shop.update', $product->id) }}" id="btnAddToCard"
+                                    class="btn-success py-2 mx-3 px-5 @if ($product->qty <= 0) disabled @endif">
+                                    ADD TO CART
+                                </a>
+
+                                <a href="#" class="btn-dark border-0 py-2 px-3"><span
+                                        class="icon_heart_alt"></span></a>
+                            </div>
                         </div>
-                        <a href="#" class="primary-btn">ADD TO CARD</a>
-                        <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+
+
                         <ul>
                             <li><b>Availability</b>
                                 @if ($product->qty > 0)
@@ -89,4 +112,53 @@
     <!-- Related Product Section Begin -->
     {{-- @include('web.shop.related') --}}
     <!-- Related Product Section End -->
+@endsection
+
+@section('script')
+    <script>
+        const proQty = parseFloat("{{ $product->qty }}") || 0;
+        var qty = 1;
+
+        $(document).on('click', '#btnDecrease, #btnIncrease', function() {
+            const button = $(this);
+            const isIncrease = button.attr('id') === 'btnIncrease';
+
+            const input = $('input#qty');
+            qty = parseFloat(input.val()) || 0;
+
+            qty += isIncrease ? 1 : -1;
+
+            if (qty <= 1) {
+                button.prop('disabled', true);
+            } else {
+                $('#btnDecrease').prop('disabled', false);
+            }
+
+            if (qty === proQty || proQty <= 0) {
+                button.prop('disabled', true);
+            } else {
+                $('#btnIncrease').prop('disabled', false);
+            }
+
+            input.val(qty);
+        });
+
+        $(document).on('click', '#btnAddToCard', function(e) {
+            e.preventDefault();
+            const url = $(this).attr('href');
+
+            $.ajax({
+                type: 'post',
+                url: url,
+                data: {
+                    qty,
+                    '_token': '{{ csrf_token() }}'
+                },
+                success: function() {
+                    // 
+                }
+            })
+
+        });
+    </script>
 @endsection
