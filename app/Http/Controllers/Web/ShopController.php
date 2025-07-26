@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Promotion;
+use App\Models\MyCart;
+
 
 class ShopController extends Controller
 {
@@ -21,8 +23,6 @@ class ShopController extends Controller
                     'image' => $p->first_image,
                 ];
             });
-
-       
         
         $promotions = Promotion::with('product')
             ->get()
@@ -58,6 +58,24 @@ class ShopController extends Controller
     // add to card
     public function update(Request $request, $id)
     {
-        dd($id, $request->qty);
+        // dd($id, $request->qty);
+
+        $product = Product::find($id);
+
+        // dd($product);
+
+        $cart = [
+            'user_id' => auth()->user()->id,
+            'product_id' => $product->id,
+            'qty' => $request->qty,
+            'price' => $product->price,
+        ];
+
+        // dd($cart);
+
+        $mycart = MyCart::create($cart);
+
+        return response()->json($mycart);
+        
     }
 }

@@ -37,9 +37,13 @@ use App\Http\Controllers\Web\{
  * web / buyer
  */
 Route::get('/', [HomeController::class, 'index']);
-Route::get('/shop', [ShopController::class, 'index']);
-Route::get('/shop/{id}/show', [ShopController::class, 'show'])->name('shop.show');
-Route::post('/shop/{id}/update', [ShopController::class, 'update'])->name('shop.update');
+
+Route::prefix('shop')->group(function(){
+    Route::get('/', [ShopController::class, 'index']);
+    Route::get('/{id}/show', [ShopController::class, 'show'])->name('shop.show');
+    Route::post('/{id}/update', [ShopController::class, 'update'])->name('shop.update');
+});
+
 Route::get('/blog', [BlogController::class, 'index']);
 Route::get('/contact', [ContactController::class, 'index']);
 
