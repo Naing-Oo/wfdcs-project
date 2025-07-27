@@ -42,6 +42,7 @@ Route::prefix('shop')->group(function(){
     Route::get('/', [ShopController::class, 'index']);
     Route::get('/{id}/show', [ShopController::class, 'show'])->name('shop.show');
     Route::post('/{id}/update', [ShopController::class, 'update'])->name('shop.update');
+    Route::get('/shopping-cart', [ShopController::class, 'shoppingCart'])->name('shop.shoppingCart');
 });
 
 Route::get('/blog', [BlogController::class, 'index']);

@@ -154,11 +154,11 @@
                     qty,
                     '_token': '{{ csrf_token() }}'
                 },
-                success: function() {
-                    // 
+                success: function(res) {
+                    $('.cart-qty').text(res.qty);
+                    $('.cart-amount').text(res.amount);
                 }
             })
-
         });
     </script>
 @endsection

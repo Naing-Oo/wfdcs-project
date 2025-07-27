@@ -15,4 +15,9 @@ class MyCart extends Model
         'is_cart',
         'is_active',
     ];
+
+    public function product()
+    {
+        return $this->hasOne(Product::class, 'id', 'product_id');
+    }
 }
