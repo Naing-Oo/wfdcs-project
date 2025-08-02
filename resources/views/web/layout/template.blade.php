@@ -26,11 +26,13 @@
         .hero__item {
             display: none;
         }
+
         .disabled {
             pointer-events: none;
             cursor: no-drop;
             opacity: 0.6;
         }
+
         .btn-success {
             background-color: #7fad39 !important;
             border: none;
@@ -74,6 +76,27 @@
     <script src="{{ asset('web/js/mixitup.min.js') }}"></script>
     <script src="{{ asset('web/js/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('web/js/main.js') }}"></script>
+    <script src="{{ asset('admin/vendor/sweetalert/sweetalert2.js') }}"></script>
+
+    <script>
+        function alertDeleted(msg) {
+            Swal.fire({
+                title: "Deleted!",
+                text: msg,
+                icon: "success"
+            });
+        }
+
+        function alertSuccess(msg) {
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: msg,
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+    </script>
 
     @yield('script')
 

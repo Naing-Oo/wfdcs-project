@@ -25,9 +25,9 @@
                             </thead>
                             <tbody>
                                 @foreach ($carts as $cart)
-                                    <tr>
+                                    <tr id="row{{ $cart['id'] }}">
                                         <td class="shoping__cart__item">
-                                            <img src="{{ $cart['image'] }}" alt="">
+                                            <img src="{{ $cart['image'] }}" alt="" width="100" height="100">
                                             <h5>{{ $cart['name'] }}</h5>
                                         </td>
                                         <td class="shoping__cart__price">
@@ -44,7 +44,9 @@
                                             {{ number_format($cart['total'], 2) }} THB
                                         </td>
                                         <td class="shoping__cart__item__close">
-                                            <span class="icon_close"></span>
+                                            <span class="icon_close" 
+                                                onclick="remove('{{ route('cart.remove', $cart['id']) }}')">
+                                            </span>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -90,5 +92,19 @@
 @endsection
 
 @section('script')
-    <script></script>
+    <script>
+        function remove(url) {
+
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: function(res) {
+                    alertSuccess(res.message);
+
+                    // remove tr
+                    $(`tr#row${res.id}`).remove();
+                },
+            });
+        }
+    </script>
 @endsection

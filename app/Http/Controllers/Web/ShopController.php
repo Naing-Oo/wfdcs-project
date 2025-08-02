@@ -87,6 +87,7 @@ class ShopController extends Controller
             ->where('user_id', 1)
             ->get()
             ->map(fn($c) => [
+                'id' => $c->id,
                 'name' => $c->product->name,
                 'image' => $c->product->first_image,
                 'price' => $c->price,
@@ -97,6 +98,13 @@ class ShopController extends Controller
         // dd($carts);
 
         return view('web.shop.shopping-cart', compact('carts'));
+    }
+
+    public function removeCart($id)
+    {
+        // MyCart::find($id)->delete();
+
+        return response()->json(['message' => 'Remove success', 'id' => $id]);
     }
 
     private function cartSummary()
