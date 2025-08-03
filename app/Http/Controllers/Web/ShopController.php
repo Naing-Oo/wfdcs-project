@@ -104,7 +104,28 @@ class ShopController extends Controller
     {
         // MyCart::find($id)->delete();
 
-        return response()->json(['message' => 'Remove success', 'id' => $id]);
+        $data = [
+            'message' => 'Remove success',
+            'id' => $id
+        ];
+
+        return response()->json($data);
+    }
+
+    public function updateCart(Request $request, $id)
+    {
+        // dd($id, $request->all());
+
+        MyCart::find($id)->update([
+            'qty' => $request->qty
+        ]);
+
+        $data = [
+            'message' => 'Update QTY success',
+            'id' => $id
+        ];
+
+        return response()->json($data);
     }
 
     private function cartSummary()

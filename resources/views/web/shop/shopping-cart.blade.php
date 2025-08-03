@@ -33,13 +33,16 @@
                                         <td class="shoping__cart__price">
                                             {{ number_format($cart['price'], 2) }} THB
                                         </td>
+                                        
+                                        {{-- qty --}}
                                         <td class="shoping__cart__quantity">
                                             <div class="quantity">
-                                                <div class="pro-qty">
+                                                <div class="pro-qty" data-id="{{ $cart['id'] }}">
                                                     <input type="text" value="{{ $cart['qty'] }}">
                                                 </div>
                                             </div>
                                         </td>
+
                                         <td class="shoping__cart__total">
                                             {{ number_format($cart['total'], 2) }} THB
                                         </td>
@@ -93,6 +96,35 @@
 
 @section('script')
     <script>
+
+        $(document).on('click', '.qtybtn', function(){
+            $event = $(this);
+            let qty = $event.siblings('input').val();
+            const id = $event.parents('.pro-qty').data('id');
+
+            console.log(qty, id);
+
+            update(id, qty);
+        });
+
+        function update(id, qty) {
+            $.ajax({
+                type: 'POST',
+                url: `/shop/shopping-cart/${id}/update`,
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'qty' : qty
+                },
+                success: function(res) {
+                    alertSuccess(res.message);
+                },
+                error: function(res) {
+                    console.log(res);
+                }
+            });
+        }
+
+
         function remove(url) {
 
             $.ajax({
