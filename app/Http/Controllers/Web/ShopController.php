@@ -95,9 +95,11 @@ class ShopController extends Controller
                 'total' => $c->qty * $c->price,
             ])->all();
 
-        // dd($carts);
+        $summary = $this->cartSummary();
 
-        return view('web.shop.shopping-cart', compact('carts'));
+        // dd($summary);
+
+        return view('web.shop.shopping-cart', compact('carts', 'summary'));
     }
 
     public function removeCart($id)
@@ -116,13 +118,23 @@ class ShopController extends Controller
     {
         // dd($id, $request->all());
 
-        MyCart::find($id)->update([
-            'qty' => $request->qty
-        ]);
+        $cart = MyCart::find($id);
+        
+        if ($cart) {
+            $cart->qty = $request->qty;
+            $cart->save();
+        }
+
+        // dd($cart);
+
+        $summary = $this->cartSummary();
 
         $data = [
+            'id' => $id,
+            'subtotal' => $cart->price * $cart->qty,
+            'amount' => $summary['amount'],
+            'delivery_fee' => $summary['delivery_fee'],
             'message' => 'Update QTY success',
-            'id' => $id
         ];
 
         return response()->json($data);
@@ -134,6 +146,7 @@ class ShopController extends Controller
 
         $totalQty = 0;
         $totalAmt = 0;
+        $delFee = 45;
 
         foreach ($carts as $cart) {
             $totalQty += $cart->qty;
@@ -142,7 +155,9 @@ class ShopController extends Controller
 
         return [
             'qty' => $totalQty,
-            'amount' => number_format($totalAmt, 2)
+            'amount' => $totalAmt,
+            'delivery_fee' => $delFee,
+            'total' => $totalAmt + $delFee
         ];
     }
 }

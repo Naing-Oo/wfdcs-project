@@ -96,6 +96,25 @@
                 timer: 1500
             });
         }
+
+        // format number with thousands separators and fixed decimal to 2 digit
+        function formatNumber(number) {
+            const zero = 0.00;
+            const value = number ? number.toFixed(2) : zero.toFixed(2) + '';
+            const list = value.split('.');
+            const prefix = list[0].charAt(0) === '-' ? '-' : '';
+            let num = prefix ? list[0].slice(1) : list[0];
+            let result = '';
+            while (num.length > 3) {
+                result = `,${num.slice(-3)}${result}`;
+                num = num.slice(0, num.length - 3);
+            }
+            if (num) {
+                result = num + result;
+            }
+            return `${prefix}${result}${list[1] ? `.${list[1]}` : ''}`;
+        };
+        
     </script>
 
     @yield('script')

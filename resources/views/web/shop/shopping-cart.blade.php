@@ -44,7 +44,8 @@
                                         </td>
 
                                         <td class="shoping__cart__total">
-                                            {{ number_format($cart['total'], 2) }} THB
+                                            <span id="total{{ $cart['id'] }}">{{ number_format($cart['total'], 2) }}</span>
+                                            THB
                                         </td>
                                         <td class="shoping__cart__item__close">
                                             <span class="icon_close" 
@@ -62,7 +63,9 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="shoping__cart__btns">
-                        <a href="#" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
+                        
+                        <a href="{{ url('shop') }}" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
+
                         <a href="#" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
                             Upadate Cart</a>
                     </div>
@@ -82,13 +85,36 @@
                     <div class="shoping__checkout">
                         <h5>Cart Total</h5>
                         <ul>
-                            <li>Subtotal <span>$454.98</span></li>
-                            <li>Total <span>$454.98</span></li>
+                            <li>Subtotal 
+                                <span>
+                                    <label id="subtotal">{{ number_format($summary['amount'], 2) }}</label>
+                                    THB
+                                </span>
+                            </li>
+                            <li>Discount 
+                                 <span>
+                                    <label id="discount">0.00</label>
+                                    THB
+                                </span>
+                            </li>
+                            <li>Delivery Fee 
+                                <span>
+                                    <label id="delivery-fee">{{ number_format($summary['delivery_fee'], 2) }}</label>
+                                    THB
+                                </span>
+                            </li>
+                            <li>Total 
+                                <span>
+                                    <label id="total">{{ number_format($summary['total'], 2) }} </label>
+                                    THB
+                                </span>
+                            </li>
                         </ul>
                         <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
     <!-- Shoping Cart Section End -->
@@ -101,9 +127,6 @@
             $event = $(this);
             let qty = $event.siblings('input').val();
             const id = $event.parents('.pro-qty').data('id');
-
-            console.log(qty, id);
-
             update(id, qty);
         });
 
@@ -116,7 +139,13 @@
                     'qty' : qty
                 },
                 success: function(res) {
-                    alertSuccess(res.message);
+                    // alertSuccess(res.message);
+
+                    $(`#total${res.id}`).text(formatNumber(res.subtotal));
+
+                    $('label#delivery-fee').text(formatNumber(res.delivery_fee));
+                    $('label#subtotal').text(formatNumber(res.amount));
+                    $('label#total').text(formatNumber(res.amount + res.delivery_fee));
                 },
                 error: function(res) {
                     console.log(res);
