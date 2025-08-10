@@ -142,10 +142,8 @@
                     // alertSuccess(res.message);
 
                     $(`#total${res.id}`).text(formatNumber(res.subtotal));
-
-                    $('label#delivery-fee').text(formatNumber(res.delivery_fee));
-                    $('label#subtotal').text(formatNumber(res.amount));
-                    $('label#total').text(formatNumber(res.amount + res.delivery_fee));
+                    
+                    cartSummary(res);
                 },
                 error: function(res) {
                     console.log(res);
@@ -153,9 +151,7 @@
             });
         }
 
-
         function remove(url) {
-
             $.ajax({
                 type: 'GET',
                 url: url,
@@ -164,8 +160,16 @@
 
                     // remove tr
                     $(`tr#row${res.id}`).remove();
+
+                    cartSummary(res);
                 },
             });
+        }
+
+        function cartSummary(res) {
+            $('label#delivery-fee').text(formatNumber(res.delivery_fee));
+            $('label#subtotal').text(formatNumber(res.amount));
+            $('label#total').text(formatNumber(res.amount + res.delivery_fee));
         }
     </script>
 @endsection

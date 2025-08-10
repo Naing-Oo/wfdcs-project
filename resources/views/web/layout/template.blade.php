@@ -67,6 +67,9 @@
     @include('web.layout.footer')
     <!-- Footer Section End -->
 
+    @include('web.auth.login')
+    {{-- @include('web.auth.register') --}}
+
     <!-- Js Plugins -->
     <script src="{{ asset('web/js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ asset('web/js/bootstrap.min.js') }}"></script>
@@ -79,6 +82,15 @@
     <script src="{{ asset('admin/vendor/sweetalert/sweetalert2.js') }}"></script>
 
     <script>
+        $(document).on('click', '#btnRegister', function() {
+            $('#loginModal').modal('hide');
+            $('#registerModal').modal('show');
+        });
+        $(document).on('click', '#btnLogin', function() {
+            $('#registerModal').modal('hide');
+            $('#loginModal').modal('show');
+        });
+
         function alertDeleted(msg) {
             Swal.fire({
                 title: "Deleted!",
@@ -114,7 +126,6 @@
             }
             return `${prefix}${result}${list[1] ? `.${list[1]}` : ''}`;
         };
-        
     </script>
 
     @yield('script')

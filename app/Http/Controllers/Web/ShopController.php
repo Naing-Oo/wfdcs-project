@@ -104,41 +104,47 @@ class ShopController extends Controller
 
     public function removeCart($id)
     {
-        // MyCart::find($id)->delete();
+        MyCart::find($id)->delete();
+
+        $res = $this->cartResponse('Removed');
 
         $data = [
-            'message' => 'Remove success',
-            'id' => $id
-        ];
+            'id' => $id,
+        ] + $res;
 
         return response()->json($data);
     }
 
     public function updateCart(Request $request, $id)
     {
-        // dd($id, $request->all());
-
         $cart = MyCart::find($id);
-        
+
         if ($cart) {
             $cart->qty = $request->qty;
             $cart->save();
         }
 
-        // dd($cart);
-
-        $summary = $this->cartSummary();
+        $res = $this->cartResponse('Updated');
 
         $data = [
             'id' => $id,
             'subtotal' => $cart->price * $cart->qty,
-            'amount' => $summary['amount'],
-            'delivery_fee' => $summary['delivery_fee'],
-            'message' => 'Update QTY success',
-        ];
+        ] + $res;
 
         return response()->json($data);
     }
+
+    private function cartResponse($action): array
+    {
+        $summary = $this->cartSummary();
+
+        return [
+            'amount' => $summary['amount'],
+            'delivery_fee' => $summary['delivery_fee'],
+            'message' => "{$action} success",
+        ];
+    }
+
 
     private function cartSummary()
     {
