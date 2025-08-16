@@ -10,6 +10,7 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $isCheck = Auth::attempt(['email' => $request->email, 'password' => $request->password]);
+
         if ($isCheck) return redirect('/');
     }
 
@@ -17,6 +18,6 @@ class LoginController extends Controller
     {
         Auth::logout();
 
-        return redirect()->route('login');
+        return redirect('/');
     }
 }

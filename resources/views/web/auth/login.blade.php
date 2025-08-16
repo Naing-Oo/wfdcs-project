@@ -13,7 +13,11 @@
                 </div>
             </div>
             <div class="modal-body pb-5 px-5">
+
                 <form id="frmWebLogin" action="{{ url('/auth/login') }}" class="was-validated" method="post">
+
+                    @csrf
+
                     <div class="form-group">
                         <label for="email">{{ __('file.Email') }}:</label>
                         <input type="email" class="form-control" id="email" placeholder="Enter username"
@@ -24,12 +28,19 @@
                         <input type="password" class="form-control" id="password" placeholder="Enter password"
                             name="password" required>
                     </div>
-                    <button type="button" class="btn btn-info w-100" onclick="webLogin()">{{ __('file.Login') }}</button>
+                    
+                    {{-- <button type="button" class="btn btn-info w-100"
+                        onclick="webLogin()">{{ __('file.Login') }}
+                    </button> --}}
+
+                    <button type="submit" class="btn btn-info w-100">Login</button>
                 </form>
+
                 <p class="mt-3 text-center"> {{ __('file.Do not have an account yet') }}
                     <a href="javascript:;" id="btnRegister">{{ __('file.Apply for new membership') }}</a>
                 </p>
                 <p class="mt-3 text-center">{{ __('file.Or log in with') }}</p>
+                
                 <a href="{{ url('/auth/google') }}" class="btn btn-light d-block">
                     <img src="{{ asset('web/img/Google_Icons-09-512.webp') }}" class="img-fluid" width="30"
                         height="30" alt="">

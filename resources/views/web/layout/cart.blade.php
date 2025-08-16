@@ -1,6 +1,11 @@
 @php
     use App\Models\MyCart;
-    $carts = MyCart::where('user_id', 1)->get();
+
+    $ischeck = auth()->check();
+
+    $userId = $ischeck ? auth()->user()->id : 0;
+    
+    $carts = MyCart::where('user_id', $userId)->get();
 
     $totalQty = 0;
     $totalAmt = 0;

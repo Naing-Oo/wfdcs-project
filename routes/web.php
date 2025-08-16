@@ -38,6 +38,11 @@ use App\Http\Controllers\Web\{
  */
 Route::get('/', [HomeController::class, 'index']);
 
+Route::prefix('auth')->group(function(){
+    Route::post('/login', [LoginController::class, 'login']);
+    Route::post('/logout', [LoginController::class, 'logout']);
+});
+
 Route::prefix('shop')->group(function(){
     Route::get('/', [ShopController::class, 'index']);
     Route::get('/{id}/show', [ShopController::class, 'show'])->name('shop.show');

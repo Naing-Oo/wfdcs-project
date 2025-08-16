@@ -58,7 +58,9 @@ class ShopController extends Controller
     // add to card
     public function update(Request $request, $id)
     {
-        $cart = MyCart::where('user_id', 1)->where('product_id', $id)->first();
+        $userId = auth()->user()->id;
+
+        $cart = MyCart::where('user_id', $userId)->where('product_id', $id)->first();
 
         if ($cart) {
             $cart->qty = $request->qty;
@@ -70,7 +72,7 @@ class ShopController extends Controller
         $product = Product::find($id);
 
         $cart = [
-            'user_id' => 1,
+            'user_id' => $userId,
             'product_id' => $product->id,
             'qty' => $request->qty,
             'price' => $product->price,
@@ -83,8 +85,10 @@ class ShopController extends Controller
 
     public function shoppingCart()
     {
+        $userId = auth()->user()->id;
+
         $carts = MyCart::with('product')
-            ->where('user_id', 1)
+            ->where('user_id', $userId)
             ->get()
             ->map(fn($c) => [
                 'id' => $c->id,
@@ -97,7 +101,7 @@ class ShopController extends Controller
 
         $summary = $this->cartSummary();
 
-        // dd($summary);
+        // dd($carts);
 
         return view('web.shop.shopping-cart', compact('carts', 'summary'));
     }
@@ -148,7 +152,9 @@ class ShopController extends Controller
 
     private function cartSummary()
     {
-        $carts = MyCart::where('user_id', 1)->get();
+        $userId = auth()->user()->id;
+
+        $carts = MyCart::where('user_id', $userId)->get();
 
         $totalQty = 0;
         $totalAmt = 0;

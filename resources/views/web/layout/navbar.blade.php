@@ -1,3 +1,10 @@
+@php
+    $ischeck = auth()->check();
+    $user = $ischeck ? auth()->user() : null;
+    $email = $user ? $user->email : '';
+    $name = $user ? $user->name : '';
+@endphp
+
 <header class="header">
     <div class="header__top">
         <div class="container">
@@ -5,7 +12,9 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="header__top__left">
                         <ul>
-                            <li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
+                            <li><i class="fa fa-envelope"></i>
+                                {{ $email }}
+                            </li>
                             <li>Free Shipping for all Order of $99</li>
                         </ul>
                     </div>
@@ -28,10 +37,19 @@
                             </ul>
                         </div>
                         <div class="header__top__right__auth">
-                            {{-- <a href="#"><i class="fa fa-user"></i> Login</a> --}}
-                            <a href="#loginModal" data-toggle="modal">
-                                <i class="fa fa-user"></i> {{ __('file.Login') }}
-                            </a>
+                            @if ($ischeck)
+                                <form id="frmLogout" action="{{ url('/auth/logout') }}" method="post">
+                                    @csrf
+                                </form>
+                                <a href="JavaScript:document.getElementById('frmLogout').submit()">
+                                    <i class="fa fa-power-off text-danger" aria-hidden="true"></i>
+                                    {{ __('file.Logout') }}
+                                </a>
+                            @else
+                                <a href="#loginModal" data-toggle="modal">
+                                    <i class="fa fa-user"></i> {{ __('file.Login') }}
+                                </a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -62,13 +80,13 @@
                                 <li><a href="./blog-details.html">Blog Details</a></li>
                             </ul>
                         </li>
-                        
+
                     </ul>
                 </nav>
             </div>
             <div class="col-lg-3">
                 <div class="header__cart">
-                   @include('web.layout.cart')
+                    @include('web.layout.cart')
                 </div>
             </div>
         </div>
