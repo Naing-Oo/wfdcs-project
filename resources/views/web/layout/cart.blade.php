@@ -19,8 +19,17 @@
  <ul>
      <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
      <li>
-        <a href="{{ route('shop.shoppingCart') }}"><i class="fa fa-shopping-bag"></i>
-            <span class="cart-qty">{{ $totalQty }}</span></a>
+        @if($ischeck)
+            <a href="{{ route('shop.shoppingCart') }}">
+                <i class="fa fa-shopping-bag"></i>
+                <span class="cart-qty">{{ $totalQty }}</span>
+            </a>
+        @else
+            <a href="#loginModal" data-toggle="modal">
+                <i class="fa fa-shopping-bag"></i>
+                <span class="cart-qty">0</span>
+            </a>
+        @endif
      </li>
  </ul>
  <div class="header__cart__price">

@@ -18,22 +18,34 @@
 
                     @csrf
 
+                    <input type="hidden" name="redirect" id="redirect" value="{{ URL::current() }}">
+
+                     <div class="form-group">
+                        <label for="email">{{ __('file.Name') }}:</label>
+                        <input type="text" class="form-control" id="name" placeholder="Enter username"
+                            name="name" required>
+                        <span class="text-danger invalid name"></span>
+                    </div>
+
                     <div class="form-group">
                         <label for="email">{{ __('file.Email') }}:</label>
                         <input type="email" class="form-control" id="email" placeholder="Enter username"
                             name="email" required>
+                        <span class="text-danger invalid email"></span>
                     </div>
                     <div class="form-group">
                         <label for="password">{{ __('file.Password') }}:</label>
                         <input type="password" class="form-control" id="password" placeholder="Enter password"
                             name="password" required>
+                        <span class="text-danger invalid password"></span>
                     </div>
                     
-                    {{-- <button type="button" class="btn btn-info w-100"
+                    <button type="button" class="btn btn-info w-100"
                         onclick="webLogin()">{{ __('file.Login') }}
-                    </button> --}}
+                    </button>
 
-                    <button type="submit" class="btn btn-info w-100">Login</button>
+                    {{-- <button type="submit" class="btn btn-info w-100">Login</button> --}}
+
                 </form>
 
                 <p class="mt-3 text-center"> {{ __('file.Do not have an account yet') }}

@@ -65,13 +65,21 @@
                             </div>
 
                             <div>
-                                <a href="{{ route('shop.update', $product->id) }}" id="btnAddToCard"
-                                    class="btn-success py-2 mx-3 px-5 @if ($product->qty <= 0) disabled @endif">
-                                    ADD TO CART
-                                </a>
+                                @if(auth()->check())
+                                    <a href="{{ route('shop.update', $product->id) }}" id="btnAddToCard"
+                                        class="btn-success py-2 mx-3 px-5 @if ($product->qty <= 0) disabled @endif">
+                                        ADD TO CART
+                                    </a>
+                                @else
+                                    <a href="#loginModal" data-toggle="modal"
+                                        class="btn-success py-2 mx-3 px-5 @if ($product->qty <= 0) disabled @endif">
+                                        ADD TO CART
+                                    </a>
+                                @endif
 
-                                <a href="#" class="btn-dark border-0 py-2 px-3"><span
-                                        class="icon_heart_alt"></span></a>
+                                <a href="#" class="btn-dark border-0 py-2 px-3">
+                                    <span class="icon_heart_alt"></span>
+                                </a>
                             </div>
                         </div>
 

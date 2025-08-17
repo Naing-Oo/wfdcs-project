@@ -82,6 +82,32 @@
     <script src="{{ asset('admin/vendor/sweetalert/sweetalert2.js') }}"></script>
 
     <script>
+        const success = "{{ session()->get('success') }}";
+        const error = "{{ session()->get('error') }}";
+
+        $(document).ready(() => {
+
+            if (success) {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: success,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+
+            if (error) {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "warning",
+                    title: error,
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            }
+        });
+
         $(document).on('click', '#btnRegister', function() {
             $('#loginModal').modal('hide');
             $('#registerModal').modal('show');
@@ -90,6 +116,72 @@
             $('#registerModal').modal('hide');
             $('#loginModal').modal('show');
         });
+
+
+        function webLogin() {
+
+            $from = $('#frmWebLogin');
+            const formData = new FormData($from[0]);
+            const routeName = $from.attr('action');
+
+            submitForm(routeName, formData);
+        }
+
+
+        // submit form
+        function submitForm(routeName, formData) {
+            $.ajax({
+                type: "POST",
+                url: routeName,
+                data: formData,
+                dataType: "json",
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    //    
+                },
+                error: function(res) {
+
+                    // console.log(res.responseJSON.errors);
+                    // console.log(res.responseJSON.message);
+
+                    alertError(res.responseJSON.message);
+
+                    $(`span.invalid`).text('');
+
+                    // ========== example 1
+                    // const errors = res.responseJSON.errors;
+                    // $(`span.invalid.email`).text(errors.email);
+                    // $(`span.invalid.password`).text(errors.password);
+
+                    // ========== example 2
+                    // const { email, password } = res.responseJSON.errors;
+                    // $(`span.invalid.email`).text(email);
+                    // $(`span.invalid.password`).text(password);
+
+                    // ========== example 3
+                    const errors = res.responseJSON.errors;
+
+                    for (const key in errors) {
+                        // console.log(key);
+                        $(`span.invalid.${key}`).text(errors[key]);
+                    }
+
+
+                }
+            });
+        }
+
+
+
+
+
+
+
+
+
+
+
 
         function alertDeleted(msg) {
             Swal.fire({
@@ -106,6 +198,16 @@
                 title: msg,
                 showConfirmButton: false,
                 timer: 1500
+            });
+        }
+
+        function alertError(msg) {
+            Swal.fire({
+                position: "top-end",
+                icon: "warning",
+                title: msg,
+                showConfirmButton: false,
+                timer: 3000
             });
         }
 
