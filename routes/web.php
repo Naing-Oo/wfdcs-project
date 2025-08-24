@@ -17,6 +17,7 @@ use App\Http\Controllers\Web\{
     HomeController,
     ShopController,
     BlogController,
+    CheckoutController,
     ContactController,
 };
 
@@ -51,6 +52,8 @@ Route::prefix('shop')->group(function(){
     Route::get('/shopping-cart/{id}/remove', [ShopController::class, 'removeCart'])->name('cart.remove');
     Route::post('/shopping-cart/{id}/update', [ShopController::class, 'updateCart']);
 });
+
+Route::resource('checkout', CheckoutController::class);
 
 Route::get('/blog', [BlogController::class, 'index']);
 Route::get('/contact', [ContactController::class, 'index']);

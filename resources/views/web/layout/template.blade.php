@@ -138,7 +138,10 @@
                 processData: false,
                 contentType: false,
                 success: function(res) {
-                    //    
+                    // console.log(res);
+                    
+                    alertSuccess(res.message);
+                    window.location.href = res.redirect;
                 },
                 error: function(res) {
 
@@ -166,6 +169,17 @@
                         // console.log(key);
                         $(`span.invalid.${key}`).text(errors[key]);
                     }
+
+
+                    // {
+                    //     "message": "The email field is required.",
+
+                    //     "errors": {
+                    //         "email": [
+                    //             "The email field is required."
+                    //         ]
+                    //     }
+                    // }
 
 
                 }

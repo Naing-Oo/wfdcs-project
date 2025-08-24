@@ -20,13 +20,6 @@
 
                     <input type="hidden" name="redirect" id="redirect" value="{{ URL::current() }}">
 
-                     <div class="form-group">
-                        <label for="email">{{ __('file.Name') }}:</label>
-                        <input type="text" class="form-control" id="name" placeholder="Enter username"
-                            name="name" required>
-                        <span class="text-danger invalid name"></span>
-                    </div>
-
                     <div class="form-group">
                         <label for="email">{{ __('file.Email') }}:</label>
                         <input type="email" class="form-control" id="email" placeholder="Enter username"
