@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\{
     AuthController,
     CategoryController,
+    OrderController,
     ProductController,
     PromotionController,
 };
@@ -25,7 +26,7 @@ use App\Http\Controllers\Admin\{
 /**
  * seller / admin
  */
-Route::prefix('admin-panel')->group(function () {
+Route::prefix('office')->group(function () {
 
     Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('admin.login');
@@ -53,5 +54,7 @@ Route::prefix('admin-panel')->group(function () {
         // promotion
         Route::delete('promotions/{id}/removeImage', [PromotionController::class, 'removeImage']);
         Route::resource('promotions', PromotionController::class);
+
+        Route::resource('orders', OrderController::class);
     });
 });

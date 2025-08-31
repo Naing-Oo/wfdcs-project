@@ -15,7 +15,6 @@ class AuthController extends Controller
         return view('admin.auth.login');
     }
 
-
     public function login(Request $request)
     {
         $isExistUser = User::where('email', $request->email)->exists();

@@ -60,7 +60,9 @@ class ShopController extends Controller
     {
         $userId = auth()->user()->id;
 
-        $cart = MyCart::where('user_id', $userId)->where('product_id', $id)->first();
+        $cart = MyCart::where('user_id', $userId)
+            ->where('order_id', 0)
+            ->where('product_id', $id)->first();
 
         if ($cart) {
             $cart->qty = $request->qty;
@@ -89,6 +91,7 @@ class ShopController extends Controller
 
         $carts = MyCart::with('product')
             ->where('user_id', $userId)
+            ->where('order_id', 0)
             ->get()
             ->map(fn($c) => [
                 'id' => $c->id,
@@ -154,7 +157,9 @@ class ShopController extends Controller
     {
         $userId = auth()->user()->id;
 
-        $carts = MyCart::where('user_id', $userId)->get();
+        $carts = MyCart::where('user_id', $userId)
+            ->where('order_id', 0)
+            ->get();
 
         $totalQty = 0;
         $totalAmt = 0;

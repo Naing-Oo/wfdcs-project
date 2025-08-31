@@ -6,17 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\MyCart;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class CheckoutController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -24,7 +17,17 @@ class CheckoutController extends Controller
     {
         $userId = auth()->user()->id;
 
-        $carts = MyCart::where('user_id', $userId)->get();
+        $carts = MyCart::where('user_id', $userId)
+            ->where('order_id', 0)
+            ->get();
+
+        if (count($carts) === 0) {
+
+            Session::flash('error', 'Invalid order item. Please shopping before checkout!');
+
+            return redirect(url('shop'));
+        }
+
         $totalAmt = 0;
         $delFee = 45;
 
@@ -33,7 +36,7 @@ class CheckoutController extends Controller
         }
 
         $data = [
-            'order_number' => 'ORD-250824001',
+            'order_number' => 'ORD-250824002',
             'user_id' => $userId,
             'address_id' => 1,
             'delivery_fee' => $delFee,
@@ -50,46 +53,13 @@ class CheckoutController extends Controller
             $order = Order::create($data);
         }
 
+        foreach ($carts as $cart) {
+            $cart->order_id = $order->id;
+            $cart->save();
+        }
+
         return view('web.checkout.index', compact('order'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+   
 }

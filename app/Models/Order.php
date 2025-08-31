@@ -21,4 +21,38 @@ class Order extends Model
         'slip',
         'is_active',
     ];
+
+    // get(field_name)Attribute = status_style
+    public function getStatusStyleAttribute()
+    {
+        $bg = '';
+
+        switch ($this->status_code) {
+            case 'paid':
+                $bg = 'primary';
+                break;
+            case 'shipping':
+                $bg = 'info';
+                break;
+            case 'shipped':
+                $bg = 'info';
+                break;
+            case 'received':
+                $bg = 'success';
+                break;
+            case 'cancel':
+                $bg = 'danger';
+                break;
+            default:
+                $bg = 'warning';
+                break;
+        }
+
+        return sprintf('<span class="badge bg-%s">%s</span>', $bg, ucfirst($this->status_code));
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

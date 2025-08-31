@@ -5,7 +5,9 @@
 
     $userId = $ischeck ? auth()->user()->id : 0;
     
-    $carts = MyCart::where('user_id', $userId)->get();
+    $carts = MyCart::where('user_id', $userId)
+        ->where('order_id', 0)
+        ->get();
 
     $totalQty = 0;
     $totalAmt = 0;
