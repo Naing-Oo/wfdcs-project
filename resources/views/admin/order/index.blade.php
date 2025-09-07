@@ -41,7 +41,11 @@
                         @foreach ($orders as $i => $order)
                             <tr>
                                 <td>{{ $i + 1 }}</td>
-                                <td>{{ $order['number'] }}</td>
+                                <td>
+                                    <a href="{{ $order['link'] }}" class="btn-show">
+                                        {{ $order['number'] }}
+                                    </a>
+                                </td>
                                 <td>
                                     <img src="{{ $order['slip'] }}" alt="" width="100">
                                 </td>
@@ -61,4 +65,51 @@
             </div>
         </div>
     </div>
+
+    @include('admin.order.modal')
+@endsection
+
+@section('script')
+    <script>
+        $(document).on('click', '.btn-show', function(e) {
+
+            e.preventDefault();
+
+            const url = $(this).attr('href');
+
+            $.get(url, function(res) {
+                // console.log(res);
+
+                for (const key in res) {
+                    // console.log(`key${key} - value${res[key]}`);
+
+                    if (key !== 'items') {
+                        $(`#${key}`).text(res[key]);
+                    }
+                }
+
+                // console.log(res.items);
+                const tbody = $('table#items tbody');
+
+                tbody.children().remove();
+
+                let rows = res.items.map(item => `
+                    <tr>
+                        <td>${item.number}</td>
+                        <td>${item.product}</td>
+                        <td class="text-right">${item.price}</td>
+                        <td class="text-right">${item.qty}</td>
+                        <td class="text-right">${item.total}</td>
+                    </tr>
+                `).join('');
+
+                // console.log(rows);
+
+                tbody.append(rows);
+
+                $('#orderDetails').modal('show');
+            });
+
+        });
+    </script>
 @endsection
