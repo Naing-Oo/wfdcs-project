@@ -70,19 +70,22 @@
                             Upadate Cart</a>
                     </div>
                 </div>
+                
                 <div class="col-lg-6">
-                    <div class="shoping__continue">
-                        <div class="shoping__discount">
-                            <h5>Discount Codes</h5>
+                    @include('web.shop.address')
+                </div>
+
+                <div class="col-lg-6">
+                     <div class="shoping__continue">
+                        <div class="shoping__discount mt-3">
+                            <h5 class="my-1">Discount Codes</h5>
                             <form action="#">
                                 <input type="text" placeholder="Enter your coupon code">
                                 <button type="submit" class="site-btn">APPLY COUPON</button>
                             </form>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="shoping__checkout">
+                    <div class="shoping__checkout mt-3">
                         <h5>Cart Total</h5>
                         <ul>
                             <li>Subtotal 
@@ -110,7 +113,10 @@
                                 </span>
                             </li>
                         </ul>
-                        <a href="{{ route('checkout.create') }}" class="primary-btn">PROCEED TO CHECKOUT</a>
+
+                        <form id="frmCheckout" action="{{ route('checkout.create') }}">
+                            <button type="submit" class="btn btn-success py-3 w-100">PROCEED TO CHECKOUT</button>
+                        </form>
                     </div>
                 </div>
             </div>

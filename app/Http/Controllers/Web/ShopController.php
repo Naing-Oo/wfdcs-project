@@ -51,7 +51,6 @@ class ShopController extends Controller
             abort(404, "Not found");
 
         // dd($product->images->pluck('image_url'));
-
         return view('web.shop.details', compact('product'));
     }
 

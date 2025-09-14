@@ -165,6 +165,10 @@
                 success: function(res) {
                     $('.cart-qty').text(res.qty);
                     $('.cart-amount').text(res.amount);
+
+                    let item = res.qty <= 1 ? 'item' : 'items';
+
+                    alertSuccess(`Total in cart: ${res.qty} ${item}`);
                 }
             })
         });

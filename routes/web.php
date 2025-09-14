@@ -20,7 +20,7 @@ use App\Http\Controllers\Web\{
     CheckoutController,
     ContactController,
 };
-
+use App\Models\District;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,12 +39,12 @@ use App\Http\Controllers\Web\{
  */
 Route::get('/', [HomeController::class, 'index']);
 
-Route::prefix('auth')->group(function(){
+Route::prefix('auth')->group(function () {
     Route::post('/login', [LoginController::class, 'login']);
     Route::post('/logout', [LoginController::class, 'logout']);
 });
 
-Route::prefix('shop')->group(function(){
+Route::prefix('shop')->group(function () {
     Route::get('/', [ShopController::class, 'index']);
     Route::get('/{id}/show', [ShopController::class, 'show'])->name('shop.show');
     Route::post('/{id}/update', [ShopController::class, 'update'])->name('shop.update');
@@ -58,8 +58,8 @@ Route::resource('checkout', CheckoutController::class);
 Route::get('/blog', [BlogController::class, 'index']);
 Route::get('/contact', [ContactController::class, 'index']);
 
-
-
+Route::get('/district/{id}', [HomeController::class, 'districts']);
+Route::get('/subdistrict/{id}', [HomeController::class, 'subDistricts']);
 
 
 

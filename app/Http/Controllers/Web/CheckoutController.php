@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Address;
 use App\Models\MyCart;
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -13,8 +14,10 @@ class CheckoutController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
+        $this->populateAddress($request);
+
         $userId = auth()->user()->id;
 
         $carts = MyCart::where('user_id', $userId)
@@ -61,5 +64,26 @@ class CheckoutController extends Controller
         return view('web.checkout.index', compact('order'));
     }
 
-   
+
+    private function populateAddress($request): void
+    {
+        $data = $request->all();
+
+        $userId = auth()->user()->id;
+
+        $data['user_id'] = $userId;
+        $data['is_default'] = true;
+
+        $address = Address::where('user_id', $userId)
+            ->where('province_id', $request->province_id)
+            ->where('district_id', $request->district_id)
+            ->where('sub_district_id', $request->sub_district_id)
+            ->first();
+
+        if ($address) {
+            $address->update($data);
+        } else {
+            Address::create($data);
+        }
+    }
 }

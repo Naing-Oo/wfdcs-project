@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="{{ asset('web/css/bootstrap.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('web/css/font-awesome.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('web/css/elegant-icons.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('web/css/nice-select.css') }}" type="text/css">
+    {{-- <link rel="stylesheet" href="{{ asset('web/css/nice-select.css') }}" type="text/css"> --}}
     <link rel="stylesheet" href="{{ asset('web/css/jquery-ui.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('web/css/owl.carousel.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('web/css/slicknav.min.css') }}" type="text/css">
@@ -73,7 +73,7 @@
     <!-- Js Plugins -->
     <script src="{{ asset('web/js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ asset('web/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('web/js/jquery.nice-select.min.js') }}"></script>
+    {{-- <script src="{{ asset('web/js/jquery.nice-select.min.js') }}"></script> --}}
     <script src="{{ asset('web/js/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('web/js/jquery.slicknav.js') }}"></script>
     <script src="{{ asset('web/js/mixitup.min.js') }}"></script>
