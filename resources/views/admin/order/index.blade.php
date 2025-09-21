@@ -19,6 +19,12 @@
         </div>
 
         <div class="card-body">
+            <div class="my-3">
+                <a href="{{ route('orders.update', 1).'?status=approved' }}" class="btn btn-primary btn-action">Approve Payment</a>
+                <a href="{{ route('orders.update', 1).'?status=shipped' }}" class="btn btn-secondary btn-action">Shipped</a>
+                <a href="{{ route('orders.update', 1).'?status=received' }}" class="btn btn-success btn-action">Received</a>
+                <a href="{{ route('orders.update', 1).'?status=cancel' }}" class="btn btn-danger btn-action">Cancel</a>
+            </div>
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
@@ -40,7 +46,13 @@
                     <tbody>
                         @foreach ($orders as $i => $order)
                             <tr>
-                                <td>{{ $i + 1 }}</td>
+                                <td>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input" value="{{ $order['id'] }}">
+                                        </label>
+                                    </div>
+                                </td>
                                 <td>
                                     <a href="{{ $order['link'] }}" class="btn-show">
                                         {{ $order['number'] }}
@@ -51,7 +63,7 @@
                                 </td>
                                 <td>{{ $order['customer'] }}</td>
                                 <td>{{ $order['tracking'] }}</td>
-                                <td>{{ $order['address'] }}</td>
+                                <td>{!! $order['address'] !!}</td>
                                 <td class="text-right">{{ $order['qty'] }}</td>
                                 <td class="text-right">{{ $order['discount'] }}</td>
                                 <td class="text-right">{{ $order['delivery_fee'] }}</td>
@@ -71,6 +83,38 @@
 
 @section('script')
     <script>
+
+        $(document).on('click', '.btn-action', function(e){
+            e.preventDefault();
+
+            const url = $(this).attr('href');
+            var orderIds = [];
+
+            $('input[type="checkbox"]:checked').each(function(){
+                orderIds.push($(this).val());
+            })
+
+            if (orderIds.length === 0) {
+                alertError("Please select order.");
+                return;
+            }
+
+            $.ajax({
+                type:'PUT',
+                url: url,
+                data:{
+                    '_token': "{{ csrf_token() }}",
+                    'orderIds': orderIds
+                },
+                success: function(res) {
+                    alertSuccess(res);
+                    window.location.reload();
+                }
+            })
+        });
+
+
+
         $(document).on('click', '.btn-show', function(e) {
 
             e.preventDefault();
@@ -84,7 +128,12 @@
                     // console.log(`key${key} - value${res[key]}`);
 
                     if (key !== 'items') {
-                        $(`#${key}`).text(res[key]);
+
+                        if (key === 'address') {
+                            $(`#${key}`).html(res[key]);
+                        } else {
+                            $(`#${key}`).text(res[key]);
+                        }
                     }
                 }
 

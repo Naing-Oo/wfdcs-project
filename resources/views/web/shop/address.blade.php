@@ -1,6 +1,5 @@
 @php
     use App\Models\Province;
-
     $provinces = Province::get();
 @endphp
 
@@ -68,9 +67,9 @@
         const $selectSubDistrict = $('#sub_district_id');
         const $inputPostcode = $('#postcode');
 
-        const state = {
-            subDistricts: [],
-            selected: {
+        const state = { // obj
+            subDistricts: [], // array
+            selected: { // obj
                 'province_id': 0,
                 'district_id': 0,
                 'sub_district_id': 0,
@@ -78,37 +77,48 @@
             }
         };
 
-
+        // event change select.province_id
         $(document).on('change', '#province_id', function() {
             const provinceId = $(this).val();
 
+            // set province_id
             state.selected.province_id = provinceId;
+
+            // console.log(state.selected);
 
             $selectDistrict.children().remove();
             $selectSubDistrict.children().remove();
             $inputPostcode.val('');
 
+            // ajax get method url('district/provinceId');
             $.get(`/district/${provinceId}`, function(res) {
+
+                // console.log(res);
 
                 let option = `<option value="">select...</option>`;
 
                 $selectDistrict.children().remove();
 
-                res.forEach(item => {
-                    option += `<option value="${item.id}">${item.name}</option>`;
+                res.forEach(district => {
+                    // append option
+                    option += `<option value="${district.id}">${district.name}</option>`;
                 });
 
                 $selectDistrict.append(option);
             });
         });
 
+        // set district_id
         $(document).on('change', '#district_id', function() {
             const districtId = $(this).val();
+
             state.selected.district_id = districtId;
+
+            // console.log(state.selected);
 
             $.get(`/subdistrict/${districtId}`, function(res) {
 
-                state.subDistricts = [...res];
+                state.subDistricts = [...res]; // copy
 
                 // console.log(subDistricts);
 
@@ -128,12 +138,16 @@
             const subDistrictId = $(this).val();
             state.selected.sub_district_id = subDistrictId;
 
+            // console.log(state.subDistricts);
+
             const subDistrict = state.subDistricts.find(s => s.id == subDistrictId);
 
             // console.log(subDistrict);
 
             $inputPostcode.val(subDistrict.postcode);
             state.selected.postcode = subDistrict.postcode;
+
+            // console.log(state.selected);
         });
     </script>
 @endsection

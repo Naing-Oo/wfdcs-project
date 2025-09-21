@@ -16,7 +16,7 @@ class CheckoutController extends Controller
      */
     public function create(Request $request)
     {
-        $this->populateAddress($request);
+        $addressId = $this->populateAddress($request);
 
         $userId = auth()->user()->id;
 
@@ -38,10 +38,17 @@ class CheckoutController extends Controller
             $totalAmt += $cart->qty * $cart->price;
         }
 
+        $prefix = 'OR';
+        $yearMonth = now()->format('Ym');
+        $numbers = range(0, 9);          // numbers from 0–9
+        shuffle($numbers);               // shuffle the array
+        $result = array_slice($numbers, 0, 5); // take first 5
+        $running = implode($result);
+
         $data = [
-            'order_number' => 'ORD-250824002',
+            'order_number' => "{$prefix}-{$yearMonth}-{$running}",
             'user_id' => $userId,
-            'address_id' => 1,
+            'address_id' => $addressId,
             'delivery_fee' => $delFee,
             'sub_total' => $totalAmt,
             'grand_total' => $totalAmt + $delFee,
@@ -65,7 +72,7 @@ class CheckoutController extends Controller
     }
 
 
-    private function populateAddress($request): void
+    private function populateAddress($request): int
     {
         $data = $request->all();
 
@@ -83,7 +90,9 @@ class CheckoutController extends Controller
         if ($address) {
             $address->update($data);
         } else {
-            Address::create($data);
+            $address = Address::create($data);
         }
+
+        return $address->id;
     }
 }

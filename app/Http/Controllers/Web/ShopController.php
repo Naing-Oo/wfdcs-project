@@ -103,8 +103,6 @@ class ShopController extends Controller
 
         $summary = $this->cartSummary();
 
-        // dd($carts);
-
         return view('web.shop.shopping-cart', compact('carts', 'summary'));
     }
 

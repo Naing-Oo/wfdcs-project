@@ -22,11 +22,12 @@ class OrderController extends Controller
                 $cart = $this->orderCart($o);
 
                 return [
+                    'id' => $o->id,
                     'number' => $o->order_number,
                     'slip' => $o->slip,
                     'customer' => $o->customer->name,
                     'tracking' => $o->tracking_number ?? 'Delivery Order',
-                    'address' => $o->address_id,
+                    'address' => $o->address?->full_address,
                     'qty' => $cart->sum('qty'),
                     'discount' => number_format($o->coupon_discount, 2),
                     'delivery_fee' => number_format($o->delivery_fee, 2),
@@ -36,8 +37,6 @@ class OrderController extends Controller
                     'link' => route('orders.show', $o->id)
                 ];
             })->all();
-
-        // dd($orders);
 
         return view('admin.order.index', compact('orders'));
     }
@@ -69,14 +68,14 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
-        $order = Order::find($id);
+        $order = Order::with('address')->find($id);
         $cart = $this->orderCart($order);
 
         $res = [
             'date' => Carbon::parse($order->created_at)->format('d/m/Y H:i'),
             'number' => $order->order_number,
             'customer' => $order->customer->name,
-            'address' => $order->address_id,
+            'address' => $order->address?->full_address,
             'discount' => number_format($order->coupon_discount, 2),
             'delivery_fee' => number_format($order->delivery_fee, 2),
             'amount' => number_format($order->grand_total, 2),
@@ -108,7 +107,14 @@ class OrderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $status  = $request->status;
+        $orderIds = $request->orderIds;
+
+        Order::whereIn('id', $orderIds)->update([
+            'status_code' => $status,
+        ]);
+
+        return response("Update status to {$status} successfully.");
     }
 
     /**

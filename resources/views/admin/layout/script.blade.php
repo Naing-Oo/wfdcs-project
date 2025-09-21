@@ -103,4 +103,13 @@
              timer: 1500
          });
      }
+     function alertError(msg) {
+         Swal.fire({
+             position: "top-end",
+             icon: "warning",
+             title: msg,
+             showConfirmButton: false,
+             timer: 1500
+         });
+     }
  </script>

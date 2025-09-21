@@ -114,7 +114,7 @@
                             </li>
                         </ul>
 
-                        <form id="frmCheckout" action="{{ route('checkout.create') }}">
+                        <form id="frmCheckout" action="{{ route('checkout.create') }}" >
                             <button type="submit" class="btn btn-success py-3 w-100">PROCEED TO CHECKOUT</button>
                         </form>
                     </div>
