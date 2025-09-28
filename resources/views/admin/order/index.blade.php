@@ -19,18 +19,44 @@
         </div>
 
         <div class="card-body">
-            <div class="my-3">
-                <a href="{{ route('orders.update', 1).'?status=approved' }}" class="btn btn-primary btn-action">Approve Payment</a>
-                <a href="{{ route('orders.update', 1).'?status=shipped' }}" class="btn btn-secondary btn-action">Shipped</a>
-                <a href="{{ route('orders.update', 1).'?status=received' }}" class="btn btn-success btn-action">Received</a>
-                <a href="{{ route('orders.update', 1).'?status=cancel' }}" class="btn btn-danger btn-action">Cancel</a>
-            </div>
+
+            <form action="{{ route('orders.index') }}">
+                <div class="row">
+                    <div class="col-12 col-md-3">
+                        <div class="form-group">
+                            <label for="">From Date</label>
+                            <input type="date" class="form-control" id="fromDate" name="fromDate" value="{{ $fromDate }}">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <div class="form-group">
+                            <label for="">To Date</label>
+                            <input type="date" class="form-control" id="toDate" name="toDate" value="{{ $toDate }}">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <label for="" style="opacity: 0;">xx</label><br>
+
+                            <button type="submit" class="btn btn-secondary">Search</button>
+
+                            <a href="{{ route('orders.update', 1) . '?status=approved' }}" class="btn btn-primary btn-action">Approve
+                                Payment</a>
+                            <a href="{{ route('orders.update', 1) . '?status=shipped' }}" class="btn btn-secondary btn-action">Shipped</a>
+                            <a href="{{ route('orders.update', 1) . '?status=received' }}" class="btn btn-success btn-action">Received</a>
+                            <a href="{{ route('orders.update', 1) . '?status=cancel' }}" class="btn btn-danger btn-action">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Number</th>
+                            <th>Date</th>
                             <th>Slip</th>
                             <th>Customer</th>
                             <th>Tracking</th>
@@ -58,6 +84,7 @@
                                         {{ $order['number'] }}
                                     </a>
                                 </td>
+                                <td>{{ $order['date'] }}</td>
                                 <td>
                                     <img src="{{ $order['slip'] }}" alt="" width="100">
                                 </td>
@@ -83,14 +110,13 @@
 
 @section('script')
     <script>
-
-        $(document).on('click', '.btn-action', function(e){
+        $(document).on('click', '.btn-action', function(e) {
             e.preventDefault();
 
             const url = $(this).attr('href');
             var orderIds = [];
 
-            $('input[type="checkbox"]:checked').each(function(){
+            $('input[type="checkbox"]:checked').each(function() {
                 orderIds.push($(this).val());
             })
 
@@ -100,9 +126,9 @@
             }
 
             $.ajax({
-                type:'PUT',
+                type: 'PUT',
                 url: url,
-                data:{
+                data: {
                     '_token': "{{ csrf_token() }}",
                     'orderIds': orderIds
                 },

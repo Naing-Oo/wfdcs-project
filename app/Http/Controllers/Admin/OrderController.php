@@ -13,9 +13,15 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::orderBy('order_number', 'desc')
+        $now = now();
+        
+        $fromDate = $request->input('fromDate', $now->copy()->addMonths(-1)->startOfMonth()->toDateString()); 
+        $toDate = $request->input('toDate', $now->copy()->toDateString()); // Y-m-d
+
+        $orders = Order::whereBetween('created_at', [$fromDate, $toDate])
+            ->orderBy('created_at', 'desc')
             ->get()
             ->map(function ($o) {
 
@@ -24,6 +30,7 @@ class OrderController extends Controller
                 return [
                     'id' => $o->id,
                     'number' => $o->order_number,
+                    'date' => Carbon::parse($o->created_at)->format('d/m/Y'),
                     'slip' => $o->slip,
                     'customer' => $o->customer->name,
                     'tracking' => $o->tracking_number ?? 'Delivery Order',
@@ -38,7 +45,7 @@ class OrderController extends Controller
                 ];
             })->all();
 
-        return view('admin.order.index', compact('orders'));
+        return view('admin.order.index', compact('orders', 'fromDate', 'toDate'));
     }
 
     private function orderCart($order)

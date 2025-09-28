@@ -77,6 +77,12 @@
             }
         };
 
+        // === keyup, keydown, blur
+        // $(document).on('blur', '#name', function() {
+        //     const value = $(this).val();
+        //     $('#phone').val(value);
+        // });
+
         // event change select.province_id
         $(document).on('change', '#province_id', function() {
             const provinceId = $(this).val();

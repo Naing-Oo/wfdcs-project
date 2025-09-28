@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Web\{
+    AccountController,
     HomeController,
     ShopController,
     BlogController,
@@ -52,6 +53,9 @@ Route::prefix('shop')->group(function () {
     Route::get('/shopping-cart/{id}/remove', [ShopController::class, 'removeCart'])->name('cart.remove');
     Route::post('/shopping-cart/{id}/update', [ShopController::class, 'updateCart']);
 });
+
+Route::get('account/manage', [AccountController::class, 'manages'])->name('account.manage');
+Route::get('account/orders', [AccountController::class, 'orders'])->name('account.orders');
 
 Route::resource('checkout', CheckoutController::class);
 
