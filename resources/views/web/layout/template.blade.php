@@ -120,9 +120,9 @@
 
         function webLogin() {
 
-            $from = $('#frmWebLogin');
-            const formData = new FormData($from[0]);
-            const routeName = $from.attr('action');
+            $form = $('#frmWebLogin');
+            const formData = new FormData($form[0]);
+            const routeName = $form.attr('action');
 
             submitForm(routeName, formData);
         }
@@ -187,16 +187,6 @@
         }
 
 
-
-
-
-
-
-
-
-
-
-
         function alertDeleted(msg) {
             Swal.fire({
                 title: "Deleted!",
@@ -245,6 +235,7 @@
     </script>
 
     @yield('script')
+    @stack('js')
 
 </body>
 

@@ -4,13 +4,17 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\Address;
+use App\Models\MyCart;
 use App\Models\Order;
+use App\Traits\OrderTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {
-    public function manages() 
+    use OrderTrait;
+
+    public function manages()
     {
         $user = auth()->user();
         $addresses = Address::where('user_id', $user->id)->get();
@@ -20,7 +24,7 @@ class AccountController extends Controller
         return view('web.account.manage', compact('user', 'addresses'));
     }
 
-    public function orders() 
+    public function orders()
     {
         $user = auth()->user();
 
@@ -50,5 +54,44 @@ class AccountController extends Controller
         // dd($orders);
 
         return view('web.account.orders', compact('orders'));
+    }
+
+    public function order(string $id)
+    {
+        $res = $this->orderDetails($id);
+
+        return response()->json($res);
+    }
+
+    public function getAddress(string $id)
+    {
+        $model = Address::find($id);
+
+        $res = [
+            'id' => $model->id,
+            'name' => $model->name,
+            'phone' => $model->phone,
+            'address' => $model->address,
+            'province_id' => $model->province_id,
+            'district_id' => $model->district_id,
+            'sub_district_id' => $model->sub_district_id,
+            'postcode' => $model->postcode,
+        ];
+
+        return response()->json($res);
+    }
+
+    public function updateAddress(Request $request)
+    {
+        $data = $request->except('_token', 'id');
+
+        Address::find($request->id)->update($data);
+
+        return response()->json(['message' => 'success', 'redirect' => route('account.manage')]);
+    }
+
+    private function orderCart($order)
+    {
+        return MyCart::with('product')->where('order_id', $order->id)->get();
     }
 }

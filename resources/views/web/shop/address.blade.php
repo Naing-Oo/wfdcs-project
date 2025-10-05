@@ -3,65 +3,62 @@
     $provinces = Province::get();
 @endphp
 
-<div class="shoping__discount mt-3">
-    <h5>Address</h5>
-    <div class="row">
-        <div class="col-12 col-md-6">
-            <div class="form-group">
-                <label for="">Name</label>
-                <input type="text" class="form-control" id="name" name="name" form="frmCheckout" required>
-            </div>
+<div class="row">
+    <div class="col-12 col-md-6">
+        <div class="form-group">
+            <label for="">Name</label>
+            <input type="text" class="form-control" id="name" name="name" form="frmCheckout" required>
         </div>
-        <div class="col-12 col-md-6">
-            <div class="form-group">
-                <label for="">Phone</label>
-                <input type="text" class="form-control" id="phone" name="phone" form="frmCheckout" required>
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                <label for="">Address</label>
-                <input type="text" class="form-control" id="address" name="address" form="frmCheckout" required>
-            </div>
-        </div>
-        <div class="col-12 col-md-6">
-            <div class="form-group">
-                <label for="">Province</label>
-                <select class="form-control" name="province_id" id="province_id" form="frmCheckout" required>
-                    <option value="">select...</option>
-                    @foreach ($provinces as $p)
-                        <option value="{{ $p->id }}">{{ $p->name_en }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-        <div class="col-12 col-md-6">
-            <div class="form-group">
-                <label for="">District</label>
-                <select class="form-control" name="district_id" id="district_id" form="frmCheckout" required>
-                    <option value="">select...</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-12 col-md-6">
-            <div class="form-group">
-                <label for="">Sub District</label>
-                <select class="form-control" name="sub_district_id" id="sub_district_id" form="frmCheckout" required>
-                    <option value="">select...</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-12 col-md-6">
-            <div class="form-group">
-                <label for="">Postcode</label>
-                <input type="text" class="form-control" id="postcode" name="postcode" form="frmCheckout" required>
-            </div>
-        </div>
-
     </div>
+    <div class="col-12 col-md-6">
+        <div class="form-group">
+            <label for="">Phone</label>
+            <input type="text" class="form-control" id="phone" name="phone" form="frmCheckout" required>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-group">
+            <label for="">Address</label>
+            <input type="text" class="form-control" id="address" name="address" form="frmCheckout" required>
+        </div>
+    </div>
+    <div class="col-12 col-md-6">
+        <div class="form-group">
+            <label for="">Province</label>
+            <select class="form-control" name="province_id" id="province_id" form="frmCheckout" required>
+                <option value="">select...</option>
+                @foreach ($provinces as $p)
+                    <option value="{{ $p->id }}">{{ $p->name_en }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+    <div class="col-12 col-md-6">
+        <div class="form-group">
+            <label for="">District</label>
+            <select class="form-control" name="district_id" id="district_id" form="frmCheckout" required>
+                <option value="">select...</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-12 col-md-6">
+        <div class="form-group">
+            <label for="">Sub District</label>
+            <select class="form-control" name="sub_district_id" id="sub_district_id" form="frmCheckout" required>
+                <option value="">select...</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-12 col-md-6">
+        <div class="form-group">
+            <label for="">Postcode</label>
+            <input type="text" class="form-control" id="postcode" name="postcode" form="frmCheckout" required>
+        </div>
+    </div>
+
 </div>
 
-@section('script')
+@push('js')
     <script>
         const $selectDistrict = $('#district_id');
         const $selectSubDistrict = $('#sub_district_id');
@@ -118,6 +115,9 @@
         $(document).on('change', '#district_id', function() {
             const districtId = $(this).val();
 
+            if (districtId == null)
+                return;
+
             state.selected.district_id = districtId;
 
             // console.log(state.selected);
@@ -156,4 +156,4 @@
             // console.log(state.selected);
         });
     </script>
-@endsection
+@endpush

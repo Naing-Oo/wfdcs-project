@@ -71,6 +71,16 @@ class CheckoutController extends Controller
         return view('web.checkout.index', compact('order'));
     }
 
+    public function edit(string $id)
+    {
+        $order = Order::find($id);
+
+        if (!$order)
+            abort(404);
+
+        return view('web.checkout.index', compact('order'));
+    }
+
 
     private function populateAddress($request): int
     {

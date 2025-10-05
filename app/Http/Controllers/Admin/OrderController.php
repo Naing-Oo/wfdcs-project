@@ -3,13 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\MyCart;
 use App\Models\Order;
+use App\Traits\OrderTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    use OrderTrait;
+
     /**
      * Display a listing of the resource.
      */
@@ -48,11 +50,6 @@ class OrderController extends Controller
         return view('admin.order.index', compact('orders', 'fromDate', 'toDate'));
     }
 
-    private function orderCart($order)
-    {
-        return MyCart::with('product')->where('order_id', $order->id)->get();
-    }
-
 
     /**
      * Show the form for creating a new resource.
@@ -75,28 +72,7 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
-        $order = Order::with('address')->find($id);
-        $cart = $this->orderCart($order);
-
-        $res = [
-            'date' => Carbon::parse($order->created_at)->format('d/m/Y H:i'),
-            'number' => $order->order_number,
-            'customer' => $order->customer->name,
-            'address' => $order->address?->full_address,
-            'discount' => number_format($order->coupon_discount, 2),
-            'delivery_fee' => number_format($order->delivery_fee, 2),
-            'amount' => number_format($order->grand_total, 2),
-            'remark' => $order->remark,
-            'items' => $cart->map(function ($c, $index) {
-                return [
-                    'number' => $index + 1,
-                    'product' => $c->product->name,
-                    'price' => number_format($c->price, 2),
-                    'qty' => number_format($c->qty, 2),
-                    'total' => number_format(round($c->price * $c->qty, 2), 2)
-                ];
-            }),
-        ];
+        $res = $this->orderDetails($id);
 
         return response()->json($res);
     }

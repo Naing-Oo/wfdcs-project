@@ -56,6 +56,9 @@ Route::prefix('shop')->group(function () {
 
 Route::get('account/manage', [AccountController::class, 'manages'])->name('account.manage');
 Route::get('account/orders', [AccountController::class, 'orders'])->name('account.orders');
+Route::get('account/{id}/order', [AccountController::class, 'order'])->name('account.order');
+Route::get('account/{id}/address', [AccountController::class, 'getAddress'])->name('account.address');
+Route::post('account/address/update', [AccountController::class, 'updateAddress'])->name('account.address.update');
 
 Route::resource('checkout', CheckoutController::class);
 

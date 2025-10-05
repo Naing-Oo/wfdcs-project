@@ -33,7 +33,7 @@
                                         <td class="shoping__cart__price">
                                             {{ number_format($cart['price'], 2) }} THB
                                         </td>
-                                        
+
                                         {{-- qty --}}
                                         <td class="shoping__cart__quantity">
                                             <div class="quantity">
@@ -44,13 +44,12 @@
                                         </td>
 
                                         <td class="shoping__cart__total">
-                                            <span id="total{{ $cart['id'] }}">{{ number_format($cart['total'], 2) }}</span>
+                                            <span
+                                                id="total{{ $cart['id'] }}">{{ number_format($cart['total'], 2) }}</span>
                                             THB
                                         </td>
                                         <td class="shoping__cart__item__close">
-                                            <span class="icon_close" 
-                                                onclick="remove('{{ route('cart.remove', $cart['id']) }}')">
-                                            </span>
+                                            <span class="icon_close remove-cart" onclick="remove('{{ route('cart.remove', $cart['id']) }}')"></span>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -63,20 +62,23 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="shoping__cart__btns">
-                        
+
                         <a href="{{ url('shop') }}" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
 
                         <a href="#" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
                             Upadate Cart</a>
                     </div>
                 </div>
-                
+
                 <div class="col-lg-6">
-                    @include('web.shop.address')
+                    <div class="shoping__discount mt-3">
+                        <h5>Address</h5>
+                        @include('web.shop.address')
+                    </div>
                 </div>
 
                 <div class="col-lg-6">
-                     <div class="shoping__continue">
+                    <div class="shoping__continue">
                         <div class="shoping__discount mt-3">
                             <h5 class="my-1">Discount Codes</h5>
                             <form action="#">
@@ -88,25 +90,25 @@
                     <div class="shoping__checkout mt-3">
                         <h5>Cart Total</h5>
                         <ul>
-                            <li>Subtotal 
+                            <li>Subtotal
                                 <span>
                                     <label id="subtotal">{{ number_format($summary['amount'], 2) }}</label>
                                     THB
                                 </span>
                             </li>
-                            <li>Discount 
-                                 <span>
+                            <li>Discount
+                                <span>
                                     <label id="discount">0.00</label>
                                     THB
                                 </span>
                             </li>
-                            <li>Delivery Fee 
+                            <li>Delivery Fee
                                 <span>
                                     <label id="delivery-fee">{{ number_format($summary['delivery_fee'], 2) }}</label>
                                     THB
                                 </span>
                             </li>
-                            <li>Total 
+                            <li>Total
                                 <span>
                                     <label id="total">{{ number_format($summary['total'], 2) }} </label>
                                     THB
@@ -114,7 +116,7 @@
                             </li>
                         </ul>
 
-                        <form id="frmCheckout" action="{{ route('checkout.create') }}" >
+                        <form id="frmCheckout" action="{{ route('checkout.create') }}">
                             <button type="submit" class="btn btn-success py-3 w-100">PROCEED TO CHECKOUT</button>
                         </form>
                     </div>
@@ -128,8 +130,7 @@
 
 @section('script')
     <script>
-
-        $(document).on('click', '.qtybtn', function(){
+        $(document).on('click', '.qtybtn', function() {
             $event = $(this);
             let qty = $event.siblings('input').val();
             const id = $event.parents('.pro-qty').data('id');
@@ -142,13 +143,13 @@
                 url: `/shop/shopping-cart/${id}/update`,
                 data: {
                     '_token': "{{ csrf_token() }}",
-                    'qty' : qty
+                    'qty': qty
                 },
                 success: function(res) {
                     // alertSuccess(res.message);
 
                     $(`#total${res.id}`).text(formatNumber(res.subtotal));
-                    
+
                     cartSummary(res);
                 },
                 error: function(res) {
@@ -178,4 +179,5 @@
             $('label#total').text(formatNumber(res.amount + res.delivery_fee));
         }
     </script>
+
 @endsection

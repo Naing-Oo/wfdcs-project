@@ -1,10 +1,9 @@
 @extends('web.layout.template')
 
 @section('content')
-
     <!-- Breadcrumb Section Begin -->
     @include('web.common.breadcrumb', [
-        'title' => 'Orders'
+        'title' => 'Orders',
     ])
     <!-- Breadcrumb Section End -->
 
@@ -28,11 +27,15 @@
                     @foreach ($orders as $o)
                         <tr>
                             <td>
-                                {{ $o['number'] }}
+                                <a href="{{ route('account.order', $o['id']) }}" class="btn-link btn-show">
+                                    {{ $o['number'] }}
+                                </a>
                                 <div>
-                                    <button class="btn btn-secondary">View</button>
-                                    @if($o['status_code'] === 'pending')
-                                        <button class="btn btn-primary">Payment</button>
+                                    @if ($o['status_code'] === 'pending')
+                                        <a href="{{ route('checkout.edit', $o['id']) }}" class="btn btn-primary">
+                                            Payment
+                                            {{-- <i class="fa fa-credit-card-alt" aria-hidden="true"></i> --}}
+                                        </a>
                                     @endif
                                 </div>
                             </td>
@@ -45,9 +48,14 @@
                     @endforeach
                 </tbody>
             </table>
-           
+
 
         </div>
     </section>
     <!-- Product Section End -->
+    @include('admin.order.modal')
+@endsection
+
+@section('script')
+    <script src="{{ asset('assets/js/order.js') }}"></script>
 @endsection
