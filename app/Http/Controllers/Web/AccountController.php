@@ -18,10 +18,9 @@ class AccountController extends Controller
     {
         $user = auth()->user();
         $addresses = Address::where('user_id', $user->id)->get();
+        $address = new Address();
 
-        // dd($addresses);
-
-        return view('web.account.manage', compact('user', 'addresses'));
+        return view('web.account.manage', compact('user', 'addresses', 'address'));
     }
 
     public function orders()
@@ -76,6 +75,7 @@ class AccountController extends Controller
             'district_id' => $model->district_id,
             'sub_district_id' => $model->sub_district_id,
             'postcode' => $model->postcode,
+            'is_default' => $model->is_default,
         ];
 
         return response()->json($res);
@@ -85,7 +85,15 @@ class AccountController extends Controller
     {
         $data = $request->except('_token', 'id');
 
-        Address::find($request->id)->update($data);
+        $model = Address::find($request->id);
+
+        if ($request->is_default) {
+            Address::where('user_id', $model->user_id)->update([
+                'is_default' => false
+            ]);
+        }
+
+        $model->update($data);
 
         return response()->json(['message' => 'success', 'redirect' => route('account.manage')]);
     }

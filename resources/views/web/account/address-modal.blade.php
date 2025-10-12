@@ -18,6 +18,12 @@
                     <input type="hidden" id="id" name="id">
 
                     @include('web.shop.address')
+
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="is_default" name="is_default" value="1">Default Address
+                        </label>
+                    </div>
                 </form>
             </div>
 

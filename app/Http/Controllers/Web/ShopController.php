@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Address;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Promotion;
@@ -103,7 +104,10 @@ class ShopController extends Controller
 
         $summary = $this->cartSummary();
 
-        return view('web.shop.shopping-cart', compact('carts', 'summary'));
+        $address = Address::where('user_id', $userId)
+                ->where('is_default', true)->first();
+
+        return view('web.shop.shopping-cart', compact('carts', 'summary', 'address'));
     }
 
     public function removeCart($id)

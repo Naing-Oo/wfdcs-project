@@ -52,7 +52,7 @@
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->phone }}</td>
                             <td>{{ $item->address }}</td>
-                            <td>{{ $item->is_default }}</td>
+                            <td>{!! $item->default !!}</td>
                             <td>
                                 <a href="{{ route('account.address', $item->id) }}" class="btn btn-primary btnEdit">Edit</a>
                             </td>
@@ -70,21 +70,44 @@
 
 @section('script')
     <script>
+        const $modal = $('#addressModal');
+
         $(document).on('click', '.btnEdit', function(e) {
             e.preventDefault();
             const url = $(this).attr('href');
-            $modal = $('#addressModal');
 
             $.get(url, function(res) {
 
                 for (const key in res) {
-                    $modal.find(`#${key}`).val(res[key]).trigger('change');
-                }
 
+                    $modal.find(`#${key}`).val(res[key]);
+
+                    if (key === 'is_default' && res[key]) {
+                        $modal.find(`#is_default`).val(1).prop('checked', true);
+                    } else {
+                        $modal.find(`#is_default`).val(1).prop('checked', false);
+                    }
+
+                    if (key === 'district_id') {
+                        defaultDistrict(res.district_id, res.province_id);
+                    }
+                    if (key === 'sub_district_id') {
+                        defaultSubDistrict(res.sub_district_id, res.district_id);
+                    }
+                }
             });
 
             $modal.modal('show');
         });
+
+        // ================== get districts by province id && auto selected district
+        function defaultDistrict(districtId, provinceId) {
+            getDistrict(provinceId, districtId);
+        }
+        // ================== get sub districts by province id && auto selected sub district
+        function defaultSubDistrict(subDistrictId, districtId) {
+            getSubDistrict(districtId, subDistrictId);
+        }
 
         $(document).on('click', '#btnSubmit', function() {
             $form = $('#frmCheckout');

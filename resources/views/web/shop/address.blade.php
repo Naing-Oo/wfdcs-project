@@ -7,25 +7,29 @@
     <div class="col-12 col-md-6">
         <div class="form-group">
             <label for="">Name</label>
-            <input type="text" class="form-control" id="name" name="name" form="frmCheckout" required>
+            <input type="text" class="form-control" id="name" name="name" form="frmCheckout"
+                value="{{ $address->name }}" required>
         </div>
     </div>
     <div class="col-12 col-md-6">
         <div class="form-group">
             <label for="">Phone</label>
-            <input type="text" class="form-control" id="phone" name="phone" form="frmCheckout" required>
+            <input type="text" class="form-control" id="phone" name="phone" form="frmCheckout"
+                value="{{ $address->phone }}" required>
         </div>
     </div>
     <div class="col-12">
         <div class="form-group">
             <label for="">Address</label>
-            <input type="text" class="form-control" id="address" name="address" form="frmCheckout" required>
+            <input type="text" class="form-control" id="address" name="address" form="frmCheckout"
+                value="{{ $address->address }}" required>
         </div>
     </div>
     <div class="col-12 col-md-6">
         <div class="form-group">
             <label for="">Province</label>
-            <select class="form-control" name="province_id" id="province_id" form="frmCheckout" required>
+            <select class="form-control" name="province_id" id="province_id" form="frmCheckout"
+                value="{{ $address->province_id }}" required>
                 <option value="">select...</option>
                 @foreach ($provinces as $p)
                     <option value="{{ $p->id }}">{{ $p->name_en }}</option>
@@ -36,7 +40,8 @@
     <div class="col-12 col-md-6">
         <div class="form-group">
             <label for="">District</label>
-            <select class="form-control" name="district_id" id="district_id" form="frmCheckout" required>
+            <select class="form-control" name="district_id" id="district_id" form="frmCheckout"
+                value="{{ $address->district_id }}" required>
                 <option value="">select...</option>
             </select>
         </div>
@@ -44,7 +49,8 @@
     <div class="col-12 col-md-6">
         <div class="form-group">
             <label for="">Sub District</label>
-            <select class="form-control" name="sub_district_id" id="sub_district_id" form="frmCheckout" required>
+            <select class="form-control" name="sub_district_id" id="sub_district_id" form="frmCheckout"
+                value="{{ $address->sub_district_id }}" required>
                 <option value="">select...</option>
             </select>
         </div>
@@ -52,7 +58,8 @@
     <div class="col-12 col-md-6">
         <div class="form-group">
             <label for="">Postcode</label>
-            <input type="text" class="form-control" id="postcode" name="postcode" form="frmCheckout" required>
+            <input type="text" class="form-control" id="postcode" name="postcode" form="frmCheckout"
+                value="{{ $address->postcode }}" required>
         </div>
     </div>
 
@@ -83,6 +90,27 @@
         // event change select.province_id
         $(document).on('change', '#province_id', function() {
             const provinceId = $(this).val();
+            getDistrict(provinceId);
+        });
+
+        // set district_id
+        $(document).on('change', '#district_id', function() {
+            const districtId = $(this).val();
+
+            if (districtId == null)
+                return;
+
+            getSubDistrict(districtId);
+        });
+
+        $(document).on('change', '#sub_district_id', function() {
+            const subDistrictId = $(this).val();
+            getPostcode(subDistrictId);
+        });
+
+
+        // ================== get districts by province id
+        function getDistrict(provinceId, districtId = null) {
 
             // set province_id
             state.selected.province_id = provinceId;
@@ -96,31 +124,27 @@
             // ajax get method url('district/provinceId');
             $.get(`/district/${provinceId}`, function(res) {
 
-                // console.log(res);
-
                 let option = `<option value="">select...</option>`;
 
                 $selectDistrict.children().remove();
 
                 res.forEach(district => {
+
+                    let selected = district.id == districtId ? 'selected' : '';
+
                     // append option
-                    option += `<option value="${district.id}">${district.name}</option>`;
+                    option += `<option value="${district.id}" ${selected}>${district.name}</option>`;
                 });
 
                 $selectDistrict.append(option);
             });
-        });
 
-        // set district_id
-        $(document).on('change', '#district_id', function() {
-            const districtId = $(this).val();
+        }
 
-            if (districtId == null)
-                return;
+        // =================== get sub district by district id
+        function getSubDistrict(districtId, subDistrictId = null) {
 
             state.selected.district_id = districtId;
-
-            // console.log(state.selected);
 
             $.get(`/subdistrict/${districtId}`, function(res) {
 
@@ -133,17 +157,20 @@
                 $selectSubDistrict.children().remove();
 
                 res.forEach(item => {
-                    option += `<option value="${item.id}">${item.name}</option>`;
+
+                    let selected = item.id == subDistrictId ? 'selected' : '';
+
+                    option += `<option value="${item.id}" ${selected}>${item.name}</option>`;
                 });
 
                 $selectSubDistrict.append(option);
             });
-        });
+        }
 
-        $(document).on('change', '#sub_district_id', function() {
-            const subDistrictId = $(this).val();
+        // ================ get postcode by sub district id
+        function getPostcode(subDistrictId) {
+
             state.selected.sub_district_id = subDistrictId;
-
             // console.log(state.subDistricts);
 
             const subDistrict = state.subDistricts.find(s => s.id == subDistrictId);
@@ -154,6 +181,6 @@
             state.selected.postcode = subDistrict.postcode;
 
             // console.log(state.selected);
-        });
+        }
     </script>
 @endpush

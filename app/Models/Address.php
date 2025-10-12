@@ -40,10 +40,19 @@ class Address extends Model
         $district = optional($this->district)->name_en;
         $subDistrict = optional($this->subDistrict)->name_en;
 
-        return sprintf('<span>%s</span></br><span>%s</span>', 
-            $this->address, " {$subDistrict}, {$district}, {$province}, {$this->postcode}"
+        return sprintf(
+            '<span>%s</span></br><span>%s</span>',
+            $this->address,
+            " {$subDistrict}, {$district}, {$province}, {$this->postcode}"
         );
 
         // return " {$this->address}, {$subDistrict}, {$district}, {$province}, {$this->postcode}";
+    }
+
+    public function getDefaultAttribute()
+    {
+        return $this->is_default
+            ? sprintf('<i class="fa fa-check-square-o" aria-hidden="true"></i>')
+            : sprintf('<i class="fa fa-square-o" aria-hidden="true"></i>');
     }
 }
