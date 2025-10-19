@@ -32,7 +32,9 @@
                 value="{{ $address->province_id }}" required>
                 <option value="">select...</option>
                 @foreach ($provinces as $p)
-                    <option value="{{ $p->id }}">{{ $p->name_en }}</option>
+                    <option value="{{ $p->id }}" @if ($p->id == $address->province_id) selected @endif>
+                        {{ $p->name_en }}
+                    </option>
                 @endforeach
             </select>
         </div>
@@ -71,6 +73,13 @@
         const $selectSubDistrict = $('#sub_district_id');
         const $inputPostcode = $('#postcode');
 
+        const init = {
+            provinceId: @json($address->province_id),
+            districtId: @json($address->district_id),
+            subDistrictId: @json($address->sub_district_id),
+            postcode: @json($address->postcode),
+        }
+
         const state = { // obj
             subDistricts: [], // array
             selected: { // obj
@@ -80,6 +89,13 @@
                 'postcode': "",
             }
         };
+
+        // initialization
+        $(document).ready(() => {
+            getDistrict(init.provinceId, init.districtId);
+            getSubDistrict(init.districtId, init.subDistrictId);
+            $inputPostcode.val(init.postcode);
+        });
 
         // === keyup, keydown, blur
         // $(document).on('blur', '#name', function() {

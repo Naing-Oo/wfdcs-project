@@ -86,7 +86,9 @@
                                 </td>
                                 <td>{{ $order['date'] }}</td>
                                 <td>
-                                    <img src="{{ $order['slip'] }}" alt="" width="100">
+                                    <a href="{{ $order['slip'] }}" target="_blank">
+                                        <img src="{{ $order['slip'] }}" alt="" width="100">
+                                    </a>
                                 </td>
                                 <td>{{ $order['customer'] }}</td>
                                 <td>{{ $order['tracking'] }}</td>

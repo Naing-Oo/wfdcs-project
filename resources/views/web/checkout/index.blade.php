@@ -27,13 +27,18 @@
                     @include('web.checkout.summary')
                 </div>
                 <div class="col-12 col-md-6">
-                    <form id="frmPayment" action="{{ route('checkout.update', $order->id) }}" method="post">
-                        @method('put')
 
-                        <label for="" class="mt-3">{{ __('file.Attach slip') }}</label>
-                        <input type="file" class="form-control" name="slip">
+                    <div class="bg-light rounded p-4 mt-3 text-center">
+                        <div class="text-center">
+                            <img id="showLogo" src="{{ asset('web/img/MY-KBANK.jpg') }}" alt=""
+                                class="img-fluid" width="300">
+                        </div>
+                    </div>
 
-                        <div class="bg-light rounded p-4 mt-3 text-center">
+                    <label for="" class="mt-3">{{ __('file.Attach slip') }}</label>
+                    <input type="file" class="form-control" name="slip" form="frmPayment" required>
+
+                    {{-- <div class="bg-light rounded p-4 mt-3 text-center">
                             <div class="text-center">
                                 <img id="showLogo" src="{{ asset('web/img/PromptPay-logo.png') }}" alt=""
                                     class="img-fluid" width="300">
@@ -44,9 +49,8 @@
                             <button type="button" id="download-btn"
                                 class="btn btn-primary mt-3">{{ __('file.DOWNLOAD QR CODE') }}</button>
 
-                        </div>
+                        </div> --}}
 
-                    </form>
                 </div>
             </div>
 

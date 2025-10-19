@@ -33,7 +33,7 @@ class OrderController extends Controller
                     'id' => $o->id,
                     'number' => $o->order_number,
                     'date' => Carbon::parse($o->created_at)->format('d/m/Y'),
-                    'slip' => $o->slip,
+                    'slip' => asset($o->slip),
                     'customer' => $o->customer->name,
                     'tracking' => $o->tracking_number ?? 'Delivery Order',
                     'address' => $o->address?->full_address,

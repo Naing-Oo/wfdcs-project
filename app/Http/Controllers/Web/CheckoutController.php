@@ -81,6 +81,25 @@ class CheckoutController extends Controller
         return view('web.checkout.index', compact('order'));
     }
 
+    public function update(Request $request, $id)
+    {
+        $order = Order::find($id);
+
+        $file = $request->file('slip');
+        $fileName = $order->order_number . '-' . $file->getClientOriginalName();
+        $dir = 'admin/order';
+
+        $file->move($dir, $fileName);
+
+        $path = "{$dir}/{$fileName}";
+
+        $order->slip = $path;
+        $order->status_code = 'paid';
+        $order->save();
+
+        return redirect('/shop');
+    }
+
 
     private function populateAddress($request): int
     {
@@ -89,7 +108,6 @@ class CheckoutController extends Controller
         $userId = auth()->user()->id;
 
         $data['user_id'] = $userId;
-        $data['is_default'] = true;
 
         $address = Address::where('user_id', $userId)
             ->where('province_id', $request->province_id)

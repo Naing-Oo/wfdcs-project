@@ -17,7 +17,7 @@
                 <span>{{ __('file.THB') }}</span>
             </div>
         </li>
-        
+
         <li
             class="list-group-item d-flex flex-wrap justify-content-between align-items-center border-0 bg-transparent px-0 px-md-2 py-1">
             <h6>{{ __('file.Coupon') }}</h6>
@@ -27,7 +27,7 @@
                 <span>{{ __('file.THB') }}</span>
             </div>
         </li>
-        
+
         <li
             class="list-group-item d-flex flex-wrap justify-content-between align-items-center border-0 bg-transparent px-0 px-md-2 py-1">
             <h6 class="font-weight-bold">{{ __('file.Total') }}</h6>
@@ -39,6 +39,15 @@
     </ul>
 </div>
 <p class="text-danger my-3 text-center">{{ __('file.Please press the button to confirm payment') }}</p>
-<button class="btn btn-primary py-2 w-100" onclick="payment()">
-    {{ __('file.Confirm payment') }}
-</button>
+
+
+<form id="frmPayment" action="{{ route('checkout.update', $order->id) }}" 
+    method="post" enctype="multipart/form-data">
+
+    @csrf
+    @method('put')
+
+    <button type="submit" class="btn btn-primary py-2 w-100">
+        {{ __('file.Confirm payment') }}
+    </button>
+</form>
