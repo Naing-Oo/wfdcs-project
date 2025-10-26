@@ -59,6 +59,8 @@ Route::get('account/orders', [AccountController::class, 'orders'])->name('accoun
 Route::get('account/{id}/order', [AccountController::class, 'order'])->name('account.order');
 Route::get('account/{id}/address', [AccountController::class, 'getAddress'])->name('account.address');
 Route::post('account/address/update', [AccountController::class, 'updateAddress'])->name('account.address.update');
+Route::post('account/{id}/address/remove', [AccountController::class, 'removeAddress'])->name('account.address.remove');
+Route::put('account/{id}/update', [AccountController::class, 'updateAccount'])->name('account.update');
 
 Route::resource('checkout', CheckoutController::class);
 

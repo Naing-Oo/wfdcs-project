@@ -26,10 +26,14 @@ class Order extends Model
     public function getStatusStyleAttribute()
     {
         $bg = '';
+        $color = 'white';
 
         switch ($this->status_code) {
             case 'paid':
                 $bg = 'primary';
+                break;
+            case 'approved':
+                $bg = 'success';
                 break;
             case 'shipping':
                 $bg = 'info';
@@ -48,7 +52,7 @@ class Order extends Model
                 break;
         }
 
-        return sprintf('<span class="badge bg-%s">%s</span>', $bg, ucfirst($this->status_code));
+        return sprintf('<span class="badge bg-%s text-%s">%s</span>', $bg, $color, ucfirst($this->status_code));
     }
 
     public function customer()

@@ -18,6 +18,7 @@ class Address extends Model
         'sub_district_id',
         'postcode',
         'is_default',
+        'is_active',
     ];
 
     public function province()

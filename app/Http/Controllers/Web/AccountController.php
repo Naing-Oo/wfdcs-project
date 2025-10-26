@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AddressRequest;
 use App\Models\Address;
 use App\Models\MyCart;
 use App\Models\Order;
+use App\Models\User;
 use App\Traits\OrderTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AccountController extends Controller
 {
@@ -17,11 +20,44 @@ class AccountController extends Controller
     public function manages()
     {
         $user = auth()->user();
-        $addresses = Address::where('user_id', $user->id)->get();
+
+        $addresses = Address::where('user_id', $user->id)
+            ->where('is_active', true)
+            ->get();
+
         $address = new Address();
 
         return view('web.account.manage', compact('user', 'addresses', 'address'));
     }
+
+    public function updateAccount(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        // Check if email is already used by another user
+        $isExist = User::where('email', $request->email)
+            ->where('id', '!=', $id)
+            ->exists();
+
+        if ($isExist) {
+            return back()->with('error', 'Email already exists!')->withInput();
+        }
+
+        // Update user data
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        // Only update password if a new one is entered
+        if (!empty($request->password)) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
+
+        return back()->with('success', 'Account updated successfully!');
+    }
+
+
 
     public function orders()
     {
@@ -81,19 +117,35 @@ class AccountController extends Controller
         return response()->json($res);
     }
 
-    public function updateAddress(Request $request)
+    public function updateAddress(AddressRequest $request)
     {
-        $data = $request->except('_token', 'id');
+        $user = auth()->user();
 
-        $model = Address::find($request->id);
+        $data = $request->except('_token', 'id');
+        $data['is_active'] = true;
+        $data['user_id'] = $user->id;
 
         if ($request->is_default) {
-            Address::where('user_id', $model->user_id)->update([
+            Address::where('user_id', $user->id)->update([
                 'is_default' => false
             ]);
         }
 
-        $model->update($data);
+        if (!$request->id) {
+            Address::create($data);
+        } else {
+            $model = Address::find($request->id);
+            $model->update($data);
+        }
+
+        return response()->json(['message' => 'success', 'redirect' => route('account.manage')]);
+    }
+
+    public function removeAddress(string $id)
+    {
+        $model = Address::find($id);
+        $model->is_active = false;
+        $model->save();
 
         return response()->json(['message' => 'success', 'redirect' => route('account.manage')]);
     }
