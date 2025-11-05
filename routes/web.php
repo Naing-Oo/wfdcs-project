@@ -48,6 +48,7 @@ Route::get('/switchlang/{lang}', [HomeController::class, 'switchLanguage']);
 Route::prefix('auth')->group(function () {
     Route::post('/login', [LoginController::class, 'login']);
     Route::post('/logout', [LoginController::class, 'logout']);
+    Route::post('/register', [LoginController::class, 'register']);
 });
 
 Route::prefix('shop')->group(function () {

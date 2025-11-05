@@ -36,14 +36,14 @@
             <li><a href="{{ url('/blog') }}">Blog</a></li>
             <li><a href="{{ url('/contact') }}">Contact</a></li>
 
-            <li><a href="#">Pages</a>
-                <ul class="header__menu__dropdown">
-                    <li><a href="./shop-details.html">Shop Details</a></li>
-                    <li><a href="./shoping-cart.html">Shoping Cart</a></li>
-                    <li><a href="./checkout.html">Check Out</a></li>
-                    <li><a href="./blog-details.html">Blog Details</a></li>
-                </ul>
-            </li>
+            @if (auth()->check())
+                <li><a href="#">Account</a>
+                    <ul class="header__menu__dropdown">
+                        <li><a href="{{ route('account.manage') }}">Manage Account</a></li>
+                        <li><a href="{{ route('account.orders') }}">My Order</a></li>
+                    </ul>
+                </li>
+            @endif
         </ul>
     </nav>
     <div id="mobile-menu-wrap"></div>

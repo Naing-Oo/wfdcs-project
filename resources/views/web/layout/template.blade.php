@@ -67,8 +67,9 @@
     @include('web.layout.footer')
     <!-- Footer Section End -->
 
+    {{-- login & register modal --}}
     @include('web.auth.login')
-    {{-- @include('web.auth.register') --}}
+    @include('web.auth.register')
 
     <!-- Js Plugins -->
     <script src="{{ asset('web/js/jquery-3.3.1.min.js') }}"></script>
@@ -108,11 +109,13 @@
             }
         });
 
-        $(document).on('click', '#btnRegister', function() {
+        $(document).on('click', '#btnRegister', function(e) {
+            e.preventDefault();
             $('#loginModal').modal('hide');
             $('#registerModal').modal('show');
         });
-        $(document).on('click', '#btnLogin', function() {
+        $(document).on('click', '#btnLogin', function(e) {
+            e.preventDefault();
             $('#registerModal').modal('hide');
             $('#loginModal').modal('show');
         });
@@ -126,6 +129,14 @@
 
             submitForm(routeName, formData);
         }
+
+        $(document).on('click', '#registerModal #btnSubmit', function(){
+            $form = $('#frmProfile');
+            const formData = new FormData($form[0])
+            const url = $form.attr('action');
+
+            submitForm(url, formData);
+        });
 
 
         // submit form

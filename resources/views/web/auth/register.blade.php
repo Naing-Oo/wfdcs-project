@@ -14,22 +14,49 @@
             </div>
             <div class="modal-body px-5">
                 <form id="frmProfile" action="{{ url('/auth/register') }}" method="post">
+
+                    @csrf
+
                     <div class="row">
                         <div class="col-12">
-                            <x-form-group label="file.Name" type="text" name="name" required />
+                            <div class="form-group">
+                                <label for="name">{{ __('file.Name') }}:</label>
+                                <input type="text" class="form-control" id="name" placeholder="Enter name"
+                                    name="name" required>
+                                <span class="text-danger invalid name"></span>
+                            </div>
                         </div>
                         <div class="col-12">
-                            <x-form-group label="file.Email" type="email" name="email" required />
+                            <div class="form-group">
+                                <label for="email">{{ __('file.Email') }}:</label>
+                                <input type="email" class="form-control" id="email" placeholder="Enter email"
+                                    name="email" required>
+                                <span class="text-danger invalid email"></span>
+                            </div>
                         </div>
                         <div class="col-12">
-                            <x-form-group label="file.Phone" type="tel" name="phone" />
+                            <div class="form-group">
+                                <label for="phone">{{ __('file.Phone') }}:</label>
+                                <input type="tel" class="form-control" id="phone" placeholder="Enter phone"
+                                    name="phone" required>
+                                <span class="text-danger invalid phone"></span>
+                            </div>
                         </div>
                         <div class="col-12">
-                            <x-form-group label="file.Password" type="password" name="password" required />
+                            <div class="form-group">
+                                <label for="password">{{ __('file.Password') }}:</label>
+                                <input type="password" class="form-control" id="password" placeholder="Enter password"
+                                    name="password" required>
+                                <span class="text-danger invalid password"></span>
+                            </div>
                         </div>
                         <div class="col-12">
-                            <x-form-group label="file.Confirm Password" type="password" name="password_confirmation"
-                                required />
+                            <div class="form-group">
+                                <label for="password_confirmation">{{ __('file.Confirm Password') }}:</label>
+                                <input type="password" class="form-control" id="password_confirmation"
+                                    placeholder="confirm password" name="password_confirmation" required>
+                                <span class="text-danger invalid password_confirmation"></span>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -37,7 +64,7 @@
             <div class="modal-footer">
                 <p class="mr-3">
                     {{ __('file.Already have an account') }}
-                    <a href="javascript:;" id="btnLogin">{{ __('file.Log in now') }}</a>
+                    <a href="javascript:;" id="btnLogin" class="btn btn-link">{{ __('file.Log in now') }}</a>
                 </p>
                 <button type="button" id="btnSubmit" class="btn btn-primary">{{ __('file.Apply') }}</button>
             </div>

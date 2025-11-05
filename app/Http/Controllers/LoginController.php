@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -50,6 +52,23 @@ class LoginController extends Controller
         $res = [
             "message" => "Login successfully.",
             "redirect" => $redirect
+        ];
+
+        return response()->json($res, 200);
+    }
+
+    public function register(RegisterRequest $request)
+    {
+        $data = $request->except('_token');
+        $data['password'] = Hash::make($data['password']);
+        $data['gender'] = 'f';
+        $data['birth_date'] = now();
+
+        User::create($data);
+
+        $res = [
+            "message" => "Register successfully.",
+            "redirect" => url('/')
         ];
 
         return response()->json($res, 200);

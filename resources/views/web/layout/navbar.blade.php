@@ -79,12 +79,14 @@
                         <li><a href="{{ url('/blog') }}">Blog</a></li>
                         <li><a href="{{ url('/contact') }}">Contact</a></li>
 
-                        <li><a href="#">Account</a>
-                            <ul class="header__menu__dropdown">
-                                <li><a href="{{ route('account.manage') }}">Manage Account</a></li>
-                                <li><a href="{{ route('account.orders') }}">My Order</a></li>
-                            </ul>
-                        </li>
+                        @if (auth()->check())
+                            <li><a href="#">Account</a>
+                                <ul class="header__menu__dropdown">
+                                    <li><a href="{{ route('account.manage') }}">Manage Account</a></li>
+                                    <li><a href="{{ route('account.orders') }}">My Order</a></li>
+                                </ul>
+                            </li>
+                        @endif
 
                     </ul>
                 </nav>

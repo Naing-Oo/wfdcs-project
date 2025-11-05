@@ -42,7 +42,9 @@
                 </form>
 
                 <p class="mt-3 text-center"> {{ __('file.Do not have an account yet') }}
-                    <a href="javascript:;" id="btnRegister">{{ __('file.Apply for new membership') }}</a>
+                    <a href="javascript:;" id="btnRegister" class="btn btn-link">
+                        {{ __('file.Apply for new membership') }}
+                    </a>
                 </p>
                 <p class="mt-3 text-center">{{ __('file.Or log in with') }}</p>
                 
