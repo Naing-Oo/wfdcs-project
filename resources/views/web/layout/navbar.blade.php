@@ -29,11 +29,19 @@
                         </div>
                         <div class="header__top__right__language">
                             <img src="{{ asset('web/img/language.png') }}" alt="">
-                            <div>English</div>
+
+                            <div>
+                                @if (app()->getLocale() == 'en')
+                                    {{ __('file.English') }}
+                                @else
+                                    {{ __('file.Myanmar') }}
+                                @endif
+                            </div>
+
                             <span class="arrow_carrot-down"></span>
                             <ul>
-                                <li><a href="#">Spanis</a></li>
-                                <li><a href="#">English</a></li>
+                                <li><a href="{{ url('switchlang/en') }}">{{ __('file.English') }}</a></li>
+                                <li><a href="{{ url('switchlang/mm') }}">{{ __('file.Myanmar') }}</a></li>
                             </ul>
                         </div>
                         <div class="header__top__right__auth">
@@ -66,7 +74,7 @@
             <div class="col-lg-6">
                 <nav class="header__menu">
                     <ul>
-                        <li class="active"><a href="{{ url('/') }}">Home</a></li>
+                        <li class="active"><a href="{{ url('/') }}">{{ __('file.Home') }}</a></li>
                         <li><a href="{{ url('/shop') }}">Shop</a></li>
                         <li><a href="{{ url('/blog') }}">Blog</a></li>
                         <li><a href="{{ url('/contact') }}">Contact</a></li>

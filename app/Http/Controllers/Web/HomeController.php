@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\District;
 use App\Models\SubDistrict;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -40,5 +41,15 @@ class HomeController extends Controller
             ]);
 
         return response()->json($data);
+    }
+
+    public function switchLanguage($locale)
+    {
+        // en,mm
+        setcookie('language', $locale, time() + (86400 * 365), "/");
+        
+        Session::put('lang', $locale);
+        
+        return redirect()->back();
     }
 }

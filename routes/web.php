@@ -22,6 +22,8 @@ use App\Http\Controllers\Web\{
     ContactController,
 };
 use App\Models\District;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +40,10 @@ use App\Models\District;
 /**
  * web / buyer
  */
+
+
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/switchlang/{lang}', [HomeController::class, 'switchLanguage']);
 
 Route::prefix('auth')->group(function () {
     Route::post('/login', [LoginController::class, 'login']);
