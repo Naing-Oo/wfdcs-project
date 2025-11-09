@@ -7,6 +7,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
 {
@@ -64,7 +65,9 @@ class LoginController extends Controller
         $data['gender'] = 'f';
         $data['birth_date'] = now();
 
-        User::create($data);
+        $user = User::create($data);
+
+        Auth::login($user);
 
         $res = [
             "message" => "Register successfully.",
@@ -79,5 +82,53 @@ class LoginController extends Controller
         Auth::logout();
 
         return redirect('/');
+    }
+
+
+    // ======== google login
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback()
+    {
+        $googleUser = Socialite::driver('google')->stateless()->user();
+
+        $data = [
+            'name' => $googleUser->name,
+            'email' => $googleUser->email,
+            // 'google_id' => $googleUser->id,
+            // 'avatar' => $googleUser->avatar,
+            'email_verified_at' => now(),
+            'password' => bcrypt($googleUser->id),
+            'gender' => 'm',
+            'phone' => '1234567890',
+            'birth_date' => now(),
+        ];
+
+        $user = User::where('email', $googleUser->email)->first();
+
+        if ($user) {
+            User::where('email', $googleUser->email)->update($data);
+        } else {
+            $user = User::create($data);
+        }
+
+        Auth::login($user);
+
+
+        // $user = User::updateOrCreate(
+        //     ['email' => $googleUser->getEmail()],
+        //     [
+        //         'name' => $googleUser->getName(),
+        //         'google_id' => $googleUser->getId(),
+        //         'avatar' => $googleUser->getAvatar(),
+        //         'email_verified_at' => now(),
+        //         'password' => bcrypt(str()->random(12)), // random password for first login
+        //     ]
+        // );
+
+        return redirect()->intended('/');
     }
 }

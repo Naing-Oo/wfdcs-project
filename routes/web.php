@@ -41,6 +41,9 @@ use Illuminate\Support\Facades\Session;
  * web / buyer
  */
 
+Route::get('auth/google', [LoginController::class, 'redirectToGoogle']);
+Route::get('auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
+
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/switchlang/{lang}', [HomeController::class, 'switchLanguage']);
